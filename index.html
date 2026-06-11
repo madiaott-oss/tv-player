@@ -14,7 +14,7 @@
     .search { flex:1; max-width:400px; margin:0 20px; }
     .search input { width:100%; padding:10px 40px 10px 15px; background:#1a1f2e; border:1px solid #333; border-radius:25px; color:#fff; }
     .btn-admin { background:#e50914; color:#fff; padding:10px 20px; border-radius:6px; text-decoration:none; font-weight:bold; }
-    .filters { padding:20px; display:flex; gap:10px; justify-content:center; }
+    .filters { padding:20px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
     .filter-btn { background:#1a1f2e; color:#fff; padding:10px 20px; border:none; border-radius:25px; cursor:pointer; font-size:14px; }
     .filter-btn.active { background:#e50914; }
     .container { max-width:1400px; margin:0 auto; padding:20px; }
@@ -35,7 +35,10 @@
     .footer ul li { margin-bottom:10px; color:#888; cursor:pointer; }
     .footer ul li:hover { color:#fff; }
     .footer-bottom { text-align:center; padding-top:30px; margin-top:30px; border-top:1px solid #222; color:#666; }
-    @media (max-width:768px) { .grid { grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:15px; } }
+    @media (max-width:768px) { 
+        .grid { grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:15px; } 
+        .search { display:none; }
+    }
     </style>
 </head>
 <body>
@@ -53,6 +56,8 @@
         <button class="filter-btn" onclick="filtrerCat('SPORTS')">Sports</button>
         <button class="filter-btn" onclick="filtrerCat('NEWS')">News</button>
         <button class="filter-btn" onclick="filtrerCat('FILMS')">Films</button>
+        <button class="filter-btn" onclick="filtrerCat('MUSIQUE')">Musique</button>
+        <button class="filter-btn" onclick="filtrerCat('GENERALISTE')">Généraliste</button>
     </div>
 
     <div class="container">
@@ -104,7 +109,7 @@ function afficherChaines(liste = chaines) {
     }
 
     grid.innerHTML = liste.map(c => `
-        <div class="card" onclick="lireChaine('${c.lien}')">
+        <div class="card" onclick="lireChaine('${encodeURIComponent(c.lien)}', '${c.nom.replace(/'/g, "\\'")}', '${c.cat}')">
             <img src="${c.logo || 'https://via.placeholder.com/200x120/1a1f2e/e50914?text=TV'}" class="card-logo" onerror="this.src='https://via.placeholder.com/200x120/1a1f2e/e50914?text=TV'">
             <div class="card-body">
                 <div class="card-title">${c.nom}</div>
@@ -139,8 +144,8 @@ function filtrerCat(cat) {
     filtrerChaines();
 }
 
-function lireChaine(lien) {
-    window.open(lien, '_blank');
+function lireChaine(lien, nom, cat) {
+    window.location.href = player.html?lien=${lien}&nom=${encodeURIComponent(nom)}&cat=${encodeURIComponent(cat)};
 }
 
 // Charger au démarrage
