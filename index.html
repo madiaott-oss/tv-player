@@ -8,71 +8,71 @@
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
         body { background:#0a0e1a; color:#fff; font-family:Arial; }
-       .header { background:#1a1f2e; padding:15px 20px; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:100; gap:15px; }
-       .logo { font-size:24px; font-weight:bold; white-space:nowrap; }
-       .logo span { color:#e50914; }
-       .search-box { flex:1; max-width:400px; position:relative; }
-       .search-box input { width:100%; padding:10px 40px 10px 15px; background:#0f1420; border:1px solid #333; border-radius:25px; color:#fff; font-size:14px; }
-       .search-icon { position:absolute; right:15px; top:50%; transform:translateY(-50%); color:#666; }
-       .admin { background:#e50914; color:#fff; padding:8px 15px; border-radius:6px; text-decoration:none; font-size:14px; white-space:nowrap; }
-       .player-zone { display:none; grid-template-columns:2fr 1fr; gap:20px; padding:20px; background:#0f1420; position:sticky; top:60px; z-index:90; }
-       .player-zone.active { display:grid; }
-       .player { width:100%; height:45vh; background:#000; border-radius:10px; }
-       .chaine-info { background:#1a1f2e; border-radius:10px; padding:20px; }
-       .chaine-info-logo { width:100%; height:120px; object-fit:contain; background:#fff; border-radius:8px; margin-bottom:15px; }
-       .info-item { margin-bottom:15px; }
-       .info-label { font-size:11px; color:#888; text-transform:uppercase; margin-bottom:5px; }
-       .info-value { background:#0f1420; padding:10px; border-radius:6px; font-size:14px; font-weight:bold; }
-       .info-actions { display:flex; gap:10px; margin-top:20px; }
-       .btn-action { flex:1; padding:12px; border:none; border-radius:6px; cursor:pointer; font-weight:bold; font-size:13px; }
-       .btn-fav { background:#ffcc00; color:#000; }
-       .btn-fav.active { background:#00cc00; color:#fff; }
-       .btn-share { background:#0099ff; color:#fff; }
-       .back-btn { color:#ff9900; font-size:14px; margin-bottom:15px; cursor:pointer; display:inline-block; }
-       .content { padding:20px; }
-       .section { margin-bottom:30px; }
-       .section-title { color:#e50914; font-size:18px; margin:0 0 15px; font-weight:bold; }
-       .chaines { display:grid; grid-template-columns:repeat(auto-fill, minmax(170px, 1fr)); gap:15px; }
-       .chaine { background:#1a1f2e; border-radius:10px; cursor:pointer; transition:0.3s; position:relative; overflow:hidden; }
-       .chaine:hover { transform:translateY(-3px); background:#252b3d; }
-       .chaine.active { border:2px solid #e50914; }
-       .chaine img { width:100%; height:90px; object-fit:contain; background:#fff; }
-       .chaine-body { padding:10px; }
-       .chaine-nom { font-size:14px; font-weight:bold; margin-bottom:8px; text-transform:uppercase; }
-       .chaine-footer { display:flex; justify-content:space-between; align-items:center; }
-       .chaine-cat { background:#0f1420; color:#00ccff; padding:4px 8px; border-radius:4px; font-size:11px; font-weight:bold; }
-       .chaine-vues { color:#00ccff; font-size:12px; font-weight:bold; }
-       .live-badge { position:absolute; top:8px; left:8px; background:#ff0000; color:#fff; padding:3px 8px; border-radius:4px; font-size:10px; font-weight:bold; z-index:5; }
-       .ch-badge { position:absolute; top:8px; right:8px; background:rgba(0,0,0,0.7); color:#fff; padding:3px 8px; border-radius:4px; font-size:10px; font-weight:bold; z-index:5; }
-       .now { text-align:center; padding:15px; background:#1a1f2e; color:#888; }
-       .vide { text-align:center; color:#888; padding:40px; grid-column:1/-1; }
-       .tabs { display:flex; gap:10px; margin-bottom:20px; overflow-x:auto; }
-       .tab { background:#1a1f2e; padding:10px 20px; border-radius:25px; cursor:pointer; white-space:nowrap; border:2px solid transparent; }
-       .tab.active { background:#e50914; border-color:#e50914; }
-       .footer { background:#1a1f2e; padding:40px 20px; margin-top:50px; display:grid; grid-template-columns:2fr 1fr 1fr; gap:40px; }
-       .footer-logo { font-size:28px; font-weight:bold; margin-bottom:15px; }
-       .footer-logo span { color:#e50914; }
-       .footer-desc { color:#888; font-size:14px; line-height:1.6; margin-bottom:25px; }
-       .footer-title { font-size:16px; font-weight:bold; margin-bottom:15px; }
-       .footer-contact { display:flex; align-items:center; gap:10px; margin-bottom:12px; color:#ccc; text-decoration:none; }
-       .footer-contact:hover { color:#e50914; }
-       .footer-icon { width:20px; height:20px; background:#0f1420; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; }
-       .footer-links { display:flex; flex-direction:column; gap:10px; }
-       .footer-links a { color:#888; text-decoration:none; font-size:14px; }
-       .footer-links a:hover { color:#e50914; }
-       .footer-apps { display:flex; gap:10px; margin-top:20px; }
-       .btn-app { background:#000; color:#fff; padding:10px 15px; border-radius:6px; text-decoration:none; font-size:12px; border:1px solid #333; }
-       .btn-app.blue { background:#0099ff; border:none; }
-       .copyright { background:#0a0e1a; text-align:center; padding:20px; color:#666; font-size:13px; border-top:1px solid #222; }
+     .header { background:#1a1f2e; padding:15px 20px; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:100; gap:15px; }
+     .logo { font-size:24px; font-weight:bold; white-space:nowrap; }
+     .logo span { color:#e50914; }
+     .search-box { flex:1; max-width:400px; position:relative; }
+     .search-box input { width:100%; padding:10px 40px 10px 15px; background:#0f1420; border:1px solid #333; border-radius:25px; color:#fff; font-size:14px; }
+     .search-icon { position:absolute; right:15px; top:50%; transform:translateY(-50%); color:#666; }
+     .admin { background:#e50914; color:#fff; padding:8px 15px; border-radius:6px; text-decoration:none; font-size:14px; white-space:nowrap; }
+     .player-zone { display:none; grid-template-columns:2fr 1fr; gap:20px; padding:20px; background:#0f1420; position:sticky; top:60px; z-index:90; }
+     .player-zone.active { display:grid; }
+     .player { width:100%; height:45vh; background:#000; border-radius:10px; }
+     .chaine-info { background:#1a1f2e; border-radius:10px; padding:20px; }
+     .chaine-info-logo { width:100%; height:120px; object-fit:contain; background:#fff; border-radius:8px; margin-bottom:15px; }
+     .info-item { margin-bottom:15px; }
+     .info-label { font-size:11px; color:#888; text-transform:uppercase; margin-bottom:5px; }
+     .info-value { background:#0f1420; padding:10px; border-radius:6px; font-size:14px; font-weight:bold; }
+     .info-actions { display:flex; gap:10px; margin-top:20px; }
+     .btn-action { flex:1; padding:12px; border:none; border-radius:6px; cursor:pointer; font-weight:bold; font-size:13px; }
+     .btn-fav { background:#ffcc00; color:#000; }
+     .btn-fav.active { background:#00cc00; color:#fff; }
+     .btn-share { background:#0099ff; color:#fff; }
+     .back-btn { color:#ff9900; font-size:14px; margin-bottom:15px; cursor:pointer; display:inline-block; }
+     .content { padding:20px; min-height:400px; }
+     .section { margin-bottom:30px; }
+     .section-title { color:#e50914; font-size:18px; margin:0 0 15px; font-weight:bold; }
+     .chaines { display:grid; grid-template-columns:repeat(auto-fill, minmax(170px, 1fr)); gap:15px; width:100%; }
+     .chaine { background:#1a1f2e; border-radius:10px; cursor:pointer; transition:0.3s; position:relative; overflow:hidden; }
+     .chaine:hover { transform:translateY(-3px); background:#252b3d; }
+     .chaine.active { border:2px solid #e50914; }
+     .chaine img { width:100%; height:90px; object-fit:contain; background:#fff; }
+     .chaine-body { padding:10px; }
+     .chaine-nom { font-size:14px; font-weight:bold; margin-bottom:8px; text-transform:uppercase; }
+     .chaine-footer { display:flex; justify-content:space-between; align-items:center; }
+     .chaine-cat { background:#0f1420; color:#00ccff; padding:4px 8px; border-radius:4px; font-size:11px; font-weight:bold; }
+     .chaine-vues { color:#00ccff; font-size:12px; font-weight:bold; }
+     .live-badge { position:absolute; top:8px; left:8px; background:#ff0000; color:#fff; padding:3px 8px; border-radius:4px; font-size:10px; font-weight:bold; z-index:5; }
+     .ch-badge { position:absolute; top:8px; right:8px; background:rgba(0,0,0,0.7); color:#fff; padding:3px 8px; border-radius:4px; font-size:10px; font-weight:bold; z-index:5; }
+     .now { text-align:center; padding:15px; background:#1a1f2e; color:#888; }
+     .vide { text-align:center; color:#888; padding:40px; grid-column:1/-1; }
+     .tabs { display:flex; gap:10px; margin-bottom:20px; overflow-x:auto; }
+     .tab { background:#1a1f2e; padding:10px 20px; border-radius:25px; cursor:pointer; white-space:nowrap; border:2px solid transparent; }
+     .tab.active { background:#e50914; border-color:#e50914; }
+     .footer { background:#1a1f2e; padding:40px 20px; margin-top:50px; display:grid; grid-template-columns:2fr 1fr 1fr; gap:40px; }
+     .footer-logo { font-size:28px; font-weight:bold; margin-bottom:15px; }
+     .footer-logo span { color:#e50914; }
+     .footer-desc { color:#888; font-size:14px; line-height:1.6; margin-bottom:25px; }
+     .footer-title { font-size:16px; font-weight:bold; margin-bottom:15px; }
+     .footer-contact { display:flex; align-items:center; gap:10px; margin-bottom:12px; color:#ccc; text-decoration:none; }
+     .footer-contact:hover { color:#e50914; }
+     .footer-icon { width:20px; height:20px; background:#0f1420; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; }
+     .footer-links { display:flex; flex-direction:column; gap:10px; }
+     .footer-links a { color:#888; text-decoration:none; font-size:14px; }
+     .footer-links a:hover { color:#e50914; }
+     .footer-apps { display:flex; gap:10px; margin-top:20px; }
+     .btn-app { background:#000; color:#fff; padding:10px 15px; border-radius:6px; text-decoration:none; font-size:12px; border:1px solid #333; }
+     .btn-app.blue { background:#0099ff; border:none; }
+     .copyright { background:#0a0e1a; text-align:center; padding:20px; color:#666; font-size:13px; border-top:1px solid #222; }
         @media (max-width: 968px) {
-           .player-zone { grid-template-columns:1fr; }
-           .player { height:35vh; }
-           .footer { grid-template-columns:1fr; gap:30px; }
+         .player-zone { grid-template-columns:1fr; }
+         .player { height:35vh; }
+         .footer { grid-template-columns:1fr; gap:30px; }
         }
         @media (max-width: 768px) {
-           .header { flex-wrap:wrap; }
-           .search-box { order:3; flex:1 0 100%; max-width:100%; }
-           .chaines { grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:10px; }
+         .header { flex-wrap:wrap; }
+         .search-box { order:3; flex:1 0 100%; max-width:100%; }
+         .chaines { grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:10px; }
         }
     </style>
 </head>
@@ -124,6 +124,7 @@
                 <a href="#" class="btn-app">GET IT ON Google Play</a>
                 <a href="#" class="btn-app blue">📱 Direct Download APK</a>
             </div>
+        </div>
         <div>
             <div class="footer-title">Categories</div>
             <div class="footer-links">
@@ -134,7 +135,6 @@
                 <a href="#" onclick="filtrerCategorie('FILMS')">MOVIES</a>
                 <a href="#" onclick="filtrerCategorie('DOCUMENTAIRE')">DOCUMENTARY</a>
             </div>
-        </div>
         <div>
             <div class="footer-title">Legal & More</div>
             <div class="footer-links">
@@ -156,17 +156,13 @@
 <script>
 const player = document.getElementById('player');
 let hls;
+let chaines = JSON.parse(localStorage.getItem('chaines_tvpro') || '[]');
 let favoris = JSON.parse(localStorage.getItem('tvpro_favoris') || '[]');
 let vues = JSON.parse(localStorage.getItem('tvpro_vues') || '{}');
 let ongletActif = 'tout';
 let chaineActive = null;
 
-function getChaines() {
-    return JSON.parse(localStorage.getItem('chaines_tvpro') || '[]');
-}
-
 function jouer(lien, nom, index) {
-    const chaines = getChaines();
     const c = chaines[index];
     if(!c) return;
     chaineActive = index;
@@ -250,7 +246,6 @@ function toggleFavori(index) {
     }
     localStorage.setItem('tvpro_favoris', JSON.stringify(favoris));
     if(chaineActive === index) {
-        const chaines = getChaines();
         jouer(chaines[index].lien, chaines[index].nom, index);
     }
     afficherChaines();
@@ -277,7 +272,7 @@ function filtrerCategorie(cat) {
 function afficherChaines() {
     const content = document.getElementById('content');
     const recherche = document.getElementById('search').value.toLowerCase();
-    const chaines = getChaines();
+    chaines = JSON.parse(localStorage.getItem('chaines_tvpro') || '[]');
 
     let chainesFiltrees = chaines.map((c, i) => ({...c, index: i, nbVues: vues[i] || 0}));
 
@@ -365,9 +360,9 @@ function afficherChaines() {
 }
 
 window.onload = () => {
+    console.log('Chaines chargées:', chaines.length);
     const params = new URLSearchParams(window.location.search);
     const chaineId = params.get('chaine');
-    const chaines = getChaines();
     if(chaineId!== null && chaines[chaineId]) {
         jouer(chaines[chaineId].lien, chaines[chaineId].nom, parseInt(chaineId));
     }
