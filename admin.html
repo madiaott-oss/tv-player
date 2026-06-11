@@ -5,52 +5,35 @@
     <title>ADMIN TV PRO MEDIA</title>
     <style>
         body { background:#0a0e1a; color:#fff; font-family:Arial; padding:20px; }
-       .panel { max-width:600px; margin:20px auto; background:#1a1f2e; padding:30px; border-radius:12px; }
+      .panel { max-width:600px; margin:20px auto; background:#1a1f2e; padding:30px; border-radius:12px; }
         input, select { width:100%; padding:12px; margin:10px 0; background:#0f1420; border:1px solid #333; color:#fff; border-radius:8px; }
-        input:required { border-left:3px solid #e50914; }
         button { background:#e50914; color:#fff; border:none; padding:15px; width:100%; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:10px; }
-       .chaine-list { margin-top:20px; }
-       .item { background:#0f1420; padding:10px; margin:5px 0; border-radius:8px; display:flex; justify-content:space-between; align-items:center; gap:10px; }
-       .item img { width:50px; height:30px; object-fit:contain; background:#fff; border-radius:4px; }
-       .del { background:#ff0000; padding:5px 10px; border:none; color:#fff; border-radius:5px; cursor:pointer; }
+      .item { background:#0f1420; padding:15px; margin:8px 0; border-radius:8px; }
+      .item-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+      .item-nom { font-weight:bold; }
+      .item-btns { display:flex; gap:8px; }
+      .btn-mod { background:#ff9900; padding:6px 12px; border:none; color:#000; border-radius:5px; cursor:pointer; font-size:12px; font-weight:bold; }
+      .btn-del { background:#ff0000; padding:6px 12px; border:none; color:#fff; border-radius:5px; cursor:pointer; font-size:12px; font-weight:bold; }
+      .item-info { font-size:12px; color:#888; word-break:break-all; }
         a.btn { background:#333; color:#fff; display:block; text-align:center; padding:15px; border-radius:8px; text-decoration:none; margin-top:10px; }
-       .warning { background:#ff9900; color:#000; padding:10px; border-radius:8px; margin-bottom:20px; text-align:center; font-weight:bold; }
-       .help { color:#888; font-size:12px; margin-top:-5px; margin-bottom:10px; }
-       .preview-box { background:#0f1420; padding:15px; border-radius:8px; margin:10px 0; text-align:center; display:none; }
-       .preview-box img { max-width:150px; max-height:80px; object-fit:contain; background:#fff; border-radius:8px; }
-       .label { color:#e50914; font-weight:bold; font-size:14px; margin-top:15px; }
-       .logo-tips { background:#1a2f1a; border:1px solid #0f0; padding:10px; border-radius:8px; font-size:12px; margin:10px 0; }
+      .warning { background:#ff9900; color:#000; padding:10px; border-radius:8px; margin-bottom:20px; text-align:center; font-weight:bold; }
+      .help { color:#888; font-size:12px; margin-top:-5px; margin-bottom:10px; }
+      .edit-mode { border:2px solid #ff9900; }
+      .backup-btns { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:20px 0; }
+      .btn-export { background:#00aa00; }
+      .btn-import { background:#0099ff; }
+       #fileInput { display:none; }
     </style>
 </head>
 <body>
     <div class="panel">
         <div class="warning">⚠️ PAGE ADMIN CACHÉE - NE PARTAGE PAS CE LIEN</div>
-        <h2>➕ Ajouter une chaîne</h2>
-
-        <div class="label">1. NOM DE LA CHAÎNE *</div>
-        <input id="nom" placeholder="Ex: ESPOIR TV HD" autocomplete="off" required>
-
-        <div class="label">2. LIEN M3U8 *</div>
-        <input id="lien" placeholder="https://..." autocomplete="off" required>
-        <div class="help">Lien direct du flux vidéo.m3u8</div>
-
-        <div class="label">3. LOGO DE LA CHAÎNE * ⚠️ IMPORTANT</div>
-        <input id="logo" placeholder="https://exemple.com/logo.png" autocomplete="off" required oninput="previewLogo()">
-        <div class="help">Formats: PNG, JPG, JPEG, WEBP, SVG | Taille recommandée: 200x100px</div>
-
-        <div class="preview-box" id="previewBox">
-            <div style="font-size:12px; color:#888; margin-bottom:5px;">APERÇU DU LOGO:</div>
-            <img id="logoPreview">
-        </div>
-
-        <div class="logo-tips">
-            💡 <b>COMMENT TROUVER UN LOGO BOSS :</b><br>
-            1. Google → "logo ESPOIR TV PNG transparent"<br>
-            2. Clique sur l'image → Clic droit → "Copier l'adresse de l'image"<br>
-            3. Colle ici ↑
-        </div>
-
-        <div class="label">4. CATÉGORIE</div>
+        <h2 id="titre-form">➕ Ajouter une chaîne</h2>
+        <input id="nom" placeholder="Nom: NEXT TV">
+        <input id="lien" placeholder="Lien m3u8: https://...">
+        <div class="help">Lien direct du flux.m3u8</div>
+        <input id="logo" placeholder="URL du logo">
+        <div class="help">Formats: PNG, JPG, WEBP, SVG</div>
         <select id="cat">
             <option>GENERALISTE</option>
             <option>SPORTS</option>
@@ -59,14 +42,18 @@
             <option>NEWS</option>
             <option>GOSPEL</option>
         </select>
+        <input id="ch" placeholder="Numéro: CH 20">
+        <button id="btn-principal" onclick="sauvegarderChaine()">AJOUTER LA CHAÎNE</button>
+        <button id="btn-annuler" onclick="annulerModif()" style="background:#666; display:none;">ANNULER</button>
 
-        <div class="label">5. NUMÉRO</div>
-        <input id="ch" placeholder="Ex: CH 25" autocomplete="off">
-
-        <button onclick="ajouterChaine()">✅ AJOUTER LA CHAÎNE</button>
+        <div class="backup-btns">
+            <button class="btn-export" onclick="exporterChaines()">📥 EXPORTER</button>
+            <button class="btn-import" onclick="document.getElementById('fileInput').click()">📤 IMPORTER</button>
+            <input type="file" id="fileInput" accept=".json" onchange="importerChaines(event)">
+        </div>
 
         <div class="chaine-list">
-            <h3>📺 Chaînes actuelles:</h3>
+            <h3>📺 Chaînes actuelles: <span id="compteur"></span></h3>
             <div id="liste"></div>
         </div>
         <a href="index.html" class="btn">← RETOUR AU SITE</a>
@@ -74,51 +61,58 @@
 
 <script>
 let chaines = JSON.parse(localStorage.getItem('chaines_tvpro') || '[]');
+let indexModif = -1;
 
-function previewLogo() {
-    const url = document.getElementById('logo').value.trim();
-    const box = document.getElementById('previewBox');
-    const img = document.getElementById('logoPreview');
-    if(url) {
-        img.src = url;
-        box.style.display = 'block';
-        img.onerror = () => {
-            box.style.display = 'none';
-            alert('Logo introuvable boss! Vérifie l\'URL');
-        };
-    } else {
-        box.style.display = 'none';
-    }
-}
-
-function ajouterChaine() {
+function sauvegarderChaine() {
     const nom = document.getElementById('nom').value.trim();
     const lien = document.getElementById('lien').value.trim();
     const logo = document.getElementById('logo').value.trim();
+    const cat = document.getElementById('cat').value;
+    const ch = document.getElementById('ch').value.trim() || 'CH';
 
     if(!nom ||!lien ||!logo) {
-        alert('⚠️ BOSS REMPLIS TOUT! Nom + Lien + Logo obligatoires');
+        alert('BOSS REMPLIS NOM + LIEN + LOGO!');
         return;
     }
 
-    const c = {
-        nom: nom,
-        lien: lien,
-        logo: logo,
-        cat: document.getElementById('cat').value,
-        ch: document.getElementById('ch').value.trim() || 'CH'
-    };
-    chaines.push(c);
+    const chaineData = {nom, lien, logo, cat, ch};
+
+    if(indexModif === -1) {
+        chaines.push(chaineData);
+        alert('Chaîne ajoutée boss!');
+    } else {
+        chaines[indexModif] = chaineData;
+        alert('Chaîne modifiée boss!');
+        annulerModif();
+    }
+
     localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
     afficherListe();
+    viderFormulaire();
+}
 
-    // Reset
-    document.getElementById('nom').value = '';
-    document.getElementById('lien').value = '';
-    document.getElementById('logo').value = '';
-    document.getElementById('ch').value = '';
-    document.getElementById('previewBox').style.display = 'none';
-    alert('✅ Chaîne ajoutée avec logo boss!');
+function modifierChaine(i) {
+    indexModif = i;
+    const c = chaines[i];
+    document.getElementById('nom').value = c.nom;
+    document.getElementById('lien').value = c.lien;
+    document.getElementById('logo').value = c.logo;
+    document.getElementById('cat').value = c.cat;
+    document.getElementById('ch').value = c.ch;
+    document.getElementById('titre-form').textContent = '✏️ Modifier la chaîne';
+    document.getElementById('btn-principal').textContent = 'SAUVEGARDER LES MODIFS';
+    document.getElementById('btn-principal').style.background = '#ff9900';
+    document.getElementById('btn-annuler').style.display = 'block';
+    window.scrollTo(0, 0);
+}
+
+function annulerModif() {
+    indexModif = -1;
+    viderFormulaire();
+    document.getElementById('titre-form').textContent = '➕ Ajouter une chaîne';
+    document.getElementById('btn-principal').textContent = 'AJOUTER LA CHAÎNE';
+    document.getElementById('btn-principal').style.background = '#e50914';
+    document.getElementById('btn-annuler').style.display = 'none';
 }
 
 function supprimerChaine(i) {
@@ -129,14 +123,71 @@ function supprimerChaine(i) {
     }
 }
 
+function viderFormulaire() {
+    document.getElementById('nom').value = '';
+    document.getElementById('lien').value = '';
+    document.getElementById('logo').value = '';
+    document.getElementById('ch').value = '';
+}
+
+function exporterChaines() {
+    if(chaines.length === 0) {
+        alert('Aucune chaîne à exporter boss!');
+        return;
+    }
+    const data = JSON.stringify(chaines, null, 2);
+    const blob = new Blob([data], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'tvpro_chaines_backup_' + new Date().toISOString().split('T')[0] + '.json';
+    a.click();
+    alert('Fichier téléchargé boss! Garde-le précieusement 📥');
+}
+
+function importerChaines(event) {
+    const file = event.target.files[0];
+    if(!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const dataImport = JSON.parse(e.target.result);
+            if(confirm('Remplacer toutes les chaînes actuelles par celles du fichier? ' + dataImport.length + ' chaînes trouvées.')) {
+                chaines = dataImport;
+                localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
+                afficherListe();
+                alert('Import réussi boss! 📤');
+            }
+        } catch(err) {
+            alert('Fichier invalide boss! Faut un.json exporté depuis ici.');
+        }
+    };
+    reader.readAsText(file);
+    event.target.value = ''; // Reset pour pouvoir réimporter le même fichier
+}
+
 function afficherListe() {
-    document.getElementById('liste').innerHTML = chaines.map((c,i) => `
-        <div class="item">
-            <img src="${c.logo}" onerror="this.src='https://via.placeholder.com/50x30?text=?'">
-            <span style="flex:1">${c.ch} - ${c.nom}</span>
-            <button class="del" onclick="supprimerChaine(${i})">X</button>
+    const liste = document.getElementById('liste');
+    document.getElementById('compteur').textContent = '(' + chaines.length + ')';
+
+    if(chaines.length === 0) {
+        liste.innerHTML = '<p style="color:#888; text-align:center; padding:20px;">Aucune chaîne</p>';
+        return;
+    }
+
+    liste.innerHTML = chaines.map((c,i) => `
+        <div class="item ${i === indexModif? 'edit-mode' : ''}">
+            <div class="item-top">
+                <span class="item-nom">${c.ch} - ${c.nom}</span>
+                <div class="item-btns">
+                    <button class="btn-mod" onclick="modifierChaine(${i})">MODIFIER</button>
+                    <button class="btn-del" onclick="supprimerChaine(${i})">SUPPRIMER</button>
+                </div>
+            </div>
+            <div class="item-info">${c.cat} | ${c.lien.substring(0, 50)}...</div>
         </div>
-    `).join('') || '<div style="color:#888; text-align:center; padding:20px;">Aucune chaîne. Ajoutes-en une boss!</div>';
+    `).join('');
 }
 
 afficherListe();
