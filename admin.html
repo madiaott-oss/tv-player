@@ -1,4 +1,19 @@
-<!DOCTYPE html>
+[23:17, 11/06/2026] Dg Patrick Feni Espoir Tv: <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TV PRO MEDIA</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:#0a0e1a; color:#fff; font-family:Arial; }
+     .header { background:#1a1f2e; padding:15px 20px; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:100; gap:15px; }
+     .logo { font-size:24px; font-weight:bold; white-space:nowrap; }
+     .logo span { color:#e50914; }
+     .search-box { flex:1; max-width:400px; position:relative; }
+     .search-box input { width:100%; padding:10px 40px 10p…
+[23:25, 11/06/2026] Dg Patrick Feni Espoir Tv: <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -7,29 +22,32 @@
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
         body { background:#0a0e1a; color:#fff; font-family:Arial; padding:20px; }
-      .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; }
-      .logo { font-size:24px; font-weight:bold; }
-      .logo span { color:#e50914; }
-      .btn-retour { background:#1a1f2e; color:#fff; padding:10px 20px; border-radius:6px; text-decoration:none; }
-      .form { background:#1a1f2e; padding:20px; border-radius:10px; margin-bottom:30px; }
-      .form-group { margin-bottom:15px; }
-      .form-group label { display:block; margin-bottom:5px; color:#888; font-size:13px; }
-      .form-group input,.form-group select { width:100%; padding:12px; background:#0f1420; border:1px solid #333; border-radius:6px; color:#fff; font-size:14px; }
-      .btn-ajouter { background:#e50914; color:#fff; padding:15px; width:100%; border:none; border-radius:6px; font-weight:bold; cursor:pointer; font-size:16px; }
-      .btn-ajouter:hover { background:#c40812; }
-      .liste { background:#1a1f2e; padding:20px; border-radius:10px; }
-      .liste-title { font-size:18px; margin-bottom:15px; color:#e50914; }
-      .chaine-item { background:#0f1420; padding:15px; border-radius:6px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; gap:15px; }
-      .chaine-info { flex:1; }
-      .chaine-nom { font-weight:bold; margin-bottom:5px; }
-      .chaine-cat { color:#00ccff; font-size:12px; }
-      .chaine-actions { display:flex; gap:10px; }
-      .btn-edit { background:#0099ff; color:#fff; padding:8px 15px; border:none; border-radius:4px; cursor:pointer; }
-      .btn-suppr { background:#ff0000; color:#fff; padding:8px 15px; border:none; border-radius:4px; cursor:pointer; }
-      .stats { display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:15px; margin-bottom:30px; }
-      .stat-box { background:#1a1f2e; padding:20px; border-radius:10px; text-align:center; }
-      .stat-nb { font-size:32px; font-weight:bold; color:#e50914; }
-      .stat-label { color:#888; font-size:13px; margin-top:5px; }
+     .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; }
+     .logo { font-size:24px; font-weight:bold; }
+     .logo span { color:#e50914; }
+     .btn-retour { background:#1a1f2e; color:#fff; padding:10px 20px; border-radius:6px; text-decoration:none; }
+     .form { background:#1a1f2e; padding:20px; border-radius:10px; margin-bottom:30px; }
+     .form-group { margin-bottom:15px; }
+     .form-group label { display:block; margin-bottom:5px; color:#888; font-size:13px; }
+     .form-group input,.form-group select { width:100%; padding:12px; background:#0f1420; border:1px solid #333; border-radius:6px; color:#fff; font-size:14px; }
+     .form-group input[type="file"] { padding:8px; }
+     .preview-logo { width:100%; max-height:150px; object-fit:contain; background:#fff; border-radius:6px; margin-top:10px; display:none; }
+     .btn-ajouter { background:#e50914; color:#fff; padding:15px; width:100%; border:none; border-radius:6px; font-weight:bold; cursor:pointer; font-size:16px; }
+     .btn-ajouter:hover { background:#c40812; }
+     .liste { background:#1a1f2e; padding:20px; border-radius:10px; }
+     .liste-title { font-size:18px; margin-bottom:15px; color:#e50914; }
+     .chaine-item { background:#0f1420; padding:15px; border-radius:6px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; gap:15px; }
+     .chaine-info { flex:1; display:flex; align-items:center; gap:15px; }
+     .chaine-logo { width:60px; height:40px; object-fit:contain; background:#fff; border-radius:4px; }
+     .chaine-nom { font-weight:bold; margin-bottom:5px; }
+     .chaine-cat { color:#00ccff; font-size:12px; }
+     .chaine-actions { display:flex; gap:10px; }
+     .btn-edit { background:#0099ff; color:#fff; padding:8px 15px; border:none; border-radius:4px; cursor:pointer; }
+     .btn-suppr { background:#ff0000; color:#fff; padding:8px 15px; border:none; border-radius:4px; cursor:pointer; }
+     .stats { display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:15px; margin-bottom:30px; }
+     .stat-box { background:#1a1f2e; padding:20px; border-radius:10px; text-align:center; }
+     .stat-nb { font-size:32px; font-weight:bold; color:#e50914; }
+     .stat-label { color:#888; font-size:13px; margin-top:5px; }
     </style>
 </head>
 <body>
@@ -86,8 +104,10 @@
             <input type="text" id="pays" placeholder="Ex: RDC">
         </div>
         <div class="form-group">
-            <label>Logo URL</label>
-            <input type="text" id="logo" placeholder="https://...">
+            <label>Logo - Importer depuis PC</label>
+            <input type="file" id="logoFile" accept="image/*" onchange="chargerLogo(event)">
+            <img id="previewLogo" class="preview-logo">
+            <input type="hidden" id="logo">
         </div>
         <div class="form-group">
             <label>Lien M3U8 *</label>
@@ -103,6 +123,19 @@
 
 <script>
 let chaines = JSON.parse(localStorage.getItem('chaines_tvpro') || '[]');
+
+function chargerLogo(event) {
+    const file = event.target.files[0];
+    if(!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        document.getElementById('logo').value = e.target.result;
+        document.getElementById('previewLogo').src = e.target.result;
+        document.getElementById('previewLogo').style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+}
 
 function ajouterChaine() {
     const nom = document.getElementById('nom').value.trim();
@@ -137,6 +170,8 @@ function ajouterChaine() {
     document.getElementById('ch').value = '';
     document.getElementById('pays').value = '';
     document.getElementById('logo').value = '';
+    document.getElementById('logoFile').value = '';
+    document.getElementById('previewLogo').style.display = 'none';
     document.getElementById('lien').value = '';
 
     afficherListe();
@@ -151,6 +186,10 @@ function modifierChaine(index) {
     document.getElementById('qualite').value = c.qualite || 'HD';
     document.getElementById('pays').value = c.pays || '';
     document.getElementById('logo').value = c.logo || '';
+    if(c.logo) {
+        document.getElementById('previewLogo').src = c.logo;
+        document.getElementById('previewLogo').style.display = 'block';
+    }
     document.getElementById('lien').value = c.lien;
     document.getElementById('editIndex').value = index;
     document.getElementById('btnSubmit').textContent = 'MODIFIER LA CHAÎNE';
@@ -170,8 +209,11 @@ function afficherListe() {
     const html = chaines.map((c, i) => `
         <div class="chaine-item">
             <div class="chaine-info">
-                <div class="chaine-nom">${c.nom}</div>
-                <div class="chaine-cat">${c.cat} - CH ${c.ch} - ${c.qualite} - ${c.pays || 'RDC'}</div>
+                <img src="${c.logo}" class="chaine-logo" onerror="this.src='https://via.placeholder.com/60x40/1a1f2e/e50914?text=LOGO'">
+                <div>
+                    <div class="chaine-nom">${c.nom}</div>
+                    <div class="chaine-cat">${c.cat} - CH ${c.ch} - ${c.qualite} - ${c.pays || 'RDC'}</div>
+                </div>
             </div>
             <div class="chaine-actions">
                 <button class="btn-edit" onclick="modifierChaine(${i})">EDIT</button>
