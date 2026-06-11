@@ -7,50 +7,50 @@
     <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.8/dist/hls.min.js"></script>
     <style>
         body { margin:0; background:#0a0a0a; color:#fff; font-family:Arial; text-align:center; }
-        #player { width:100%; height:50vh; background:#000; position:sticky; top:0; z-index:100; }
-        .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(100px, 1fr)); gap:10px; padding:15px; }
-        .chaine { background:#1a1a1a; border-radius:10px; padding:10px; cursor:pointer; border:2px solid #222; }
-        .chaine:hover { border:2px solid #e50914; }
-        .chaine img { width:100%; height:70px; object-fit:contain; background:#fff; border-radius:5px; }
-        .chaine p { margin:5px 0 0 0; font-size:12px; }
-        #status { color:#ff0; padding:10px; font-size:14px; }
-        h1 { margin:15px 0 5px 0; }
+        #player { width:100%; height:45vh; background:#000; position:sticky; top:0; z-index:100; }
+        .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(110px, 1fr)); gap:12px; padding:15px; }
+        .chaine { background:#1a1a1a; border-radius:12px; padding:10px; cursor:pointer; border:2px solid #222; }
+        .chaine:active { transform:scale(0.95); border:2px solid #e50914; }
+        .chaine img { width:100%; height:75px; object-fit:contain; background:#fff; border-radius:8px; }
+        .chaine p { margin:8px 0 0 0; font-size:13px; font-weight:bold; }
+        #status { color:#0f0; padding:12px; font-size:15px; min-height:20px; }
+        h1 { margin:15px 0 5px 0; color:#e50914; }
     </style>
 </head>
 <body>
     <video id="player" controls muted playsinline></video>
     <h1>TV Pro Media</h1>
-    <div id="status">Choisis une chaîne en bas</div>
+    <div id="status">Clique une chaîne pour jouer</div>
     
     <div class="grid">
         <div class="chaine" onclick="play('https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8')">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/100px-React-icon.svg.png">
-            <p>TEST</p>
-        </div>
-        
-        <div class="chaine" onclick="play('LIEN_M3U8_AFRI_TV_ICI')">
-            <img src="https://via.placeholder.com/100x70/0066cc/ffffff?text=AFRI+TV">
-            <p>AFRI TV</p>
+            <img src="https://via.placeholder.com/110x75/ff0000/ffffff?text=TEST+VIDEO">
+            <p>TEST VIDEO</p>
         </div>
 
-        <div class="chaine" onclick="play('LIEN_M3U8_FIFA_ICI')">
-            <img src="https://via.placeholder.com/100x70/004499/ffffff?text=FIFA">
-            <p>FIFA</p>
+        <div class="chaine" onclick="play('https://live-hls-web-aje.getaj.net/AJE/index.m3u8')">
+            <img src="https://via.placeholder.com/110x75/cc0000/ffffff?text=AL+JAZEERA">
+            <p>Al Jazeera</p>
         </div>
 
-        <div class="chaine" onclick="play('LIEN_M3U8_CEPTV_ICI')">
-            <img src="https://via.placeholder.com/100x70/ffcc00/000000?text=CEPTV">
-            <p>CEPTV</p>
+        <div class="chaine" onclick="play('https://d2e1asnsl7br7b.cloudfront.net/7782e205e72f43aeb4a48ec97f66ebbe/index.m3u8')">
+            <img src="https://via.placeholder.com/110x75/0000ff/ffffff?text=FRANCE+24">
+            <p>France 24</p>
         </div>
 
-        <div class="chaine" onclick="play('LIEN_M3U8_ESPEC_TV_ICI')">
-            <img src="https://via.placeholder.com/100x70/0099ff/ffffff?text=ESPEC">
-            <p>ESPEC TV</p>
+        <div class="chaine" onclick="play('https://streaming-live.rtbf.be/lazone/geo/lazone.m3u8')">
+            <img src="https://via.placeholder.com/110x75/0066cc/ffffff?text=RTBF+1">
+            <p>RTBF La Une</p>
         </div>
 
-        <div class="chaine" onclick="play('https://corsproxy.io/?url=http://tv.ccpvmedia.com/live/ccpvtv/index.m3u8')">
-            <img src="https://via.placeholder.com/100x70/cc0000/ffffff?text=CCPV">
-            <p>CCPV TV</p>
+        <div class="chaine" onclick="play('https://d2q8p4pe5spbak.cloudfront.net/bpk-tv/rdc1/default/manifest.m3u8')">
+            <img src="https://via.placeholder.com/110x75/ffcc00/000000?text=RTNC">
+            <p>RTNC</p>
+        </div>
+
+        <div class="chaine" onclick="play('https://cdn.live.easybroadcast.io/abr_cnl2/73_kmrhlx7zdd9q9x5/playlist.m3u8')">
+            <img src="https://via.placeholder.com/110x75/00aa00/ffffff?text=TELE+CONGO">
+            <p>Télé Congo</p>
         </div>
     </div>
 
@@ -60,26 +60,18 @@ const status = document.getElementById('status');
 let hls;
 
 function play(url) {
-    if(url.includes('LIEN_M3U8')) {
-        status.innerText = 'Ajoute le lien m3u8 de cette chaîne';
-        return;
-    }
     status.innerText = 'Chargement...';
+    status.style.color = '#ff0';
     if(hls) hls.destroy();
+    
     if(Hls.isSupported()) {
         hls = new Hls();
         hls.loadSource(url);
         hls.attachMedia(video);
-        hls.on(Hls.Events.ERROR, () => status.innerText = 'Chaîne morte ou bloquée');
-        hls.on(Hls.Events.MANIFEST_PARSED, () => {
-            video.play();
-            status.innerText = 'Lecture en cours...';
+        hls.on(Hls.Events.ERROR, function(event, data) {
+            status.innerText = 'Chaîne indisponible. Réessaye.';
+            status.style.color = '#f00';
         });
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        video.src = url;
-        video.play();
-    }
-}
-</script>
-</body>
-</html>
+        hls.on(Hls.Events.MANIFEST_PARSED, function() {
+            video.play();
+            status.innerText = '▶️ Lecture en cours';
