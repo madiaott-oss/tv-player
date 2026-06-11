@@ -7,22 +7,24 @@
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
         body { background:#0a0e1a; color:#fff; font-family:Arial; }
-       .header { background:#1a1f2e; padding:15px 20px; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:100; }
-       .logo { font-size:24px; font-weight:bold; }
-       .logo span { color:#e50914; }
-       .admin { background:#e50914; color:#fff; padding:8px 15px; border-radius:6px; text-decoration:none; font-size:14px; }
-       .player { width:100%; height:40vh; background:#000; position:sticky; top:60px; z-index:90; }
-       .content { padding:20px; }
-       .section { margin-bottom:30px; }
-       .section-title { color:#e50914; font-size:18px; margin:0 0 15px; font-weight:bold; }
-       .chaines { display:grid; grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:15px; }
-       .chaine { background:#1a1f2e; border-radius:8px; padding:10px; cursor:pointer; transition:0.3s; }
-       .chaine:hover { transform:scale(1.05); background:#252b3d; }
-       .chaine img { width:100%; height:80px; object-fit:contain; background:#fff; border-radius:6px; margin-bottom:8px; }
-       .chaine-nom { font-size:14px; font-weight:bold; margin-bottom:4px; }
-       .chaine-ch { font-size:12px; color:#888; }
-       .now { text-align:center; padding:10px; background:#1a1f2e; color:#888; position:sticky; top:calc(40vh + 60px); z-index:80; }
-      .vide { text-align:center; color:#888; padding:40px; grid-column:1/-1; }
+     .header { background:#1a1f2e; padding:15px 20px; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:100; }
+     .logo { font-size:24px; font-weight:bold; }
+     .logo span { color:#e50914; }
+     .admin { background:#e50914; color:#fff; padding:8px 15px; border-radius:6px; text-decoration:none; font-size:14px; }
+     .player { width:100%; height:40vh; background:#000; position:sticky; top:60px; z-index:90; }
+     .content { padding:20px; }
+     .section { margin-bottom:30px; }
+     .section-title { color:#e50914; font-size:18px; margin:0 0 15px; font-weight:bold; }
+     .chaines { display:grid; grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:15px; }
+     .chaine { background:#1a1f2e; border-radius:8px; padding:10px; cursor:pointer; transition:0.3s; position:relative; }
+     .chaine:hover { transform:scale(1.05); background:#252b3d; }
+     .chaine img { width:100%; height:80px; object-fit:contain; background:#fff; border-radius:6px; margin-bottom:8px; }
+     .chaine-nom { font-size:14px; font-weight:bold; margin-bottom:4px; }
+     .chaine-ch { font-size:12px; color:#888; }
+     .now { text-align:center; padding:10px; background:#1a1f2e; color:#888; position:sticky; top:calc(40vh + 60px); z-index:80; }
+     .vide { text-align:center; color:#888; padding:40px; grid-column:1/-1; }
+     .btn-del-site { position:absolute; top:5px; right:5px; background:#ff0000; color:#fff; border:none; border-radius:50%; width:25px; height:25px; cursor:pointer; font-size:12px; opacity:0; transition:0.3s; }
+     .chaine:hover.btn-del-site { opacity:1; }
     </style>
 </head>
 <body>
@@ -34,24 +36,12 @@
     <video id="player" class="player" controls></video>
     <div class="now" id="now">Clique sur une chaîne pour commencer</div>
 
-    <div class="content" id="content">
-        <!-- Les catégories s'affichent ici -->
-    </div>
+    <div class="content" id="content"></div>
 
 <script>
 const player = document.getElementById('player');
 let hls;
-
-// Charge les chaînes depuis l'admin
 let chaines = JSON.parse(localStorage.getItem('chaines_tvpro') || '[]');
-
-// Chaînes par défaut si admin vide
-if(chaines.length === 0) {
-    chaines = [
-        {nom: "ESPOIR TV HD", lien: "https://stream.berosat.live:19360/espoir-tv-stream.m3u8", logo: "https://i.ibb.co/0jQJYv2/espoir-tv-logo.png", cat: "GOSPEL", ch: "CH 1"},
-        {nom: "Canal+ Sport", lien: "https://video1.getstreamhosting.com:1936/8312/8312/playlist.m3u8", logo: "https://i.ibb.co/7jQJYv2/canal-sport.png", cat: "SPORTS", ch: "CH 2"}
-    ];
-}
 
 function jouer(lien, nom) {
     document.getElementById('now').textContent = '▶️ En cours: ' + nom;
@@ -63,30 +53,41 @@ function jouer(lien, nom) {
         hls.loadSource(lien);
         hls.attachMedia(player);
         hls.on(Hls.Events.MANIFEST_PARSED, () => player.play());
+        hls.on(Hls.Events.ERROR, () => {
+            document.getElementById('now').textContent = '❌ Lien mort: ' + nom;
+        });
     } else if(player.canPlayType('application/vnd.apple.mpegurl')) {
         player.src = lien;
         player.play();
     }
 }
 
+function supprimerDepuisSite(index) {
+    if(confirm('Supprimer ' + chaines[index].nom + ' boss?')) {
+        chaines.splice(index, 1);
+        localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
+        afficherParCategories();
+    }
+}
+
 function afficherParCategories() {
     const content = document.getElementById('content');
+    chaines = JSON.parse(localStorage.getItem('chaines_tvpro') || '[]');
 
     if(chaines.length === 0) {
         content.innerHTML = '<div class="vide">Aucune chaîne. Va dans ADMIN pour ajouter boss.</div>';
         return;
     }
 
-    // 1. Grouper les chaînes par catégorie
     const categories = {};
-    chaines.forEach(c => {
+    chaines.forEach((c, i) => {
+        c.index = i; // Garde l'index pour suppression
         if(!categories[c.cat]) categories[c.cat] = [];
         categories[c.cat].push(c);
     });
 
-    // 2. Afficher chaque catégorie
     let html = '';
-    const ordreCat = ['GOSPEL', 'SPORTS', 'NEWS', 'FILMS', 'MUSIQUE', 'GENERALISTE'];
+    const ordreCat = ['GOSPEL', 'SPORTS', 'NEWS', 'FILMS', 'MUSIQUE', 'GENERALISTE', 'DOCUMENTAIRE', 'ENFANTS'];
 
     ordreCat.forEach(cat => {
         if(categories[cat]) {
@@ -95,30 +96,13 @@ function afficherParCategories() {
                     <div class="section-title">${cat}</div>
                     <div class="chaines">
                         ${categories[cat].map(c => `
-                            <div class="chaine" onclick="jouer('${c.lien}', '${c.nom}')">
-                                <img src="${c.logo}" onerror="this.src='https://via.placeholder.com/150x80?text=${c.nom}'">
-                                <div class="chaine-nom">${c.nom}</div>
-                                <div class="chaine-ch">${c.ch}</div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-        }
-    });
-
-    // 3. Afficher les catégories pas prévues
-    Object.keys(categories).forEach(cat => {
-        if(!ordreCat.includes(cat)) {
-            html += `
-                <div class="section">
-                    <div class="section-title">${cat}</div>
-                    <div class="chaines">
-                        ${categories[cat].map(c => `
-                            <div class="chaine" onclick="jouer('${c.lien}', '${c.nom}')">
-                                <img src="${c.logo}" onerror="this.src='https://via.placeholder.com/150x80?text=${c.nom}'">
-                                <div class="chaine-nom">${c.nom}</div>
-                                <div class="chaine-ch">${c.ch}</div>
+                            <div class="chaine">
+                                <button class="btn-del-site" onclick="event.stopPropagation(); supprimerDepuisSite(${c.index})">🗑️</button>
+                                <div onclick="jouer('${c.lien}', '${c.nom}')">
+                                    <img src="${c.logo}" onerror="this.src='https://via.placeholder.com/150x80/1a1f2e/e50914?text=${encodeURIComponent(c.nom)}'">
+                                    <div class="chaine-nom">${c.nom}</div>
+                                    <div class="chaine-ch">${c.ch}</div>
+                                </div>
                             </div>
                         `).join('')}
                     </div>
