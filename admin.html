@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ADMIN TV PRO MEDIA</title>
+    <style>
+        body { background:#0a0e1a; color:#fff; font-family:Arial; padding:20px; }
+        .login, .panel { max-width:600px; margin:50px auto; background:#1a1f2e; padding:30px; border-radius:12px; }
+        input, select { width:100%; padding:12px; margin:10px 0; background:#0f1420; border:1px solid #333; color:#fff; border-radius:8px; }
+        button { background:#e50914; color:#fff; border:none; padding:15px; width:100%; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:10px; }
+        .chaine-list { margin-top:20px; }
+        .item { background:#0f1420; padding:10px; margin:5px 0; border-radius:8px; display:flex; justify-content:space-between; align-items:center; }
+        .del { background:#ff0000; padding:5px 10px; border:none; color:#fff; border-radius:5px; cursor:pointer; }
+    </style>
+</head>
+<body>
+    <div class="login" id="login">
+        <h2>🔒 ADMIN TV PRO MEDIA</h2>
+        <input type="password" id="mdp" placeholder="Mot de passe">
+        <button onclick="checkMdp()">ENTRER</button>
+    </div>
+
+    <div class="panel" id="panel" style="display:none;">
+        <h2>➕ Ajouter une chaîne</h2>
+        <input id="nom" placeholder="Nom: NEXT TV">
+        <input id="lien" placeholder="Lien m3u8: https://...">
+        <input id="logo" placeholder="Lien du logo PNG">
+        <select id="cat">
+            <option>GENERALISTE</option>
+            <option>SPORTS</option>
+            <option>FILMS</option>
+            <option>MUSIQUE</option>
+            <option>NEWS</option>
+            <option>GOSPEL</option>
+        </select>
+        <input id="ch" placeholder="Numéro: CH 20">
+        <button onclick="ajouterChaine()">AJOUTER LA CHAÎNE</button>
+        
+        <div class="chaine-list">
+            <h3>📺 Chaînes actuelles:</h3>
+            <div id="liste"></div>
+        </div>
+        <button onclick="window.location.href='index.html'">← RETOUR AU SITE</button>
+    </div>
+
+<script>
+const MDP = "tvpro2024";
+
+let chaines = JSON.parse(localStorage.getItem('chaines_tvpro') || '[]');
+
+function checkMdp() {
+    if(document.getElementById('mdp').value === MDP) {
+        document.getElementById('login').style.display = 'none';
+        document.getElementById('panel').style.display = 'block';
+        afficherListe();
+    } else {
+        alert('Mauvais mot de passe boss');
+    }
+}
+
+function ajouterChaine() {
+    if(!document.getElementById('nom').value || !document.getElementById('lien').value) {
+        alert('Nom et lien obligatoires boss');
+        return;
+    }
+    const c = {
+        nom: document.getElementById('nom').value,
+        lien: document.getElementById('lien').value,
+        logo: document.getElementById('logo').value || 'https://via.placeholder.com/200x100?text=' + encodeURIComponent(document.getElementById('nom').value),
+        cat: document.getElementById('cat').value,
+        ch: document.getElementById('ch').value || 'CH'
+    };
+    chaines.push(c);
+    localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
+    afficherListe();
+    document.getElementById('nom').value = '';
+    document.getElementById('lien').value = '';
+    document.getElementById('logo').value = '';
+    document.getElementById('ch').value = '';
+    alert('Chaîne ajoutée boss ! Va sur l\'accueil pour voir');
+}
+
+function supprimerChaine(i) {
+    chaines.splice(i, 1);
+    localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
+    afficherListe();
+}
+
+function afficherListe() {
+    document.getElementById('liste').innerHTML = chaines.map((c,i) => `
+        <div class="item">
+            <span>${c.ch} - ${c.nom}</span>
+            <button class="del" onclick="supprimerChaine(${i})">X</button>
+        </div>
+    `).join('');
+}
+
+afficherListe();
+</script>
+</body>
+</html>
