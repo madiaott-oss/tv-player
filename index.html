@@ -1,18 +1,4 @@
-[18:01, 11/06/2026] Dg Patrick Feni Espoir Tv: <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TV Pro Media</title>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.8/dist/hls.min.js"></script>
-    <style>
-        body { margin:0; background:#0a0a0a; color:#fff; font-family:Arial; text-align:center; }
-        #player { width:100%; height:45vh; background:#000; }
-        .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(110px, 1fr)); gap:12px; padding:15px; }
-        .chaine { background:#1a1a1a; border-radius:12px; padding:10px; cursor:pointer; border:2px solid #222; }
-        .chaine p { margin:8px 0 0 0; font-size:13px; font-weight:bold; }
-        #status { color:#0f0; padding:12px;…
-[18:12, 11/06/2026] Dg Patrick Feni Espoir Tv: <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -30,9 +16,9 @@
     </style>
 </head>
 <body>
-    <video id="player" controls muted playsinline></video>
+    <video id="player" controls muted playsinline poster="https://via.placeholder.com/800x450/000000/ffffff?text=TV+PRO+MEDIA"></video>
     <h1>TV Pro Media</h1>
-    <div id="status">Chargement du player...</div>
+    <div id="status">Clique sur une chaîne pour commencer</div>
     
     <div class="grid">
         <div class="chaine" onclick="lancerChaine('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8', 'TEST MUX')">
@@ -46,24 +32,18 @@
         </div>
     </div>
 
-<!-- SCRIPT HLS.JS CHARGÉ AVANT -->
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.8/dist/hls.min.js"></script>
 
 <script>
-// CODE APRÈS LE CHARGEMENT DE HLS
 const video = document.getElementById('player');
 const status = document.getElementById('status');
 let hls;
 
-// J'ai renommé "play" en "lancerChaine" pour éviter les conflits
 function lancerChaine(url, nom) {
     status.innerText = '🔄 CONNEXION À ' + nom;
     status.style.color = '#ff0';
-    console.log('Lecture de:', nom, url);
     
-    if(hls) {
-        hls.destroy();
-    }
+    if(hls) hls.destroy();
     
     if (typeof Hls !== 'undefined' && Hls.isSupported()) {
         hls = new Hls();
@@ -71,31 +51,25 @@ function lancerChaine(url, nom) {
         hls.attachMedia(video);
         
         hls.on(Hls.Events.ERROR, function(event, data) {
-            console.log('ERREUR HLS:', data);
-            status.innerText = '❌ ERREUR: ' + data.details;
+            status.innerText = '❌ Chaîne indisponible';
             status.style.color = '#f00';
         });
         
         hls.on(Hls.Events.MANIFEST_PARSED, function() {
             video.play();
-            status.innerText = '✅ ' + nom + ' JOUE';
+            status.innerText = '✅ ' + nom + ' EN COURS';
             status.style.color = '#0f0';
         });
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
         video.src = url;
         video.play();
-        status.innerText = '✅ ' + nom + ' JOUE NATIF';
+        status.innerText = '✅ ' + nom + ' EN COURS';
         status.style.color = '#0f0';
-    } else {
-        status.innerText = '❌ Navigateur incompatible';
-        status.style.color = '#f00';
     }
 }
 
-// Auto-test après 2 secondes
-setTimeout(() => {
-    lancerChaine('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8', 'TEST MUX AUTO');
-}, 2000);
+// PLUS D'AUTO-PLAY ICI BOSS ✅
+status.innerText = 'Clique sur une chaîne pour commencer';
 </script>
 </body>
 </html>
