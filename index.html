@@ -2,153 +2,88 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TV PRO MEDIA - Streaming TV</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>TV PRO MEDIA</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
         body { background:#0a0e1a; color:#fff; font-family:Arial; }
-    .header { background:#111827; padding:15px 20px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #222; position:sticky; top:0; z-index:100; }
-    .logo { font-size:22px; font-weight:bold; }
-    .logo span { color:#e50914; }
-    .search { flex:1; max-width:400px; margin:0 20px; }
-    .search input { width:100%; padding:10px 40px 10px 15px; background:#1a1f2e; border:1px solid #333; border-radius:25px; color:#fff; }
-    .btn-admin { background:#e50914; color:#fff; padding:10px 20px; border-radius:6px; text-decoration:none; font-weight:bold; }
-    .filters { padding:20px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
-    .filter-btn { background:#1a1f2e; color:#fff; padding:10px 20px; border:none; border-radius:25px; cursor:pointer; font-size:14px; }
-    .filter-btn.active { background:#e50914; }
-    .container { max-width:1400px; margin:0 auto; padding:20px; }
-    .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:20px; }
-    .card { background:#1a1f2e; border-radius:10px; overflow:hidden; cursor:pointer; transition:0.3s; }
-    .card:hover { transform:translateY(-5px); box-shadow:0 10px 30px rgba(229,9,20,0.3); }
-    .card-logo { width:100%; height:120px; object-fit:contain; background:#fff; padding:10px; }
-    .card-body { padding:15px; }
-    .card-title { font-weight:bold; font-size:14px; margin-bottom:8px; height:35px; overflow:hidden; }
-    .card-info { display:flex; justify-content:space-between; align-items:center; font-size:12px; color:#888; }
-    .card-cat { color:#00ccff; }
-    .card-views { color:#00ff88; }
-    .no-channels { text-align:center; padding:60px 20px; color:#666; grid-column:1/-1; }
-    .footer { background:#0f1420; padding:40px 20px; margin-top:60px; }
-    .footer-content { max-width:1400px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:40px; }
-    .footer h3 { color:#e50914; margin-bottom:15px; }
-    .footer ul { list-style:none; }
-    .footer ul li { margin-bottom:10px; color:#888; cursor:pointer; }
-    .footer ul li:hover { color:#fff; }
-    .footer-bottom { text-align:center; padding-top:30px; margin-top:30px; border-top:1px solid #222; color:#666; }
-    @media (max-width:768px) { 
-        .grid { grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:15px; } 
-        .search { display:none; }
-    }
+        .header { background:#1a1f2e; padding:15px 20px; display:flex; justify-content:space-between; align-items:center; }
+        .logo { font-size:24px; font-weight:bold; }
+        .logo span { color:#e50914; }
+        .admin { background:#e50914; color:#fff; padding:8px 15px; border-radius:6px; text-decoration:none; font-size:14px; }
+        .player { width:100%; height:40vh; background:#000; }
+        .content { padding:20px; }
+        .section-title { color:#e50914; font-size:18px; margin:20px 0 15px; font-weight:bold; }
+        .chaines { display:grid; grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:15px; }
+        .chaine { background:#1a1f2e; border-radius:8px; padding:10px; cursor:pointer; transition:0.3s; }
+        .chaine:hover { transform:scale(1.05); background:#252b3d; }
+        .chaine img { width:100%; height:80px; object-fit:contain; background:#fff; border-radius:6px; margin-bottom:8px; }
+        .chaine-nom { font-size:14px; font-weight:bold; margin-bottom:4px; }
+        .chaine-ch { font-size:12px; color:#888; }
+        .now { text-align:center; padding:10px; background:#1a1f2e; color:#888; }
     </style>
 </head>
 <body>
     <div class="header">
         <div class="logo"><span>TV PRO</span> MEDIA</div>
-        <div class="search">
-            <input type="text" id="search" placeholder="Search channels..." onkeyup="filtrerChaines()">
-        </div>
-        <a href="admin.html" class="btn-admin"><i class="fas fa-cog"></i> ADMIN</a>
+        <a href="admin.html" class="admin">⚙️ ADMIN</a>
     </div>
-
-    <div class="filters">
-        <button class="filter-btn active" onclick="filtrerCat('ALL')">Toutes</button>
-        <button class="filter-btn" onclick="filtrerCat('GOSPEL')">Gospel</button>
-        <button class="filter-btn" onclick="filtrerCat('SPORTS')">Sports</button>
-        <button class="filter-btn" onclick="filtrerCat('NEWS')">News</button>
-        <button class="filter-btn" onclick="filtrerCat('FILMS')">Films</button>
-        <button class="filter-btn" onclick="filtrerCat('MUSIQUE')">Musique</button>
-        <button class="filter-btn" onclick="filtrerCat('GENERALISTE')">Généraliste</button>
+    
+    <video id="player" class="player" controls></video>
+    <div class="now" id="now">Clique sur une chaîne pour commencer</div>
+    
+    <div class="content">
+        <div class="section-title">TOUTES LES CHAÎNES</div>
+        <div class="chaines" id="chaines"></div>
     </div>
-
-    <div class="container">
-        <div class="grid" id="gridChaines"></div>
-    </div>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div>
-                <h3><span style="color:#e50914;">TV PRO</span> MEDIA</h3>
-                <p style="color:#888; margin-bottom:15px;">Your premier destination for live streaming entertainment across all categories. Access from anywhere, anytime.</p>
-                <div style="color:#888;">
-                    <div><i class="fas fa-envelope"></i> tvpromedia@gmail.com</div>
-                    <div><i class="fas fa-phone"></i> +243 854 587 025</div>
-                </div>
-            <div>
-                <h3>Categories</h3>
-                <ul>
-                    <li onclick="filtrerCat('SPORTS')">SPORTS</li>
-                    <li onclick="filtrerCat('GOSPEL')">GOSPEL</li>
-                    <li onclick="filtrerCat('NEWS')">NEWS</li>
-                    <li onclick="filtrerCat('FILMS')">FILMS</li>
-                    <li onclick="filtrerCat('MUSIQUE')">MUSIC</li>
-                    <li onclick="filtrerCat('DOCUMENTAIRE')">DOCUMENTARY</li>
-                </ul>
-            </div>
-            <div>
-                <h3>Legal & More</h3>
-                <ul>
-                    <li>Privacy Policy</li>
-                    <li>Terms of Service</li>
-                    <li>Contact</li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">© 2026 TV PRO MEDIA. All rights reserved</div>
-    </footer>
 
 <script>
+const player = document.getElementById('player');
+let hls;
+
+// Charge les chaînes depuis l'admin
 let chaines = JSON.parse(localStorage.getItem('chaines_tvpro') || '[]');
-let filtreActuel = 'ALL';
 
-function afficherChaines(liste = chaines) {
-    const grid = document.getElementById('gridChaines');
+// Chaînes par défaut si admin vide
+if(chaines.length === 0) {
+    chaines = [
+        {nom: "ESPOIR TV HD", lien: "https://stream.berosat.live:19360/espoir-tv-stream.m3u8", logo: "https://i.ibb.co/0jQJYv2/espoir-tv-logo.png", cat: "GOSPEL", ch: "CH 1"},
+        {nom: "Canal+ Sport", lien: "https://video1.getstreamhosting.com:1936/8312/8312/playlist.m3u8", logo: "https://i.ibb.co/7jQJYv2/canal-sport.png", cat: "SPORTS", ch: "CH 2"}
+    ];
+}
 
-    if(liste.length === 0) {
-        grid.innerHTML = '<div class="no-channels"><i class="fas fa-tv" style="font-size:60px;margin-bottom:20px;"></i><br>Aucune chaîne trouvée<br><small>Ajoute des chaînes via ADMIN</small></div>';
+function jouer(lien, nom) {
+    document.getElementById('now').textContent = '▶️ En cours: ' + nom;
+    
+    if(Hls.isSupported()) {
+        if(hls) hls.destroy();
+        hls = new Hls();
+        hls.loadSource(lien);
+        hls.attachMedia(player);
+        hls.on(Hls.Events.MANIFEST_PARSED, () => player.play());
+    } else if(player.canPlayType('application/vnd.apple.mpegurl')) {
+        player.src = lien;
+        player.play();
+    }
+}
+
+function afficherChaines() {
+    const container = document.getElementById('chaines');
+    if(chaines.length === 0) {
+        container.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:#888; padding:40px;">Aucune chaîne. Va dans ADMIN pour ajouter boss.</div>';
         return;
     }
-
-    grid.innerHTML = liste.map(c => `
-        <div class="card" onclick="lireChaine('${encodeURIComponent(c.lien)}', '${c.nom.replace(/'/g, "\\'")}', '${c.cat}')">
-            <img src="${c.logo || 'https://via.placeholder.com/200x120/1a1f2e/e50914?text=TV'}" class="card-logo" onerror="this.src='https://via.placeholder.com/200x120/1a1f2e/e50914?text=TV'">
-            <div class="card-body">
-                <div class="card-title">${c.nom}</div>
-                <div class="card-info">
-                    <span class="card-cat">${c.cat}</span>
-                    <span class="card-views"><i class="fas fa-eye"></i> 0 views</span>
-                </div>
-            </div>
+    
+    container.innerHTML = chaines.map(c => `
+        <div class="chaine" onclick="jouer('${c.lien}', '${c.nom}')">
+            <img src="${c.logo}" onerror="this.src='https://via.placeholder.com/150x80?text=${c.nom}'">
+            <div class="chaine-nom">${c.nom}</div>
+            <div class="chaine-ch">${c.ch} - ${c.cat}</div>
         </div>
     `).join('');
 }
 
-function filtrerChaines() {
-    const recherche = document.getElementById('search').value.toLowerCase();
-    let resultat = chaines;
-
-    if(filtreActuel !== 'ALL') {
-        resultat = resultat.filter(c => c.cat === filtreActuel);
-    }
-
-    if(recherche) {
-        resultat = resultat.filter(c => c.nom.toLowerCase().includes(recherche));
-    }
-
-    afficherChaines(resultat);
-}
-
-function filtrerCat(cat) {
-    filtreActuel = cat;
-    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
-    filtrerChaines();
-}
-
-function lireChaine(lien, nom, cat) {
-    window.location.href = player.html?lien=${lien}&nom=${encodeURIComponent(nom)}&cat=${encodeURIComponent(cat)};
-}
-
-// Charger au démarrage
+// Affiche au chargement
 afficherChaines();
 </script>
 </body>
