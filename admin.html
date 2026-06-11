@@ -5,31 +5,35 @@
     <title>ADMIN TV PRO MEDIA</title>
     <style>
         body { background:#0a0e1a; color:#fff; font-family:Arial; padding:20px; }
-     .panel { max-width:700px; margin:20px auto; background:#1a1f2e; padding:30px; border-radius:12px; }
+    .panel { max-width:700px; margin:20px auto; background:#1a1f2e; padding:30px; border-radius:12px; }
         h2 { color:#e50914; margin-bottom:20px; }
-     .form-group { margin-bottom:15px; }
+    .form-group { margin-bottom:15px; }
         label { display:block; color:#888; font-size:13px; margin-bottom:5px; font-weight:bold; }
         input, select, textarea { width:100%; padding:12px; background:#0f1420; border:1px solid #333; color:#fff; border-radius:8px; }
         textarea { resize:vertical; min-height:60px; }
         button { background:#e50914; color:#fff; border:none; padding:15px; width:100%; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:10px; }
-     .item { background:#0f1420; padding:15px; margin:8px 0; border-radius:8px; display:flex; gap:15px; align-items:center; }
-     .item-logo { width:60px; height:40px; object-fit:contain; background:#fff; border-radius:6px; }
-     .item-content { flex:1; }
-     .item-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
-     .item-nom { font-weight:bold; font-size:16px; }
-     .item-btns { display:flex; gap:8px; }
-     .btn-mod { background:#ff9900; padding:6px 12px; border:none; color:#000; border-radius:5px; cursor:pointer; font-size:12px; font-weight:bold; }
-     .btn-del { background:#ff0000; padding:6px 12px; border:none; color:#fff; border-radius:5px; cursor:pointer; font-size:12px; font-weight:bold; }
-     .item-info { font-size:12px; color:#888; word-break:break-all; }
+    .item { background:#0f1420; padding:15px; margin:8px 0; border-radius:8px; display:flex; gap:15px; align-items:center; }
+    .item-logo { width:60px; height:40px; object-fit:contain; background:#fff; border-radius:6px; }
+    .item-content { flex:1; }
+    .item-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+    .item-nom { font-weight:bold; font-size:16px; }
+    .item-btns { display:flex; gap:8px; }
+    .btn-mod { background:#ff9900; padding:6px 12px; border:none; color:#000; border-radius:5px; cursor:pointer; font-size:12px; font-weight:bold; }
+    .btn-del { background:#ff0000; padding:6px 12px; border:none; color:#fff; border-radius:5px; cursor:pointer; font-size:12px; font-weight:bold; }
+    .item-info { font-size:12px; color:#888; word-break:break-all; }
         a.btn { background:#333; color:#fff; display:block; text-align:center; padding:15px; border-radius:8px; text-decoration:none; margin-top:10px; }
-     .warning { background:#ff9900; color:#000; padding:10px; border-radius:8px; margin-bottom:20px; text-align:center; font-weight:bold; }
-     .backup-btns { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:20px 0; }
-     .btn-export { background:#00aa00; }
-     .btn-import { background:#0099ff; }
-       #fileInput { display:none; }
-     .preview { background:#0f1420; padding:15px; border-radius:8px; margin:15px 0; text-align:center; }
-     .preview img { max-width:200px; max-height:100px; object-fit:contain; background:#fff; border-radius:8px; }
-     .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:15px; }
+    .warning { background:#ff9900; color:#000; padding:10px; border-radius:8px; margin-bottom:20px; text-align:center; font-weight:bold; }
+    .backup-btns { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:20px 0; }
+    .btn-export { background:#00aa00; }
+    .btn-import { background:#0099ff; }
+       #fileInput, #logoFile { display:none; }
+    .preview { background:#0f1420; padding:15px; border-radius:8px; margin:15px 0; text-align:center; }
+    .preview img { max-width:200px; max-height:100px; object-fit:contain; background:#fff; border-radius:8px; }
+    .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:15px; }
+    .upload-zone { border:2px dashed #333; padding:20px; text-align:center; border-radius:8px; cursor:pointer; margin-top:10px; }
+    .upload-zone:hover { border-color:#e50914; background:#0f1420; }
+    .btn-upload { background:#0099ff; margin-top:0; }
+    .ou-separateur { text-align:center; color:#666; margin:10px 0; font-size:12px; }
     </style>
 </head>
 <body>
@@ -48,8 +52,14 @@
         </div>
 
         <div class="form-group">
-            <label>URL DU LOGO</label>
-            <input id="logo" placeholder="https://...png ou laisse vide pour logo auto" oninput="apercuLogo()">
+            <label>LOGO DE LA CHAÎNE</label>
+            <input id="logo" placeholder="Colle une URL https://...png ou" oninput="apercuLogoUrl()">
+
+            <div class="ou-separateur">OU</div>
+
+            <button class="btn-upload" onclick="document.getElementById('logoFile').click()">📁 UPLOADER DEPUIS MON PC</button>
+            <input type="file" id="logoFile" accept="image/*" onchange="uploadLogo(event)">
+
             <div class="preview" id="preview" style="display:none;">
                 <small>Aperçu :</small><br>
                 <img id="previewImg" src="">
@@ -118,19 +128,40 @@
 <script>
 let chaines = JSON.parse(localStorage.getItem('chaines_tvpro') || '[]');
 let indexModif = -1;
+let logoBase64 = '';
 
-function apercuLogo() {
+function apercuLogoUrl() {
     const logoUrl = document.getElementById('logo').value.trim();
     const preview = document.getElementById('preview');
     const previewImg = document.getElementById('previewImg');
 
     if(logoUrl) {
+        logoBase64 = ''; // Reset si on met une URL
         previewImg.src = logoUrl;
         preview.style.display = 'block';
         previewImg.onerror = () => preview.style.display = 'none';
     } else {
         preview.style.display = 'none';
     }
+}
+
+function uploadLogo(event) {
+    const file = event.target.files[0];
+    if(!file) return;
+
+    if(file.size > 500000) { // 500KB max
+        alert('Logo trop lourd boss! Max 500KB. Compresse sur tinypng.com');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        logoBase64 = e.target.result; // Base64
+        document.getElementById('logo').value = ''; // Vide le champ URL
+        document.getElementById('previewImg').src = logoBase64;
+        document.getElementById('preview').style.display = 'block';
+    };
+    reader.readAsDataURL(file);
 }
 
 function sauvegarderChaine() {
@@ -148,8 +179,10 @@ function sauvegarderChaine() {
         return;
     }
 
-    // Logo auto si vide
-    if(!logo) {
+    // Priorité: 1. Logo uploadé, 2. URL logo, 3. Logo auto
+    if(logoBase64) {
+        logo = logoBase64;
+    } else if(!logo) {
         logo = 'https://via.placeholder.com/200x100/1a1f2e/e50914?text=' + encodeURIComponent(nom);
     }
 
@@ -174,7 +207,21 @@ function modifierChaine(i) {
     const c = chaines[i];
     document.getElementById('nom').value = c.nom;
     document.getElementById('lien').value = c.lien;
-    document.getElementById('logo').value = c.logo.includes('placeholder')? '' : c.logo;
+
+    // Si c'est un base64 ou placeholder, on vide le champ
+    if(c.logo.startsWith('data:') || c.logo.includes('placeholder')) {
+        document.getElementById('logo').value = '';
+        logoBase64 = c.logo.startsWith('data:')? c.logo : '';
+        if(logoBase64) {
+            document.getElementById('previewImg').src = logoBase64;
+            document.getElementById('preview').style.display = 'block';
+        }
+    } else {
+        document.getElementById('logo').value = c.logo;
+        logoBase64 = '';
+        apercuLogoUrl();
+    }
+
     document.getElementById('cat').value = c.cat;
     document.getElementById('ch').value = c.ch;
     document.getElementById('qualite').value = c.qualite || 'HD';
@@ -184,7 +231,6 @@ function modifierChaine(i) {
     document.getElementById('btn-principal').textContent = 'SAUVEGARDER LES MODIFS';
     document.getElementById('btn-principal').style.background = '#ff9900';
     document.getElementById('btn-annuler').style.display = 'block';
-    apercuLogo();
     window.scrollTo(0, 0);
 }
 
@@ -213,6 +259,8 @@ function viderFormulaire() {
     document.getElementById('pays').value = '';
     document.getElementById('desc').value = '';
     document.getElementById('preview').style.display = 'none';
+    document.getElementById('logoFile').value = '';
+    logoBase64 = '';
 }
 
 function exporterChaines() {
