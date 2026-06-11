@@ -2,114 +2,117 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TV Pro Media</title>
+    <title>ADMIN TV PRO MEDIA</title>
     <style>
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { background:#0a0e1a; color:#fff; font-family:Arial; }
-        .header { background:#0f1420; padding:15px; display:flex; align-items:center; justify-content:space-between; }
-        .logo { font-size:24px; font-weight:bold; color:#e50914; }
-        .logo span { color:#fff; }
-        .admin-btn { background:#333; color:#fff; border:none; padding:8px 15px; border-radius:5px; cursor:pointer; font-size:12px; }
-        #player { width:100%; height:40vh; background:#000; }
-        #status { background:#1a1f2e; padding:10px; text-align:center; font-weight:bold; }
-        .categories { display:flex; gap:10px; padding:15px; overflow-x:auto; background:#0f1420; }
-        .cat-btn { background:#1a1f2e; border:none; color:#fff; padding:12px 20px; border-radius:50px; cursor:pointer; font-weight:bold; white-space:nowrap; }
-        .cat-btn.active { background:#e50914; }
-        .section-title { padding:20px 15px 10px 15px; font-size:22px; color:#ffc107; }
-        .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(160px, 1fr)); gap:15px; padding:0 15px 30px 15px; }
-        .chaine { background:#1a1f2e; border-radius:12px; padding:15px; cursor:pointer; border:2px solid #222; transition:0.2s; }
-        .chaine:hover { border:2px solid #e50914; transform:translateY(-3px); }
-        .chaine img { width:100%; height:80px; object-fit:contain; background:#fff; border-radius:8px; }
-        .ch-num { color:#888; font-size:12px; margin-top:8px; }
-        .ch-name { font-weight:bold; margin-top:5px; font-size:14px; }
-        .ch-cat { color:#e50914; font-size:11px; margin-top:5px; }
+        body { background:#0a0e1a; color:#fff; font-family:Arial; padding:20px; }
+        .panel { max-width:600px; margin:20px auto; background:#1a1f2e; padding:30px; border-radius:12px; }
+        input, select { width:100%; padding:12px; margin:10px 0; background:#0f1420; border:1px solid #333; color:#fff; border-radius:8px; }
+        button { background:#e50914; color:#fff; border:none; padding:15px; width:100%; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:10px; }
+        .chaine-list { margin-top:20px; }
+        .item { background:#0f1420; padding:10px; margin:5px 0; border-radius:8px; display:flex; justify-content:space-between; align-items:center; }
+        .del { background:#ff0000; padding:5px 10px; border:none; color:#fff; border-radius:5px; cursor:pointer; }
+        a.btn { background:#333; color:#fff; display:block; text-align:center; padding:15px; border-radius:8px; text-decoration:none; margin-top:10px; }
+        .warning { background:#ff9900; color:#000; padding:10px; border-radius:8px; margin-bottom:20px; text-align:center; font-weight:bold; }
+        .help { color:#888; font-size:12px; margin-top:-5px; margin-bottom:10px; }
+        .preview { width:100px; height:60px; object-fit:contain; background:#fff; border-radius:8px; margin:10px 0; display:none; }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="logo">TV PRO <span>MEDIA</span></div>
-        <button class="admin-btn" onclick="window.location.href='admin.html'">⚙️ ADMIN</button>
+    <div class="panel">
+        <div class="warning">⚠️ PAGE ADMIN CACHÉE - NE PARTAGE PAS CE LIEN</div>
+        <h2>➕ Ajouter une chaîne</h2>
+        
+        <input id="nom" placeholder="Nom: NEXT TV" autocomplete="off">
+        
+        <input id="lien" placeholder="Lien m3u8: https://..." autocomplete="off">
+        <div class="help">Lien direct du flux .m3u8</div>
+        
+        <input id="logo" placeholder="URL du logo" autocomplete="off" oninput="previewLogo()">
+        <div class="help">Formats acceptés: PNG, JPG, JPEG, WEBP, SVG</div>
+        <img id="logoPreview" class="preview">
+        
+        <select id="cat">
+            <option>GENERALISTE</option>
+            <option>SPORTS</option>
+            <option>FILMS</option>
+            <option>MUSIQUE</option>
+            <option>NEWS</option>
+            <option>GOSPEL</option>
+        </select>
+        
+        <input id="ch" placeholder="Numéro: CH 20" autocomplete="off">
+        
+        <button onclick="ajouterChaine()">AJOUTER LA CHAÎNE</button>
+        
+        <div class="chaine-list">
+            <h3>📺 Chaînes actuelles:</h3>
+            <div id="liste"></div>
+        </div>
+        <a href="index.html" class="btn">← RETOUR AU SITE</a>
     </div>
-    
-    <video id="player" controls playsinline muted></video>
-    <div id="status">Clique sur une chaîne pour commencer</div>
-    
-    <div class="categories" id="categories"></div>
-    <h2 class="section-title" id="titre-section">TOUTES LES CHAÎNES</h2>
-    <div class="grid" id="liste-chaines"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.8/dist/hls.min.js"></script>
 <script>
-// ON LIT LES CHAÎNES DEPUIS LE NAVIGATEUR BOSS
-let CHAINES = JSON.parse(localStorage.getItem('chaines_tvpro') || '[]');
+let chaines = JSON.parse(localStorage.getItem('chaines_tvpro') || '[]');
 
-// SI Y'A RIEN, ON MET LES CHAÎNES PAR DÉFAUT
-if(CHAINES.length === 0) {
-    CHAINES = [
-        { nom: "NEXT TV", lien: "https://video1.getstreamhosting.com:1936/8312/8312/playlist.m3u8", logo: "https://via.placeholder.com/200x100?text=NEXT+TV", cat: "GENERALISTE", ch: "CH 10" },
-        { nom: "STAR+NOVELAS", lien: "https://video1.getstreamhosting.com:1936/8320/8320/playlist.m3u8", logo: "https://via.placeholder.com/200x100?text=STAR", cat: "FILMS", ch: "CH 11" },
-    ];
-}
-
-const video = document.getElementById('player');
-const status = document.getElementById('status');
-const listeDiv = document.getElementById('liste-chaines');
-const catDiv = document.getElementById('categories');
-let hls;
-
-function lancerChaine(url, nom) {
-    status.innerText = '🔄 ' + nom;
-    status.style.color = '#ff0';
-    if(hls) hls.destroy();
-    if (Hls.isSupported()) {
-        hls = new Hls({ xhrSetup: xhr => { xhr.withCredentials = false; } });
-        hls.loadSource(url);
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, () => {
-            video.play();
-            status.innerText = '✅ ' + nom + ' EN COURS';
-            status.style.color = '#0f0';
-        });
-        hls.on(Hls.Events.ERROR, () => {
-            status.innerText = '❌ Chaîne indisponible';
-            status.style.color = '#f00';
-        });
+function previewLogo() {
+    const url = document.getElementById('logo').value;
+    const img = document.getElementById('logoPreview');
+    if(url) {
+        img.src = url;
+        img.style.display = 'block';
+        img.onerror = () => img.style.display = 'none';
+    } else {
+        img.style.display = 'none';
     }
 }
 
-function afficherCategories() {
-    const cats = ['ALL', ...new Set(CHAINES.map(c => c.cat))];
-    catDiv.innerHTML = cats.map(c => 
-        <button class="cat-btn ${c==='ALL'?'active':''}" onclick="filtrer('${c}')">${c==='ALL'?'TOUTES':c}</button>
-    ).join('');
+function ajouterChaine() {
+    const nom = document.getElementById('nom').value.trim();
+    const lien = document.getElementById('lien').value.trim();
+    
+    if(!nom || !lien) {
+        alert('Nom et lien obligatoires boss');
+        return;
+    }
+    
+    const c = {
+        nom: nom,
+        lien: lien,
+        logo: document.getElementById('logo').value.trim() || 'https://via.placeholder.com/200x100?text=' + encodeURIComponent(nom),
+        cat: document.getElementById('cat').value,
+        ch: document.getElementById('ch').value.trim() || 'CH'
+    };
+    chaines.push(c);
+    localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
+    afficherListe();
+    
+    // Reset
+    document.getElementById('nom').value = '';
+    document.getElementById('lien').value = '';
+    document.getElementById('logo').value = '';
+    document.getElementById('ch').value = '';
+    document.getElementById('logoPreview').style.display = 'none';
+    alert('Chaîne ajoutée boss !');
 }
 
-function afficherChaines(filtre = 'ALL') {
-    listeDiv.innerHTML = '';
-    document.getElementById('titre-section').innerText = filtre === 'ALL' ? 'TOUTES LES CHAÎNES' : filtre;
-    CHAINES.forEach(c => {
-        if (filtre === 'ALL' || c.cat === filtre) {
-            listeDiv.innerHTML += `
-                <div class="chaine" onclick="lancerChaine('${c.lien}', '${c.nom}')">
-                    <img src="${c.logo}" onerror="this.src='https://via.placeholder.com/200x100?text=${c.nom}'">
-                    <div class="ch-num">${c.ch}</div>
-                    <div class="ch-name">${c.nom}</div>
-                    <div class="ch-cat">${c.cat}</div>
-                </div>
-            `;
-        }
-    });
+function supprimerChaine(i) {
+    if(confirm('Supprimer cette chaîne boss ?')) {
+        chaines.splice(i, 1);
+        localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
+        afficherListe();
+    }
 }
 
-function filtrer(cat) {
-    document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
-    afficherChaines(cat);
+function afficherListe() {
+    document.getElementById('liste').innerHTML = chaines.map((c,i) => `
+        <div class="item">
+            <span>${c.ch} - ${c.nom}</span>
+            <button class="del" onclick="supprimerChaine(${i})">X</button>
+        </div>
+    `).join('');
 }
 
-afficherCategories();
-afficherChaines();
+afficherListe();
 </script>
 </body>
 </html>
