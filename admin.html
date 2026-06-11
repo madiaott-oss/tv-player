@@ -2,277 +2,328 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - TV PRO MEDIA</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>ADMIN TV PRO MEDIA</title>
     <style>
-        * { margin:0; padding:0; box-sizing:border-box; }
         body { background:#0a0e1a; color:#fff; font-family:Arial; padding:20px; }
-      .bandeau { background:#ffaa00; color:#000; padding:15px; text-align:center; font-weight:bold; border-radius:8px; margin-bottom:20px; }
-      .container { max-width:800px; margin:0 auto; }
-      .form-card { background:#1a1f2e; padding:30px; border-radius:10px; margin-bottom:20px; }
-      .form-card h2 { color:#e50914; margin-bottom:25px; font-size:24px; }
-      .form-group { margin-bottom:20px; }
-      .form-group label { display:block; margin-bottom:8px; color:#888; font-size:13px; }
-      .form-group input,.form-group select { width:100%; padding:14px; background:#111827; border:1px solid #333; border-radius:6px; color:#fff; font-size:15px; }
-      .form-group input[type="file"] { padding:10px; background:#111827; }
-      .preview-logo { max-width:120px; max-height:70px; margin-top:10px; border-radius:4px; display:none; background:#0f172a; padding:5px; }
-      .btn-ajouter { background:#e50914; color:#fff; padding:16px; border:none; border-radius:6px; font-size:16px; font-weight:bold; cursor:pointer; width:100%; margin-top:10px; }
-      .btn-ajouter:hover { background:#ff1a2c; }
-      .btn-update { background:#ffaa00; color:#000; }
-      .btn-group { display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-top:20px; }
-      .btn-export { background:#00cc66; color:#fff; padding:14px; border:none; border-radius:6px; font-weight:bold; cursor:pointer; }
-      .btn-import { background:#00aaff; color:#fff; padding:14px; border:none; border-radius:6px; font-weight:bold; cursor:pointer; }
-      .liste-chaines { background:#1a1f2e; padding:30px; border-radius:10px; margin-top:30px; }
-      .chaine-item { background:#111827; padding:15px; border-radius:6px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; }
-      .chaine-info { display:flex; align-items:center; gap:15px; }
-      .chaine-logo { width:60px; height:35px; object-fit:contain; background:#0f172a; border-radius:4px; }
-      .actions { display:flex; gap:8px; }
-      .btn-modif { background:#ffaa00; color:#000; border:none; padding:8px 15px; border-radius:4px; cursor:pointer; font-weight:bold; }
-      .btn-suppr { background:#e50914; color:#fff; border:none; padding:8px 15px; border-radius:4px; cursor:pointer; }
-      .retour { display:inline-block; background:#333; color:#fff; padding:10px 20px; border-radius:6px; text-decoration:none; margin-bottom:20px; }
-      .mode-edit { background:#ffaa00; color:#000; padding:8px 15px; border-radius:6px; display:inline-block; margin-bottom:15px; font-weight:bold; }
+    .panel { max-width:700px; margin:20px auto; background:#1a1f2e; padding:30px; border-radius:12px; }
+        h2 { color:#e50914; margin-bottom:20px; }
+    .form-group { margin-bottom:15px; }
+        label { display:block; color:#888; font-size:13px; margin-bottom:5px; font-weight:bold; }
+        input, select, textarea { width:100%; padding:12px; background:#0f1420; border:1px solid #333; color:#fff; border-radius:8px; }
+        textarea { resize:vertical; min-height:60px; }
+        button { background:#e50914; color:#fff; border:none; padding:15px; width:100%; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:10px; }
+    .item { background:#0f1420; padding:15px; margin:8px 0; border-radius:8px; display:flex; gap:15px; align-items:center; }
+    .item-logo { width:60px; height:40px; object-fit:contain; background:#fff; border-radius:6px; }
+    .item-content { flex:1; }
+    .item-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+    .item-nom { font-weight:bold; font-size:16px; }
+    .item-btns { display:flex; gap:8px; }
+    .btn-mod { background:#ff9900; padding:6px 12px; border:none; color:#000; border-radius:5px; cursor:pointer; font-size:12px; font-weight:bold; }
+    .btn-del { background:#ff0000; padding:6px 12px; border:none; color:#fff; border-radius:5px; cursor:pointer; font-size:12px; font-weight:bold; }
+    .item-info { font-size:12px; color:#888; word-break:break-all; }
+        a.btn { background:#333; color:#fff; display:block; text-align:center; padding:15px; border-radius:8px; text-decoration:none; margin-top:10px; }
+    .warning { background:#ff9900; color:#000; padding:10px; border-radius:8px; margin-bottom:20px; text-align:center; font-weight:bold; }
+    .backup-btns { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:20px 0; }
+    .btn-export { background:#00aa00; }
+    .btn-import { background:#0099ff; }
+       #fileInput, #logoFile { display:none; }
+    .preview { background:#0f1420; padding:15px; border-radius:8px; margin:15px 0; text-align:center; }
+    .preview img { max-width:200px; max-height:100px; object-fit:contain; background:#fff; border-radius:8px; }
+    .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:15px; }
+    .upload-zone { border:2px dashed #333; padding:20px; text-align:center; border-radius:8px; cursor:pointer; margin-top:10px; }
+    .upload-zone:hover { border-color:#e50914; background:#0f1420; }
+    .btn-upload { background:#0099ff; margin-top:0; }
+    .ou-separateur { text-align:center; color:#666; margin:10px 0; font-size:12px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <a href="index.html" class="retour"><i class="fas fa-arrow-left"></i> Retour Site</a>
+    <div class="panel">
+        <div class="warning">⚠️ PAGE ADMIN CACHÉE - NE PARTAGE PAS CE LIEN</div>
+        <h2 id="titre-form">➕ Ajouter une chaîne</h2>
 
-        <div class="bandeau">
-            ⚠️ PAGE ADMIN CACHÉE - NE PARTAGE PAS CE LIEN
+        <div class="form-group">
+            <label>NOM DE LA CHAÎNE *</label>
+            <input id="nom" placeholder="Ex: AFRI TV, NEXT TV, CANAL+ SPORT">
         </div>
 
-        <div class="form-card">
-            <h2 id="formTitle"><i class="fas fa-plus"></i> Ajouter une chaîne</h2>
-            <div id="modeEdit" class="mode-edit" style="display:none;">MODE MODIFICATION</div>
-            <form id="formChaine">
-                <input type="hidden" id="editIndex" value="">
-
-                <div class="form-group">
-                    <label>Nom</label>
-                    <input type="text" id="nom" required placeholder="NEXT TV">
-                </div>
-
-                <div class="form-group">
-                    <label>Lien m3u8</label>
-                    <input type="url" id="lien" required placeholder="https://...">
-                    <small style="color:#666">Lien direct du flux m3u8</small>
-                </div>
-
-                <div class="form-group">
-                    <label>Logo depuis PC *</label>
-                    <input type="file" id="logoFile" accept="image/png, image/jpeg, image/webp" onchange="previewLogo(event)">
-                    <img id="previewLogo" class="preview-logo">
-                    <small style="color:#666">Format: PNG, JPG, WEBP - Max 500Ko - Laisse vide pour garder l'ancien logo</small>
-                </div>
-
-                <div class="form-group">
-                    <label>Catégorie</label>
-                    <select id="cat" required>
-                        <option value="GENERALISTE">GENERALISTE</option>
-                        <option value="GOSPEL">GOSPEL</option>
-                        <option value="SPORTS">SPORTS</option>
-                        <option value="NEWS">NEWS</option>
-                        <option value="FILMS">FILMS</option>
-                        <option value="MUSIQUE">MUSIQUE</option>
-                        <option value="DOCUMENTAIRE">DOCUMENTAIRE</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Numéro CH</label>
-                    <input type="number" id="ch" required placeholder="20">
-                </div>
-
-                <button type="submit" class="btn-ajouter" id="btnSubmit">AJOUTER LA CHAÎNE</button>
-                <button type="button" class="btn-ajouter btn-update" id="btnCancel" style="display:none; background:#666; margin-top:10px;" onclick="annulerEdit()">ANNULER</button>
-
-                <div class="btn-group">
-                    <button type="button" class="btn-export" onclick="exporterChaines()">
-                        <i class="fas fa-download"></i> SAUVEGARDE
-                    </button>
-                    <button type="button" class="btn-import" onclick="document.getElementById('importFile').click()">
-                        <i class="fas fa-upload"></i> RESTAURER
-                    </button>
-                    <input type="file" id="importFile" accept=".json" style="display:none" onchange="importerChaines(event)">
-                </div>
-            </form>
+        <div class="form-group">
+            <label>LIEN M3U8 *</label>
+            <input id="lien" placeholder="https://stream.exemple.com/live.m3u8">
         </div>
 
-        <div class="liste-chaines">
-            <h2><i class="fas fa-list"></i> Chaînes existantes</h2>
-            <div id="listeChaines"></div>
+        <div class="form-group">
+            <label>LOGO DE LA CHAÎNE</label>
+            <input id="logo" placeholder="Colle une URL https://...png ou" oninput="apercuLogoUrl()">
+
+            <div class="ou-separateur">OU</div>
+
+            <button class="btn-upload" onclick="document.getElementById('logoFile').click()">📁 UPLOADER DEPUIS MON PC</button>
+            <input type="file" id="logoFile" accept="image/*" onchange="uploadLogo(event)">
+
+            <div class="preview" id="preview" style="display:none;">
+                <small>Aperçu :</small><br>
+                <img id="previewImg" src="">
+            </div>
         </div>
+
+        <div class="grid2">
+            <div class="form-group">
+                <label>CATÉGORIE</label>
+                <select id="cat">
+                    <option>GENERALISTE</option>
+                    <option>SPORTS</option>
+                    <option>FILMS</option>
+                    <option>MUSIQUE</option>
+                    <option>NEWS</option>
+                    <option>GOSPEL</option>
+                    <option>DOCUMENTAIRE</option>
+                    <option>ENFANTS</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>NUMÉRO DE CHAÎNE</label>
+                <input id="ch" placeholder="Ex: CH 1, CH 20">
+            </div>
+        </div>
+
+        <div class="grid2">
+            <div class="form-group">
+                <label>QUALITÉ</label>
+                <select id="qualite">
+                    <option>HD</option>
+                    <option>SD</option>
+                    <option>FULL HD</option>
+                    <option>4K</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>PAYS</label>
+                <input id="pays" placeholder="Ex: RDC, FRANCE, USA">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>DESCRIPTION</label>
+            <textarea id="desc" placeholder="Description de la chaîne..."></textarea>
+        </div>
+
+        <button id="btn-principal" onclick="sauvegarderChaine()">AJOUTER LA CHAÎNE</button>
+        <button id="btn-annuler" onclick="annulerModif()" style="background:#666; display:none;">ANNULER</button>
+
+        <div class="backup-btns">
+            <button class="btn-export" onclick="exporterChaines()">📥 EXPORTER</button>
+            <button class="btn-import" onclick="document.getElementById('fileInput').click()">📤 IMPORTER</button>
+            <input type="file" id="fileInput" accept=".json" onchange="importerChaines(event)">
+        </div>
+
+        <div class="chaine-list">
+            <h3>📺 Chaînes actuelles: <span id="compteur"></span></h3>
+            <div id="liste"></div>
+        </div>
+        <a href="index.html" class="btn">← RETOUR AU SITE</a>
     </div>
 
 <script>
 let chaines = JSON.parse(localStorage.getItem('chaines_tvpro') || '[]');
+let indexModif = -1;
 let logoBase64 = '';
-let logoActuel = '';
 
-function previewLogo(event) {
+function apercuLogoUrl() {
+    const logoUrl = document.getElementById('logo').value.trim();
+    const preview = document.getElementById('preview');
+    const previewImg = document.getElementById('previewImg');
+
+    if(logoUrl) {
+        logoBase64 = ''; // Reset si on met une URL
+        previewImg.src = logoUrl;
+        preview.style.display = 'block';
+        previewImg.onerror = () => preview.style.display = 'none';
+    } else {
+        preview.style.display = 'none';
+    }
+}
+
+function uploadLogo(event) {
     const file = event.target.files[0];
-    if (!file) return;
+    if(!file) return;
 
-    if(file.size > 500000) {
-        alert('Logo trop lourd! Max 500Ko');
-        event.target.value = '';
+    if(file.size > 500000) { // 500KB max
+        alert('Logo trop lourd boss! Max 500KB. Compresse sur tinypng.com');
         return;
     }
 
     const reader = new FileReader();
     reader.onload = function(e) {
-        logoBase64 = e.target.result;
-        const img = document.getElementById('previewLogo');
-        img.src = logoBase64;
-        img.style.display = 'block';
+        logoBase64 = e.target.result; // Base64
+        document.getElementById('logo').value = ''; // Vide le champ URL
+        document.getElementById('previewImg').src = logoBase64;
+        document.getElementById('preview').style.display = 'block';
     };
     reader.readAsDataURL(file);
 }
 
-document.getElementById('formChaine').onsubmit = function(e) {
-    e.preventDefault();
+function sauvegarderChaine() {
+    const nom = document.getElementById('nom').value.trim();
+    const lien = document.getElementById('lien').value.trim();
+    let logo = document.getElementById('logo').value.trim();
+    const cat = document.getElementById('cat').value;
+    const ch = document.getElementById('ch').value.trim() || 'CH';
+    const qualite = document.getElementById('qualite').value;
+    const pays = document.getElementById('pays').value.trim() || 'RDC';
+    const desc = document.getElementById('desc').value.trim();
 
-    const editIndex = document.getElementById('editIndex').value;
-    const logoFinal = logoBase64 || logoActuel;
-
-    if(!logoFinal) {
-        alert('Sélectionne un logo depuis ton PC');
+    if(!nom ||!lien) {
+        alert('BOSS REMPLIS AU MOINS NOM + LIEN!');
         return;
     }
 
-    const chaineData = {
-        nom: document.getElementById('nom').value,
-        cat: document.getElementById('cat').value,
-        ch: document.getElementById('ch').value,
-        lien: document.getElementById('lien').value,
-        logo: logoFinal
-    };
+    // Priorité: 1. Logo uploadé, 2. URL logo, 3. Logo auto
+    if(logoBase64) {
+        logo = logoBase64;
+    } else if(!logo) {
+        logo = 'https://via.placeholder.com/200x100/1a1f2e/e50914?text=' + encodeURIComponent(nom);
+    }
 
-    if(editIndex!== '') {
-        // Mode modification
-        chaines[editIndex] = chaineData;
-        alert('Chaîne modifiée avec succès!');
-    } else {
-        // Mode ajout
+    const chaineData = {nom, lien, logo, cat, ch, qualite, pays, desc};
+
+    if(indexModif === -1) {
         chaines.push(chaineData);
-        alert('Chaîne ajoutée avec succès!');
+        alert('Chaîne ajoutée boss!');
+    } else {
+        chaines[indexModif] = chaineData;
+        alert('Chaîne modifiée boss!');
+        annulerModif();
     }
 
     localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
-    resetForm();
     afficherListe();
-};
+    viderFormulaire();
+}
 
-function modifierChaine(index) {
-    const c = chaines[index];
-    document.getElementById('editIndex').value = index;
+function modifierChaine(i) {
+    indexModif = i;
+    const c = chaines[i];
     document.getElementById('nom').value = c.nom;
     document.getElementById('lien').value = c.lien;
-    document.getElementById('cat').value = c.cat;
-    document.getElementById('ch').value = c.ch;
 
-    logoActuel = c.logo;
-    const img = document.getElementById('previewLogo');
-    img.src = c.logo;
-    img.style.display = 'block';
-
-    document.getElementById('formTitle').innerHTML = '<i class="fas fa-edit"></i> Modifier la chaîne';
-    document.getElementById('btnSubmit').innerHTML = 'MODIFIER LA CHAÎNE';
-    document.getElementById('btnSubmit').style.background = '#ffaa00';
-    document.getElementById('btnSubmit').style.color = '#000';
-    document.getElementById('modeEdit').style.display = 'inline-block';
-    document.getElementById('btnCancel').style.display = 'block';
-
-    window.scrollTo({top: 0, behavior: 'smooth'});
-}
-
-function annulerEdit() {
-    resetForm();
-}
-
-function resetForm() {
-    document.getElementById('formChaine').reset();
-    document.getElementById('editIndex').value = '';
-    document.getElementById('previewLogo').style.display = 'none';
-    document.getElementById('formTitle').innerHTML = '<i class="fas fa-plus"></i> Ajouter une chaîne';
-    document.getElementById('btnSubmit').innerHTML = 'AJOUTER LA CHAÎNE';
-    document.getElementById('btnSubmit').style.background = '#e50914';
-    document.getElementById('btnSubmit').style.color = '#fff';
-    document.getElementById('modeEdit').style.display = 'none';
-    document.getElementById('btnCancel').style.display = 'none';
-    logoBase64 = '';
-    logoActuel = '';
-}
-
-function afficherListe() {
-    const div = document.getElementById('listeChaines');
-    if(chaines.length === 0) {
-        div.innerHTML = '<p style="color:#666; text-align:center;">Aucune chaîne</p>';
-        return;
+    // Si c'est un base64 ou placeholder, on vide le champ
+    if(c.logo.startsWith('data:') || c.logo.includes('placeholder')) {
+        document.getElementById('logo').value = '';
+        logoBase64 = c.logo.startsWith('data:')? c.logo : '';
+        if(logoBase64) {
+            document.getElementById('previewImg').src = logoBase64;
+            document.getElementById('preview').style.display = 'block';
+        }
+    } else {
+        document.getElementById('logo').value = c.logo;
+        logoBase64 = '';
+        apercuLogoUrl();
     }
 
-    div.innerHTML = chaines.map((c, i) => `
-        <div class="chaine-item">
-            <div class="chaine-info">
-                <img src="${c.logo}" class="chaine-logo" onerror="this.src='https://via.placeholder.com/60x35/e50914/ffffff?text=TV'">
-                <div>
-                    <strong>${c.nom}</strong><br>
-                    <small style="color:#888">${c.cat} - CH${c.ch}</small>
-                </div>
-            </div>
-            <div class="actions">
-                <button class="btn-modif" onclick="modifierChaine(${i})">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button class="btn-suppr" onclick="supprimerChaine(${i})">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </div>
-        </div>
-    `).join('');
+    document.getElementById('cat').value = c.cat;
+    document.getElementById('ch').value = c.ch;
+    document.getElementById('qualite').value = c.qualite || 'HD';
+    document.getElementById('pays').value = c.pays || 'RDC';
+    document.getElementById('desc').value = c.desc || '';
+    document.getElementById('titre-form').textContent = '✏️ Modifier la chaîne';
+    document.getElementById('btn-principal').textContent = 'SAUVEGARDER LES MODIFS';
+    document.getElementById('btn-principal').style.background = '#ff9900';
+    document.getElementById('btn-annuler').style.display = 'block';
+    window.scrollTo(0, 0);
 }
 
-function supprimerChaine(index) {
-    if(confirm('Supprimer cette chaîne?')) {
-        chaines.splice(index, 1);
+function annulerModif() {
+    indexModif = -1;
+    viderFormulaire();
+    document.getElementById('titre-form').textContent = '➕ Ajouter une chaîne';
+    document.getElementById('btn-principal').textContent = 'AJOUTER LA CHAÎNE';
+    document.getElementById('btn-principal').style.background = '#e50914';
+    document.getElementById('btn-annuler').style.display = 'none';
+}
+
+function supprimerChaine(i) {
+    if(confirm('Supprimer ' + chaines[i].nom + ' boss?')) {
+        chaines.splice(i, 1);
         localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
         afficherListe();
     }
 }
 
+function viderFormulaire() {
+    document.getElementById('nom').value = '';
+    document.getElementById('lien').value = '';
+    document.getElementById('logo').value = '';
+    document.getElementById('ch').value = '';
+    document.getElementById('pays').value = '';
+    document.getElementById('desc').value = '';
+    document.getElementById('preview').style.display = 'none';
+    document.getElementById('logoFile').value = '';
+    logoBase64 = '';
+}
+
 function exporterChaines() {
+    if(chaines.length === 0) {
+        alert('Aucune chaîne à exporter boss!');
+        return;
+    }
     const data = JSON.stringify(chaines, null, 2);
-    const blob = new Blob([data], {type:'application/json'});
+    const blob = new Blob([data], {type: 'application/json'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'backup_tvpro_' + new Date().toISOString().slice(0,10) + '.json';
+    a.download = 'tvpro_chaines_backup_' + new Date().toISOString().split('T')[0] + '.json';
     a.click();
-    alert('Sauvegarde téléchargée! Garde ce fichier en sécurité.');
+    alert('Fichier téléchargé boss! 📥');
 }
 
 function importerChaines(event) {
     const file = event.target.files[0];
     if(!file) return;
 
-    if(!confirm('ATTENTION: Ceci va remplacer toutes tes chaînes actuelles. Continuer?')) {
-        event.target.value = '';
-        return;
-    }
-
     const reader = new FileReader();
     reader.onload = function(e) {
         try {
-            chaines = JSON.parse(e.target.result);
-            localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
-            afficherListe();
-            alert('Restauration réussie! ' + chaines.length + ' chaînes importées.');
+            const dataImport = JSON.parse(e.target.result);
+            if(confirm('Remplacer toutes les chaînes actuelles par celles du fichier? ' + dataImport.length + ' chaînes trouvées.')) {
+                chaines = dataImport;
+                localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
+                afficherListe();
+                alert('Import réussi boss! 📤');
+            }
         } catch(err) {
-            alert('Fichier invalide');
+            alert('Fichier invalide boss!');
         }
     };
     reader.readAsText(file);
+    event.target.value = '';
+}
+
+function afficherListe() {
+    const liste = document.getElementById('liste');
+    document.getElementById('compteur').textContent = '(' + chaines.length + ')';
+
+    if(chaines.length === 0) {
+        liste.innerHTML = '<p style="color:#888; text-align:center; padding:20px;">Aucune chaîne</p>';
+        return;
+    }
+
+    liste.innerHTML = chaines.map((c,i) => `
+        <div class="item">
+            <img src="${c.logo}" class="item-logo" onerror="this.src='https://via.placeholder.com/60x40?text=TV'">
+            <div class="item-content">
+                <div class="item-top">
+                    <span class="item-nom">${c.ch} - ${c.nom}</span>
+                    <div class="item-btns">
+                        <button class="btn-mod" onclick="modifierChaine(${i})">MODIFIER</button>
+                        <button class="btn-del" onclick="supprimerChaine(${i})">SUPPRIMER</button>
+                    </div>
+                </div>
+                <div class="item-info">${c.cat} | ${c.qualite || 'HD'} | ${c.pays || 'RDC'}</div>
+            </div>
+        </div>
+    `).join('');
 }
 
 afficherListe();
