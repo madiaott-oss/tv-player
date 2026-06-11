@@ -8,26 +8,30 @@
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
         body { background:#0a0e1a; color:#fff; font-family:Arial; padding:20px; }
-  .bandeau { background:#ffaa00; color:#000; padding:15px; text-align:center; font-weight:bold; border-radius:8px; margin-bottom:20px; }
-  .container { max-width:800px; margin:0 auto; }
-  .form-card { background:#1a1f2e; padding:30px; border-radius:10px; margin-bottom:20px; }
-  .form-card h2 { color:#e50914; margin-bottom:25px; font-size:24px; }
-  .form-group { margin-bottom:20px; }
-  .form-group label { display:block; margin-bottom:8px; color:#888; font-size:13px; }
-  .form-group input,.form-group select { width:100%; padding:14px; background:#111827; border:1px solid #333; border-radius:6px; color:#fff; font-size:15px; }
-  .form-group input[type="file"] { padding:10px; background:#111827; }
-  .preview-logo { max-width:120px; max-height:70px; margin-top:10px; border-radius:4px; display:none; background:#fff; padding:5px; }
-  .btn-ajouter { background:#e50914; color:#fff; padding:16px; border:none; border-radius:6px; font-size:16px; font-weight:bold; cursor:pointer; width:100%; margin-top:10px; }
-  .btn-ajouter:hover { background:#ff1a2c; }
-  .btn-group { display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-top:20px; }
-  .btn-export { background:#00cc66; color:#fff; padding:14px; border:none; border-radius:6px; font-weight:bold; cursor:pointer; }
-  .btn-import { background:#00aaff; color:#fff; padding:14px; border:none; border-radius:6px; font-weight:bold; cursor:pointer; }
-  .liste-chaines { background:#1a1f2e; padding:30px; border-radius:10px; margin-top:30px; }
-  .chaine-item { background:#111827; padding:15px; border-radius:6px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; }
-  .chaine-info { display:flex; align-items:center; gap:15px; }
-  .chaine-logo { width:60px; height:35px; object-fit:contain; background:#fff; border-radius:4px; }
-  .btn-suppr { background:#e50914; color:#fff; border:none; padding:8px 15px; border-radius:4px; cursor:pointer; }
-  .retour { display:inline-block; background:#333; color:#fff; padding:10px 20px; border-radius:6px; text-decoration:none; margin-bottom:20px; }
+      .bandeau { background:#ffaa00; color:#000; padding:15px; text-align:center; font-weight:bold; border-radius:8px; margin-bottom:20px; }
+      .container { max-width:800px; margin:0 auto; }
+      .form-card { background:#1a1f2e; padding:30px; border-radius:10px; margin-bottom:20px; }
+      .form-card h2 { color:#e50914; margin-bottom:25px; font-size:24px; }
+      .form-group { margin-bottom:20px; }
+      .form-group label { display:block; margin-bottom:8px; color:#888; font-size:13px; }
+      .form-group input,.form-group select { width:100%; padding:14px; background:#111827; border:1px solid #333; border-radius:6px; color:#fff; font-size:15px; }
+      .form-group input[type="file"] { padding:10px; background:#111827; }
+      .preview-logo { max-width:120px; max-height:70px; margin-top:10px; border-radius:4px; display:none; background:#0f172a; padding:5px; }
+      .btn-ajouter { background:#e50914; color:#fff; padding:16px; border:none; border-radius:6px; font-size:16px; font-weight:bold; cursor:pointer; width:100%; margin-top:10px; }
+      .btn-ajouter:hover { background:#ff1a2c; }
+      .btn-update { background:#ffaa00; color:#000; }
+      .btn-group { display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-top:20px; }
+      .btn-export { background:#00cc66; color:#fff; padding:14px; border:none; border-radius:6px; font-weight:bold; cursor:pointer; }
+      .btn-import { background:#00aaff; color:#fff; padding:14px; border:none; border-radius:6px; font-weight:bold; cursor:pointer; }
+      .liste-chaines { background:#1a1f2e; padding:30px; border-radius:10px; margin-top:30px; }
+      .chaine-item { background:#111827; padding:15px; border-radius:6px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; }
+      .chaine-info { display:flex; align-items:center; gap:15px; }
+      .chaine-logo { width:60px; height:35px; object-fit:contain; background:#0f172a; border-radius:4px; }
+      .actions { display:flex; gap:8px; }
+      .btn-modif { background:#ffaa00; color:#000; border:none; padding:8px 15px; border-radius:4px; cursor:pointer; font-weight:bold; }
+      .btn-suppr { background:#e50914; color:#fff; border:none; padding:8px 15px; border-radius:4px; cursor:pointer; }
+      .retour { display:inline-block; background:#333; color:#fff; padding:10px 20px; border-radius:6px; text-decoration:none; margin-bottom:20px; }
+      .mode-edit { background:#ffaa00; color:#000; padding:8px 15px; border-radius:6px; display:inline-block; margin-bottom:15px; font-weight:bold; }
     </style>
 </head>
 <body>
@@ -39,8 +43,11 @@
         </div>
 
         <div class="form-card">
-            <h2><i class="fas fa-plus"></i> Ajouter une chaîne</h2>
+            <h2 id="formTitle"><i class="fas fa-plus"></i> Ajouter une chaîne</h2>
+            <div id="modeEdit" class="mode-edit" style="display:none;">MODE MODIFICATION</div>
             <form id="formChaine">
+                <input type="hidden" id="editIndex" value="">
+
                 <div class="form-group">
                     <label>Nom</label>
                     <input type="text" id="nom" required placeholder="NEXT TV">
@@ -53,15 +60,10 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Logo depuis PC</label>
-                    <input type="file" id="logoFile" accept="image/*" onchange="previewLogo(event)">
+                    <label>Logo depuis PC *</label>
+                    <input type="file" id="logoFile" accept="image/png, image/jpeg, image/webp" onchange="previewLogo(event)">
                     <img id="previewLogo" class="preview-logo">
-                </div>
-
-                <div class="form-group">
-                    <label>URL du logo - Option 2</label>
-                    <input type="url" id="logoUrl" placeholder="Formats: PNG, JPG, WEBP, SVG">
-                    <small style="color:#666">Laisse vide si tu upload depuis PC</small>
+                    <small style="color:#666">Format: PNG, JPG, WEBP - Max 500Ko - Laisse vide pour garder l'ancien logo</small>
                 </div>
 
                 <div class="form-group">
@@ -82,14 +84,15 @@
                     <input type="number" id="ch" required placeholder="20">
                 </div>
 
-                <button type="submit" class="btn-ajouter">AJOUTER LA CHAÎNE</button>
+                <button type="submit" class="btn-ajouter" id="btnSubmit">AJOUTER LA CHAÎNE</button>
+                <button type="button" class="btn-ajouter btn-update" id="btnCancel" style="display:none; background:#666; margin-top:10px;" onclick="annulerEdit()">ANNULER</button>
 
                 <div class="btn-group">
                     <button type="button" class="btn-export" onclick="exporterChaines()">
-                        <i class="fas fa-download"></i> EXPORTER
+                        <i class="fas fa-download"></i> SAUVEGARDE
                     </button>
                     <button type="button" class="btn-import" onclick="document.getElementById('importFile').click()">
-                        <i class="fas fa-upload"></i> IMPORTER
+                        <i class="fas fa-upload"></i> RESTAURER
                     </button>
                     <input type="file" id="importFile" accept=".json" style="display:none" onchange="importerChaines(event)">
                 </div>
@@ -105,10 +108,17 @@
 <script>
 let chaines = JSON.parse(localStorage.getItem('chaines_tvpro') || '[]');
 let logoBase64 = '';
+let logoActuel = '';
 
 function previewLogo(event) {
     const file = event.target.files[0];
     if (!file) return;
+
+    if(file.size > 500000) {
+        alert('Logo trop lourd! Max 500Ko');
+        event.target.value = '';
+        return;
+    }
 
     const reader = new FileReader();
     reader.onload = function(e) {
@@ -116,7 +126,6 @@ function previewLogo(event) {
         const img = document.getElementById('previewLogo');
         img.src = logoBase64;
         img.style.display = 'block';
-        document.getElementById('logoUrl').value = '';
     };
     reader.readAsDataURL(file);
 }
@@ -124,9 +133,15 @@ function previewLogo(event) {
 document.getElementById('formChaine').onsubmit = function(e) {
     e.preventDefault();
 
-    const logoFinal = logoBase64 || document.getElementById('logoUrl').value || 'https://via.placeholder.com/200x120/e50914/ffffff?text=TV';
+    const editIndex = document.getElementById('editIndex').value;
+    const logoFinal = logoBase64 || logoActuel;
 
-    const nouvelleChaine = {
+    if(!logoFinal) {
+        alert('Sélectionne un logo depuis ton PC');
+        return;
+    }
+
+    const chaineData = {
         nom: document.getElementById('nom').value,
         cat: document.getElementById('cat').value,
         ch: document.getElementById('ch').value,
@@ -134,15 +149,61 @@ document.getElementById('formChaine').onsubmit = function(e) {
         logo: logoFinal
     };
 
-    chaines.push(nouvelleChaine);
-    localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
+    if(editIndex!== '') {
+        // Mode modification
+        chaines[editIndex] = chaineData;
+        alert('Chaîne modifiée avec succès!');
+    } else {
+        // Mode ajout
+        chaines.push(chaineData);
+        alert('Chaîne ajoutée avec succès!');
+    }
 
-    alert('Chaîne ajoutée avec succès!');
-    this.reset();
-    document.getElementById('previewLogo').style.display = 'none';
-    logoBase64 = '';
+    localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
+    resetForm();
     afficherListe();
 };
+
+function modifierChaine(index) {
+    const c = chaines[index];
+    document.getElementById('editIndex').value = index;
+    document.getElementById('nom').value = c.nom;
+    document.getElementById('lien').value = c.lien;
+    document.getElementById('cat').value = c.cat;
+    document.getElementById('ch').value = c.ch;
+
+    logoActuel = c.logo;
+    const img = document.getElementById('previewLogo');
+    img.src = c.logo;
+    img.style.display = 'block';
+
+    document.getElementById('formTitle').innerHTML = '<i class="fas fa-edit"></i> Modifier la chaîne';
+    document.getElementById('btnSubmit').innerHTML = 'MODIFIER LA CHAÎNE';
+    document.getElementById('btnSubmit').style.background = '#ffaa00';
+    document.getElementById('btnSubmit').style.color = '#000';
+    document.getElementById('modeEdit').style.display = 'inline-block';
+    document.getElementById('btnCancel').style.display = 'block';
+
+    window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function annulerEdit() {
+    resetForm();
+}
+
+function resetForm() {
+    document.getElementById('formChaine').reset();
+    document.getElementById('editIndex').value = '';
+    document.getElementById('previewLogo').style.display = 'none';
+    document.getElementById('formTitle').innerHTML = '<i class="fas fa-plus"></i> Ajouter une chaîne';
+    document.getElementById('btnSubmit').innerHTML = 'AJOUTER LA CHAÎNE';
+    document.getElementById('btnSubmit').style.background = '#e50914';
+    document.getElementById('btnSubmit').style.color = '#fff';
+    document.getElementById('modeEdit').style.display = 'none';
+    document.getElementById('btnCancel').style.display = 'none';
+    logoBase64 = '';
+    logoActuel = '';
+}
 
 function afficherListe() {
     const div = document.getElementById('listeChaines');
@@ -154,15 +215,20 @@ function afficherListe() {
     div.innerHTML = chaines.map((c, i) => `
         <div class="chaine-item">
             <div class="chaine-info">
-                <img src="${c.logo}" class="chaine-logo" onerror="this.src='https://via.placeholder.com/60x35'">
+                <img src="${c.logo}" class="chaine-logo" onerror="this.src='https://via.placeholder.com/60x35/e50914/ffffff?text=TV'">
                 <div>
                     <strong>${c.nom}</strong><br>
                     <small style="color:#888">${c.cat} - CH${c.ch}</small>
                 </div>
             </div>
-            <button class="btn-suppr" onclick="supprimerChaine(${i})">
-                <i class="fas fa-trash"></i>
-            </button>
+            <div class="actions">
+                <button class="btn-modif" onclick="modifierChaine(${i})">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-suppr" onclick="supprimerChaine(${i})">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
         </div>
     `).join('');
 }
@@ -181,13 +247,19 @@ function exporterChaines() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'chaines_tvpro.json';
+    a.download = 'backup_tvpro_' + new Date().toISOString().slice(0,10) + '.json';
     a.click();
+    alert('Sauvegarde téléchargée! Garde ce fichier en sécurité.');
 }
 
 function importerChaines(event) {
     const file = event.target.files[0];
     if(!file) return;
+
+    if(!confirm('ATTENTION: Ceci va remplacer toutes tes chaînes actuelles. Continuer?')) {
+        event.target.value = '';
+        return;
+    }
 
     const reader = new FileReader();
     reader.onload = function(e) {
@@ -195,7 +267,7 @@ function importerChaines(event) {
             chaines = JSON.parse(e.target.result);
             localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
             afficherListe();
-            alert('Import réussi!');
+            alert('Restauration réussie! ' + chaines.length + ' chaînes importées.');
         } catch(err) {
             alert('Fichier invalide');
         }
