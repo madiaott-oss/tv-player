@@ -2,147 +2,187 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>ADMIN TV PRO MEDIA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - TV PRO MEDIA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
         body { background:#0a0e1a; color:#fff; font-family:Arial; padding:20px; }
-      .panel { max-width:600px; margin:20px auto; background:#1a1f2e; padding:30px; border-radius:12px; }
-        input, select { width:100%; padding:12px; margin:10px 0; background:#0f1420; border:1px solid #333; color:#fff; border-radius:8px; }
-        button { background:#e50914; color:#fff; border:none; padding:15px; width:100%; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:10px; }
-      .item { background:#0f1420; padding:15px; margin:8px 0; border-radius:8px; }
-      .item-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
-      .item-nom { font-weight:bold; }
-      .item-btns { display:flex; gap:8px; }
-      .btn-mod { background:#ff9900; padding:6px 12px; border:none; color:#000; border-radius:5px; cursor:pointer; font-size:12px; font-weight:bold; }
-      .btn-del { background:#ff0000; padding:6px 12px; border:none; color:#fff; border-radius:5px; cursor:pointer; font-size:12px; font-weight:bold; }
-      .item-info { font-size:12px; color:#888; word-break:break-all; }
-        a.btn { background:#333; color:#fff; display:block; text-align:center; padding:15px; border-radius:8px; text-decoration:none; margin-top:10px; }
-      .warning { background:#ff9900; color:#000; padding:10px; border-radius:8px; margin-bottom:20px; text-align:center; font-weight:bold; }
-      .help { color:#888; font-size:12px; margin-top:-5px; margin-bottom:10px; }
-      .edit-mode { border:2px solid #ff9900; }
-      .backup-btns { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:20px 0; }
-      .btn-export { background:#00aa00; }
-      .btn-import { background:#0099ff; }
-       #fileInput { display:none; }
+  .bandeau { background:#ffaa00; color:#000; padding:15px; text-align:center; font-weight:bold; border-radius:8px; margin-bottom:20px; }
+  .container { max-width:800px; margin:0 auto; }
+  .form-card { background:#1a1f2e; padding:30px; border-radius:10px; margin-bottom:20px; }
+  .form-card h2 { color:#e50914; margin-bottom:25px; font-size:24px; }
+  .form-group { margin-bottom:20px; }
+  .form-group label { display:block; margin-bottom:8px; color:#888; font-size:13px; }
+  .form-group input,.form-group select { width:100%; padding:14px; background:#111827; border:1px solid #333; border-radius:6px; color:#fff; font-size:15px; }
+  .form-group input[type="file"] { padding:10px; background:#111827; }
+  .preview-logo { max-width:120px; max-height:70px; margin-top:10px; border-radius:4px; display:none; background:#fff; padding:5px; }
+  .btn-ajouter { background:#e50914; color:#fff; padding:16px; border:none; border-radius:6px; font-size:16px; font-weight:bold; cursor:pointer; width:100%; margin-top:10px; }
+  .btn-ajouter:hover { background:#ff1a2c; }
+  .btn-group { display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-top:20px; }
+  .btn-export { background:#00cc66; color:#fff; padding:14px; border:none; border-radius:6px; font-weight:bold; cursor:pointer; }
+  .btn-import { background:#00aaff; color:#fff; padding:14px; border:none; border-radius:6px; font-weight:bold; cursor:pointer; }
+  .liste-chaines { background:#1a1f2e; padding:30px; border-radius:10px; margin-top:30px; }
+  .chaine-item { background:#111827; padding:15px; border-radius:6px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; }
+  .chaine-info { display:flex; align-items:center; gap:15px; }
+  .chaine-logo { width:60px; height:35px; object-fit:contain; background:#fff; border-radius:4px; }
+  .btn-suppr { background:#e50914; color:#fff; border:none; padding:8px 15px; border-radius:4px; cursor:pointer; }
+  .retour { display:inline-block; background:#333; color:#fff; padding:10px 20px; border-radius:6px; text-decoration:none; margin-bottom:20px; }
     </style>
 </head>
 <body>
-    <div class="panel">
-        <div class="warning">⚠️ PAGE ADMIN CACHÉE - NE PARTAGE PAS CE LIEN</div>
-        <h2 id="titre-form">➕ Ajouter une chaîne</h2>
-        <input id="nom" placeholder="Nom: NEXT TV">
-        <input id="lien" placeholder="Lien m3u8: https://...">
-        <div class="help">Lien direct du flux.m3u8</div>
-        <input id="logo" placeholder="URL du logo">
-        <div class="help">Formats: PNG, JPG, WEBP, SVG</div>
-        <select id="cat">
-            <option>GENERALISTE</option>
-            <option>SPORTS</option>
-            <option>FILMS</option>
-            <option>MUSIQUE</option>
-            <option>NEWS</option>
-            <option>GOSPEL</option>
-        </select>
-        <input id="ch" placeholder="Numéro: CH 20">
-        <button id="btn-principal" onclick="sauvegarderChaine()">AJOUTER LA CHAÎNE</button>
-        <button id="btn-annuler" onclick="annulerModif()" style="background:#666; display:none;">ANNULER</button>
+    <div class="container">
+        <a href="index.html" class="retour"><i class="fas fa-arrow-left"></i> Retour Site</a>
 
-        <div class="backup-btns">
-            <button class="btn-export" onclick="exporterChaines()">📥 EXPORTER</button>
-            <button class="btn-import" onclick="document.getElementById('fileInput').click()">📤 IMPORTER</button>
-            <input type="file" id="fileInput" accept=".json" onchange="importerChaines(event)">
+        <div class="bandeau">
+            ⚠️ PAGE ADMIN CACHÉE - NE PARTAGE PAS CE LIEN
         </div>
 
-        <div class="chaine-list">
-            <h3>📺 Chaînes actuelles: <span id="compteur"></span></h3>
-            <div id="liste"></div>
+        <div class="form-card">
+            <h2><i class="fas fa-plus"></i> Ajouter une chaîne</h2>
+            <form id="formChaine">
+                <div class="form-group">
+                    <label>Nom</label>
+                    <input type="text" id="nom" required placeholder="NEXT TV">
+                </div>
+
+                <div class="form-group">
+                    <label>Lien m3u8</label>
+                    <input type="url" id="lien" required placeholder="https://...">
+                    <small style="color:#666">Lien direct du flux m3u8</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Logo depuis PC</label>
+                    <input type="file" id="logoFile" accept="image/*" onchange="previewLogo(event)">
+                    <img id="previewLogo" class="preview-logo">
+                </div>
+
+                <div class="form-group">
+                    <label>URL du logo - Option 2</label>
+                    <input type="url" id="logoUrl" placeholder="Formats: PNG, JPG, WEBP, SVG">
+                    <small style="color:#666">Laisse vide si tu upload depuis PC</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Catégorie</label>
+                    <select id="cat" required>
+                        <option value="GENERALISTE">GENERALISTE</option>
+                        <option value="GOSPEL">GOSPEL</option>
+                        <option value="SPORTS">SPORTS</option>
+                        <option value="NEWS">NEWS</option>
+                        <option value="FILMS">FILMS</option>
+                        <option value="MUSIQUE">MUSIQUE</option>
+                        <option value="DOCUMENTAIRE">DOCUMENTAIRE</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Numéro CH</label>
+                    <input type="number" id="ch" required placeholder="20">
+                </div>
+
+                <button type="submit" class="btn-ajouter">AJOUTER LA CHAÎNE</button>
+
+                <div class="btn-group">
+                    <button type="button" class="btn-export" onclick="exporterChaines()">
+                        <i class="fas fa-download"></i> EXPORTER
+                    </button>
+                    <button type="button" class="btn-import" onclick="document.getElementById('importFile').click()">
+                        <i class="fas fa-upload"></i> IMPORTER
+                    </button>
+                    <input type="file" id="importFile" accept=".json" style="display:none" onchange="importerChaines(event)">
+                </div>
+            </form>
         </div>
-        <a href="index.html" class="btn">← RETOUR AU SITE</a>
+
+        <div class="liste-chaines">
+            <h2><i class="fas fa-list"></i> Chaînes existantes</h2>
+            <div id="listeChaines"></div>
+        </div>
     </div>
 
 <script>
 let chaines = JSON.parse(localStorage.getItem('chaines_tvpro') || '[]');
-let indexModif = -1;
+let logoBase64 = '';
 
-function sauvegarderChaine() {
-    const nom = document.getElementById('nom').value.trim();
-    const lien = document.getElementById('lien').value.trim();
-    const logo = document.getElementById('logo').value.trim();
-    const cat = document.getElementById('cat').value;
-    const ch = document.getElementById('ch').value.trim() || 'CH';
+function previewLogo(event) {
+    const file = event.target.files[0];
+    if (!file) return;
 
-    if(!nom ||!lien ||!logo) {
-        alert('BOSS REMPLIS NOM + LIEN + LOGO!');
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        logoBase64 = e.target.result;
+        const img = document.getElementById('previewLogo');
+        img.src = logoBase64;
+        img.style.display = 'block';
+        document.getElementById('logoUrl').value = '';
+    };
+    reader.readAsDataURL(file);
+}
+
+document.getElementById('formChaine').onsubmit = function(e) {
+    e.preventDefault();
+
+    const logoFinal = logoBase64 || document.getElementById('logoUrl').value || 'https://via.placeholder.com/200x120/e50914/ffffff?text=TV';
+
+    const nouvelleChaine = {
+        nom: document.getElementById('nom').value,
+        cat: document.getElementById('cat').value,
+        ch: document.getElementById('ch').value,
+        lien: document.getElementById('lien').value,
+        logo: logoFinal
+    };
+
+    chaines.push(nouvelleChaine);
+    localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
+
+    alert('Chaîne ajoutée avec succès!');
+    this.reset();
+    document.getElementById('previewLogo').style.display = 'none';
+    logoBase64 = '';
+    afficherListe();
+};
+
+function afficherListe() {
+    const div = document.getElementById('listeChaines');
+    if(chaines.length === 0) {
+        div.innerHTML = '<p style="color:#666; text-align:center;">Aucune chaîne</p>';
         return;
     }
 
-    const chaineData = {nom, lien, logo, cat, ch};
-
-    if(indexModif === -1) {
-        chaines.push(chaineData);
-        alert('Chaîne ajoutée boss!');
-    } else {
-        chaines[indexModif] = chaineData;
-        alert('Chaîne modifiée boss!');
-        annulerModif();
-    }
-
-    localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
-    afficherListe();
-    viderFormulaire();
+    div.innerHTML = chaines.map((c, i) => `
+        <div class="chaine-item">
+            <div class="chaine-info">
+                <img src="${c.logo}" class="chaine-logo" onerror="this.src='https://via.placeholder.com/60x35'">
+                <div>
+                    <strong>${c.nom}</strong><br>
+                    <small style="color:#888">${c.cat} - CH${c.ch}</small>
+                </div>
+            </div>
+            <button class="btn-suppr" onclick="supprimerChaine(${i})">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    `).join('');
 }
 
-function modifierChaine(i) {
-    indexModif = i;
-    const c = chaines[i];
-    document.getElementById('nom').value = c.nom;
-    document.getElementById('lien').value = c.lien;
-    document.getElementById('logo').value = c.logo;
-    document.getElementById('cat').value = c.cat;
-    document.getElementById('ch').value = c.ch;
-    document.getElementById('titre-form').textContent = '✏️ Modifier la chaîne';
-    document.getElementById('btn-principal').textContent = 'SAUVEGARDER LES MODIFS';
-    document.getElementById('btn-principal').style.background = '#ff9900';
-    document.getElementById('btn-annuler').style.display = 'block';
-    window.scrollTo(0, 0);
-}
-
-function annulerModif() {
-    indexModif = -1;
-    viderFormulaire();
-    document.getElementById('titre-form').textContent = '➕ Ajouter une chaîne';
-    document.getElementById('btn-principal').textContent = 'AJOUTER LA CHAÎNE';
-    document.getElementById('btn-principal').style.background = '#e50914';
-    document.getElementById('btn-annuler').style.display = 'none';
-}
-
-function supprimerChaine(i) {
-    if(confirm('Supprimer ' + chaines[i].nom + ' boss?')) {
-        chaines.splice(i, 1);
+function supprimerChaine(index) {
+    if(confirm('Supprimer cette chaîne?')) {
+        chaines.splice(index, 1);
         localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
         afficherListe();
     }
 }
 
-function viderFormulaire() {
-    document.getElementById('nom').value = '';
-    document.getElementById('lien').value = '';
-    document.getElementById('logo').value = '';
-    document.getElementById('ch').value = '';
-}
-
 function exporterChaines() {
-    if(chaines.length === 0) {
-        alert('Aucune chaîne à exporter boss!');
-        return;
-    }
     const data = JSON.stringify(chaines, null, 2);
-    const blob = new Blob([data], {type: 'application/json'});
+    const blob = new Blob([data], {type:'application/json'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'tvpro_chaines_backup_' + new Date().toISOString().split('T')[0] + '.json';
+    a.download = 'chaines_tvpro.json';
     a.click();
-    alert('Fichier téléchargé boss! Garde-le précieusement 📥');
 }
 
 function importerChaines(event) {
@@ -152,42 +192,15 @@ function importerChaines(event) {
     const reader = new FileReader();
     reader.onload = function(e) {
         try {
-            const dataImport = JSON.parse(e.target.result);
-            if(confirm('Remplacer toutes les chaînes actuelles par celles du fichier? ' + dataImport.length + ' chaînes trouvées.')) {
-                chaines = dataImport;
-                localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
-                afficherListe();
-                alert('Import réussi boss! 📤');
-            }
+            chaines = JSON.parse(e.target.result);
+            localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
+            afficherListe();
+            alert('Import réussi!');
         } catch(err) {
-            alert('Fichier invalide boss! Faut un.json exporté depuis ici.');
+            alert('Fichier invalide');
         }
     };
     reader.readAsText(file);
-    event.target.value = ''; // Reset pour pouvoir réimporter le même fichier
-}
-
-function afficherListe() {
-    const liste = document.getElementById('liste');
-    document.getElementById('compteur').textContent = '(' + chaines.length + ')';
-
-    if(chaines.length === 0) {
-        liste.innerHTML = '<p style="color:#888; text-align:center; padding:20px;">Aucune chaîne</p>';
-        return;
-    }
-
-    liste.innerHTML = chaines.map((c,i) => `
-        <div class="item ${i === indexModif? 'edit-mode' : ''}">
-            <div class="item-top">
-                <span class="item-nom">${c.ch} - ${c.nom}</span>
-                <div class="item-btns">
-                    <button class="btn-mod" onclick="modifierChaine(${i})">MODIFIER</button>
-                    <button class="btn-del" onclick="supprimerChaine(${i})">SUPPRIMER</button>
-                </div>
-            </div>
-            <div class="item-info">${c.cat} | ${c.lien.substring(0, 50)}...</div>
-        </div>
-    `).join('');
 }
 
 afficherListe();
