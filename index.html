@@ -4,29 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TV Pro Media</title>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.8/dist/hls.min.js"></script>
     <style>
-        body { margin:0; background:#000; color:#fff; font-family:Arial; text-align:center; }
-        #player { width:100%; height:65vh; background:#111; }
-        .chaine { display:inline-block; margin:10px; cursor:pointer; }
-        .chaine img { width:100px; height:100px; border-radius:10px; border:2px solid #333; }
-        button { padding:12px 25px; margin:10px; background:#e50914; color:#fff; border:none; border-radius:5px; font-size:16px; }
-        #status { color:#ff0; margin:15px; height:20px; }
+        body { margin:0; background:#0a0a0a; color:#fff; font-family:Arial; text-align:center; }
+        #player { width:100%; height:50vh; background:#000; position:sticky; top:0; z-index:100; }
+        .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(100px, 1fr)); gap:10px; padding:15px; }
+        .chaine { background:#1a1a1a; border-radius:10px; padding:10px; cursor:pointer; border:2px solid #222; }
+        .chaine:hover { border:2px solid #e50914; }
+        .chaine img { width:100%; height:70px; object-fit:contain; background:#fff; border-radius:5px; }
+        .chaine p { margin:5px 0 0 0; font-size:12px; }
+        #status { color:#ff0; padding:10px; font-size:14px; }
+        h1 { margin:15px 0 5px 0; }
     </style>
 </head>
 <body>
-    <video id="player" controls autoplay></video>
+    <video id="player" controls muted playsinline></video>
     <h1>TV Pro Media</h1>
-    <div id="status">Clique sur une chaîne</div>
+    <div id="status">Choisis une chaîne en bas</div>
     
-    <div class="chaine" onclick="play('https://test-streams.mux.dev/x36xhzz.m3u8')">
-        <img src="https://i.imgur.com/8Q1wJ1b.png">
-        <p>TEST VIDÉO</p>
-    </div>
+    <div class="grid">
+        <div class="chaine" onclick="play('https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8')">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/100px-React-icon.svg.png">
+            <p>TEST</p>
+        </div>
+        
+        <div class="chaine" onclick="play('LIEN_M3U8_AFRI_TV_ICI')">
+            <img src="https://via.placeholder.com/100x70/0066cc/ffffff?text=AFRI+TV">
+            <p>AFRI TV</p>
+        </div>
 
-    <div class="chaine" onclick="play('https://corsproxy.io/?url=http://tv.ccpvmedia.com/live/ccpvtv/index.m3u8')">
-        <img src="https://i.imgur.com/4AiXx2s.png">
-        <p>CCPV TV</p>
+        <div class="chaine" onclick="play('LIEN_M3U8_FIFA_ICI')">
+            <img src="https://via.placeholder.com/100x70/004499/ffffff?text=FIFA">
+            <p>FIFA</p>
+        </div>
+
+        <div class="chaine" onclick="play('LIEN_M3U8_CEPTV_ICI')">
+            <img src="https://via.placeholder.com/100x70/ffcc00/000000?text=CEPTV">
+            <p>CEPTV</p>
+        </div>
+
+        <div class="chaine" onclick="play('LIEN_M3U8_ESPEC_TV_ICI')">
+            <img src="https://via.placeholder.com/100x70/0099ff/ffffff?text=ESPEC">
+            <p>ESPEC TV</p>
+        </div>
+
+        <div class="chaine" onclick="play('https://corsproxy.io/?url=http://tv.ccpvmedia.com/live/ccpvtv/index.m3u8')">
+            <img src="https://via.placeholder.com/100x70/cc0000/ffffff?text=CCPV">
+            <p>CCPV TV</p>
+        </div>
     </div>
 
 <script>
@@ -35,18 +60,25 @@ const status = document.getElementById('status');
 let hls;
 
 function play(url) {
+    if(url.includes('LIEN_M3U8')) {
+        status.innerText = 'Ajoute le lien m3u8 de cette chaîne';
+        return;
+    }
     status.innerText = 'Chargement...';
     if(hls) hls.destroy();
     if(Hls.isSupported()) {
         hls = new Hls();
         hls.loadSource(url);
         hls.attachMedia(video);
-        hls.on(Hls.Events.ERROR, () => status.innerText = 'Erreur: Chaîne morte ou bloquée');
-        hls.on(Hls.Events.MANIFEST_PARSED, () => status.innerText = 'Lecture en cours...');
+        hls.on(Hls.Events.ERROR, () => status.innerText = 'Chaîne morte ou bloquée');
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            video.play();
+            status.innerText = 'Lecture en cours...';
+        });
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
         video.src = url;
+        video.play();
     }
-    video.play();
 }
 </script>
 </body>
