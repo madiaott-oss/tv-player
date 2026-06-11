@@ -7,22 +7,29 @@
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
         body { background:#0a0e1a; color:#fff; font-family:Arial; padding:20px; }
-       .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; }
-       .logo { font-size:24px; font-weight:bold; }
-       .logo span { color:#e50914; }
-       .btn-retour { background:#1a1f2e; color:#fff; padding:10px 20px; border-radius:6px; text-decoration:none; }
-       .form { background:#1a1f2e; padding:20px; border-radius:10px; margin-bottom:30px; }
-       .form-group { margin-bottom:15px; }
-       .form-group label { display:block; margin-bottom:5px; color:#888; font-size:13px; }
-       .form-group input,.form-group select { width:100%; padding:12px; background:#0f1420; border:1px solid #333; border-radius:6px; color:#fff; font-size:14px; }
-       .btn-ajouter { background:#e50914; color:#fff; padding:15px; width:100%; border:none; border-radius:6px; font-weight:bold; cursor:pointer; font-size:16px; }
-       .liste { background:#1a1f2e; padding:20px; border-radius:10px; }
-       .liste-title { font-size:18px; margin-bottom:15px; color:#e50914; }
-       .chaine-item { background:#0f1420; padding:15px; border-radius:6px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; }
-       .chaine-info { flex:1; }
-       .chaine-nom { font-weight:bold; margin-bottom:5px; }
-       .chaine-cat { color:#00ccff; font-size:12px; }
-       .btn-suppr { background:#ff0000; color:#fff; padding:8px 15px; border:none; border-radius:4px; cursor:pointer; }
+      .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; }
+      .logo { font-size:24px; font-weight:bold; }
+      .logo span { color:#e50914; }
+      .btn-retour { background:#1a1f2e; color:#fff; padding:10px 20px; border-radius:6px; text-decoration:none; }
+      .form { background:#1a1f2e; padding:20px; border-radius:10px; margin-bottom:30px; }
+      .form-group { margin-bottom:15px; }
+      .form-group label { display:block; margin-bottom:5px; color:#888; font-size:13px; }
+      .form-group input,.form-group select { width:100%; padding:12px; background:#0f1420; border:1px solid #333; border-radius:6px; color:#fff; font-size:14px; }
+      .btn-ajouter { background:#e50914; color:#fff; padding:15px; width:100%; border:none; border-radius:6px; font-weight:bold; cursor:pointer; font-size:16px; }
+      .btn-ajouter:hover { background:#c40812; }
+      .liste { background:#1a1f2e; padding:20px; border-radius:10px; }
+      .liste-title { font-size:18px; margin-bottom:15px; color:#e50914; }
+      .chaine-item { background:#0f1420; padding:15px; border-radius:6px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; gap:15px; }
+      .chaine-info { flex:1; }
+      .chaine-nom { font-weight:bold; margin-bottom:5px; }
+      .chaine-cat { color:#00ccff; font-size:12px; }
+      .chaine-actions { display:flex; gap:10px; }
+      .btn-edit { background:#0099ff; color:#fff; padding:8px 15px; border:none; border-radius:4px; cursor:pointer; }
+      .btn-suppr { background:#ff0000; color:#fff; padding:8px 15px; border:none; border-radius:4px; cursor:pointer; }
+      .stats { display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:15px; margin-bottom:30px; }
+      .stat-box { background:#1a1f2e; padding:20px; border-radius:10px; text-align:center; }
+      .stat-nb { font-size:32px; font-weight:bold; color:#e50914; }
+      .stat-label { color:#888; font-size:13px; margin-top:5px; }
     </style>
 </head>
 <body>
@@ -31,14 +38,26 @@
         <a href="index.html" class="btn-retour">← Retour Site</a>
     </div>
 
+    <div class="stats">
+        <div class="stat-box">
+            <div class="stat-nb" id="totalChaines">0</div>
+            <div class="stat-label">CHAÎNES TOTAL</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-nb" id="totalCat">0</div>
+            <div class="stat-label">CATÉGORIES</div>
+        </div>
+    </div>
+
     <div class="form">
-        <h2 style="margin-bottom:20px;">Ajouter une chaîne</h2>
+        <h2 style="margin-bottom:20px;">Ajouter / Modifier une chaîne</h2>
+        <input type="hidden" id="editIndex" value="">
         <div class="form-group">
-            <label>Nom de la chaîne</label>
+            <label>Nom de la chaîne *</label>
             <input type="text" id="nom" placeholder="Ex: ESPOIR TV HD">
         </div>
         <div class="form-group">
-            <label>Catégorie</label>
+            <label>Catégorie *</label>
             <select id="cat">
                 <option>GOSPEL</option>
                 <option>SPORTS</option>
@@ -51,7 +70,7 @@
             </select>
         </div>
         <div class="form-group">
-            <label>Numéro de chaîne</label>
+            <label>Numéro de chaîne *</label>
             <input type="text" id="ch" placeholder="Ex: 30">
         </div>
         <div class="form-group">
@@ -71,14 +90,14 @@
             <input type="text" id="logo" placeholder="https://...">
         </div>
         <div class="form-group">
-            <label>Lien M3U8</label>
+            <label>Lien M3U8 *</label>
             <input type="text" id="lien" placeholder="http://...">
         </div>
-        <button class="btn-ajouter" onclick="ajouterChaine()">AJOUTER LA CHAÎNE</button>
+        <button class="btn-ajouter" onclick="ajouterChaine()" id="btnSubmit">AJOUTER LA CHAÎNE</button>
     </div>
 
     <div class="liste">
-        <div class="liste-title">Chaînes ajoutées (<span id="total">0</span>)</div>
+        <div class="liste-title">Chaînes ajoutées</div>
         <div id="listeChaines"></div>
     </div>
 
@@ -86,29 +105,56 @@
 let chaines = JSON.parse(localStorage.getItem('chaines_tvpro') || '[]');
 
 function ajouterChaine() {
-    const nom = document.getElementById('nom').value;
+    const nom = document.getElementById('nom').value.trim();
     const cat = document.getElementById('cat').value;
-    const ch = document.getElementById('ch').value;
+    const ch = document.getElementById('ch').value.trim();
     const qualite = document.getElementById('qualite').value;
-    const pays = document.getElementById('pays').value;
-    const logo = document.getElementById('logo').value;
-    const lien = document.getElementById('lien').value;
+    const pays = document.getElementById('pays').value.trim();
+    const logo = document.getElementById('logo').value.trim();
+    const lien = document.getElementById('lien').value.trim();
+    const editIndex = document.getElementById('editIndex').value;
 
-    if(!nom ||!lien) {
-        alert('Nom et Lien M3U8 obligatoires boss!');
+    if(!nom ||!ch ||!lien) {
+        alert('Nom, Numéro et Lien M3U8 obligatoires boss!');
         return;
     }
 
-    chaines.push({nom, cat, ch, qualite, pays, logo, lien});
+    const chaine = {nom, cat, ch, qualite, pays, logo, lien};
+
+    if(editIndex!== '') {
+        chaines[editIndex] = chaine;
+        document.getElementById('btnSubmit').textContent = 'AJOUTER LA CHAÎNE';
+        document.getElementById('editIndex').value = '';
+        alert('Chaîne modifiée boss! ✅');
+    } else {
+        chaines.push(chaine);
+        alert('Chaîne ajoutée boss! ✅');
+    }
+
     localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
 
     document.getElementById('nom').value = '';
     document.getElementById('ch').value = '';
+    document.getElementById('pays').value = '';
     document.getElementById('logo').value = '';
     document.getElementById('lien').value = '';
 
     afficherListe();
-    alert('Chaîne ajoutée boss! ✅');
+    updateStats();
+}
+
+function modifierChaine(index) {
+    const c = chaines[index];
+    document.getElementById('nom').value = c.nom;
+    document.getElementById('cat').value = c.cat;
+    document.getElementById('ch').value = c.ch;
+    document.getElementById('qualite').value = c.qualite || 'HD';
+    document.getElementById('pays').value = c.pays || '';
+    document.getElementById('logo').value = c.logo || '';
+    document.getElementById('lien').value = c.lien;
+    document.getElementById('editIndex').value = index;
+    document.getElementById('btnSubmit').textContent = 'MODIFIER LA CHAÎNE';
+    window.scrollTo(0, 0);
 }
 
 function supprimerChaine(index) {
@@ -116,24 +162,34 @@ function supprimerChaine(index) {
         chaines.splice(index, 1);
         localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
         afficherListe();
+        updateStats();
     }
 }
 
 function afficherListe() {
-    document.getElementById('total').textContent = chaines.length;
     const html = chaines.map((c, i) => `
         <div class="chaine-item">
             <div class="chaine-info">
                 <div class="chaine-nom">${c.nom}</div>
-                <div class="chaine-cat">${c.cat} - CH ${c.ch} - ${c.qualite}</div>
+                <div class="chaine-cat">${c.cat} - CH ${c.ch} - ${c.qualite} - ${c.pays || 'RDC'}</div>
             </div>
-            <button class="btn-suppr" onclick="supprimerChaine(${i})">SUPPRIMER</button>
+            <div class="chaine-actions">
+                <button class="btn-edit" onclick="modifierChaine(${i})">EDIT</button>
+                <button class="btn-suppr" onclick="supprimerChaine(${i})">SUPPR</button>
+            </div>
         </div>
     `).join('');
     document.getElementById('listeChaines').innerHTML = html || '<div style="color:#888;text-align:center;padding:20px;">Aucune chaîne</div>';
 }
 
+function updateStats() {
+    document.getElementById('totalChaines').textContent = chaines.length;
+    const cats = [...new Set(chaines.map(c => c.cat))];
+    document.getElementById('totalCat').textContent = cats.length;
+}
+
 afficherListe();
+updateStats();
 </script>
 </body>
 </html>
