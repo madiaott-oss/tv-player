@@ -1,40 +1,37 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TV PRO MEDIA</title>
+<head><meta charset="UTF-8"><title>TV PRO</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
 body{background:#0a0e1a;color:#fff;font-family:Arial;margin:0;min-height:100vh;display:flex;flex-direction:column}
-
-.header{background:#1a1f2e;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;gap:15px}
-.logo{font-size:24px;font-weight:bold;color:#e50914;white-space:nowrap}
+.header{background:#1a1f2e;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+.logo{font-size:22px;font-weight:bold;color:#e50914}
 .logo span{color:#fff}
-.search-box{flex:1;max-width:400px;position:relative}
-.search-box input{width:100%;padding:10px 40px 10px 15px;background:#0f1420;border:1px solid #333;border-radius:25px;color:#fff;font-size:14px}
-.search-icon{position:absolute;right:15px;top:50%;transform:translateY(-50%);color:#666}
-.admin{background:#e50914;color:#fff;padding:8px 15px;border-radius:6px;text-decoration:none;font-size:14px;display:flex;align-items:center;gap:5px;white-space:nowrap}
+.search-box{flex:1;max-width:350px;margin:0 20px;position:relative}
+.search-box input{width:100%;padding:8px 35px 8px 12px;background:#0f1420;border:1px solid #333;border-radius:20px;color:#fff;font-size:13px}
+.search-icon{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#666;font-size:14px}
+.btn-admin{background:#e50914;color:#fff;padding:8px 15px;border-radius:20px;text-decoration:none;font-size:13px;border:none;cursor:pointer}
 
-.video{width:100%;height:40vh;background:#000;position:sticky;top:60px;z-index:90}
-.now{text-align:center;padding:10px;background:#1a1f2e;color:#888;position:sticky;top:calc(40vh + 60px);z-index:80;font-size:14px}
+.video{width:100%;height:40vh;background:#000}
+.now-bar{text-align:center;padding:8px;background:#1a1f2e;color:#4fc3f7;font-size:13px}
+.now-bar i{color:#4fc3f7;margin-right:5px}
 
-.content{padding:20px;flex:1}
-.debug{padding:10px;background:#ffaa00;color:#000;text-align:center;font-size:12px;font-weight:bold}
-.import-box{text-align:center;padding:20px;background:#1a1f2e;margin:20px;border-radius:8px;border:2px dashed #0099ff}
-.import-btn{background:#0099ff;color:#fff;padding:12px 25px;border-radius:8px;cursor:pointer;display:inline-block;border:none;font-weight:bold;font-size:14px;margin-top:10px}
-.import-btn:hover{background:#0088ee}
+.filters{padding:15px 20px;background:#0f1420;display:flex;gap:10px;align-items:center}
+.btn-filter{background:#2a2f3f;color:#fff;padding:8px 18px;border-radius:20px;border:none;cursor:pointer;font-size:13px}
+.btn-filter.active{background:#e50914}
+.btn-filter i{margin-right:5px}
 
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:15px}
-.box{background:#1a1f2e;padding:10px;border-radius:8px;cursor:pointer;text-align:center;transition:0.3s;position:relative}
+.category-title{padding:15px 20px 5px;color:#e50914;font-size:14px;font-weight:bold}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;padding:15px 20px;flex:1}
+.box{background:#1a1f2e;padding:10px;border-radius:8px;cursor:pointer;text-align:center;transition:0.3s}
 .box:hover{background:#252b3d;transform:translateY(-3px)}
-.box img{width:100%;height:80px;object-fit:contain;background:#0f172a;padding:5px;border-radius:6px;margin-bottom:8px}
-.box-nom{font-size:13px;font-weight:bold;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.live-badge{position:absolute;top:8px;left:8px;background:#ff0000;color:#fff;padding:3px 8px;border-radius:4px;font-size:10px;font-weight:bold;z-index:5}
+.box img{width:100%;height:70px;object-fit:contain;background:#0f172a;padding:5px;border-radius:6px;margin-bottom:5px}
+.box div:last-child{font-size:12px;font-weight:bold}
 
-/* FOOTER COMME TA PHOTO */
+.debug{padding:8px;background:#333;text-align:center;font-size:11px;color:#888}
+
+/* FOOTER COMME PHOTO */
 .footer{background:#0f1420;padding:40px 20px 20px;margin-top:50px;border-top:2px solid #e50914}
 .footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:30px}
 .footer-col h3{color:#e50914;font-size:16px;margin-bottom:15px;font-weight:bold}
@@ -44,49 +41,79 @@ body{background:#0a0e1a;color:#fff;font-family:Arial;margin:0;min-height:100vh;d
 .footer-contact{display:flex;align-items:center;gap:8px;margin:10px 0;color:#aaa;font-size:13px}
 .footer-btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}
 .btn-apk{background:#222;color:#fff;padding:10px 15px;border-radius:6px;text-decoration:none;font-size:12px;display:flex;align-items:center;gap:8px;border:1px solid #333}
-.btn-apk:hover{background:#333;border-color:#e50914}
 .btn-apk.blue{background:#0099ff;border-color:#0099ff}
-.btn-apk.blue:hover{background:#0088ee}
 .footer-bottom{text-align:center;padding-top:20px;border-top:1px solid #222;color:#666;font-size:12px}
-
-@media (max-width: 768px){
- .header{flex-wrap:wrap}
- .search-box{order:3;flex:1 0 100%}
- .grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
- .video{height:35vh}
- .footer-grid{grid-template-columns:1fr;gap:30px}
+@media (max-width: 768px){.header{flex-wrap:wrap;gap:10px}.search-box{order:3;flex:1 0 100%;max-width:100%;margin:10px 0}.footer-grid{grid-template-columns:1fr;gap:30px}}
 </style>
 </head>
 <body>
 <div class="header">
-    <div class="logo">TV PRO <span>MEDIA</span></div>
-    <div class="search-box">
-        <input type="text" id="search" placeholder="Search channels..." oninput="load()">
-        <span class="search-icon"><i class="fas fa-search"></i></span>
-    </div>
-    <a href="admin.html" class="admin"><i class="fas fa-cog"></i> ADMIN</a>
+  <div class="logo">TV PRO <span>MEDIA</span></div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Recher une chaîne" oninput="load()">
+    <i class="fas fa-search search-icon"></i>
+  </div>
+  <a href="admin.html" class="btn-admin"><i class="fas fa-cog"></i> ADMIN</a>
 </div>
+
+<video id="player" class="video" controls></video>
+<div class="now-bar" id="now"><i class="fas fa-play-circle"></i> En cours: Aucune chaîne</div>
+
+<div class="filters">
+  <button class="btn-filter active" onclick="setFilter('all')"><i class="fas fa-tv"></i> Toutes</button>
+  <button class="btn-filter" onclick="setFilter('fav')"><i class="fas fa-star"></i> Favoris</button>
+</div>
+
+<div class="category-title">GENERALISTE</div>
+<div class="grid" id="grid"></div>
 
 <div class="debug" id="debug">Chargement...</div>
-<video id="player" class="video" controls></video>
-<div class="now" id="now">Clique sur une chaîne pour commencer</div>
 
-<div class="content">
-    <!-- BOUTON IMPORT POUR RÉCUPÉRER TES CHAÎNES -->
-    <div class="import-box" id="importBox">
-        <b style="font-size:16px">⚠️ Aucune chaîne sur ce site</b><br>
-        <p style="color:#aaa;margin:10px 0">Tes chaînes sont dans ADMIN local sur ton PC. Exporte-les et importe ici:</p>
-        <label class="import-btn">
-            <i class="fas fa-upload"></i> IMPORTER chaines_tvpro.json
-            <input type="file" id="importFile" accept=".json" style="display:none" onchange="importerJSON(event)">
-        </label>
-        <p style="color:#666;font-size:12px;margin-top:10px">Après import, supprime ce bloc</p>
+<script>
+let currentFilter = 'all';
+let hls;
+
+function setFilter(f){
+  currentFilter = f;
+  document.querySelectorAll('.btn-filter').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  load();
+}
+
+function load(){
+  const data=localStorage.getItem('chaines_tvpro');
+  let chaines=data?JSON.parse(data):[];
+  const search=document.getElementById('search').value.toLowerCase();
+  
+  document.getElementById('debug').textContent=Chaînes: ${chaines.length} | Filtre: ${currentFilter};
+
+  if(search) chaines = chaines.filter(c=>c.nom.toLowerCase().includes(search));
+  if(currentFilter==='fav') chaines = chaines.filter(c=>c.fav);
+
+  if(chaines.length===0){
+    grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:60px;color:#666">Aucune chaîne</div>';
+    return;
+  }
+  
+  grid.innerHTML=chaines.map((c,i)=>`
+    <div class="box" onclick="play('${c.lien}','${c.nom}')">
+      <img src="${c.logo}" onerror="this.src='https://via.placeholder.com/150x70/0f172a/e50914?text=TV'">
+      <div>${c.nom}</div>
     </div>
+  `).join('');
+}
 
-    <div class="grid" id="grid"></div>
-</div>
+function play(url,nom){
+  document.getElementById('now').innerHTML=<i class="fas fa-play-circle"></i> En cours: ${nom};
+  const player=document.getElementById('player');
+  if(Hls.isSupported()){if(hls)hls.destroy();hls=new Hls();hls.loadSource(url);hls.attachMedia(player);hls.on(Hls.Events.MANIFEST_PARSED,()=>player.play())}
+  else{player.src=url;player.play()}
+}
+load();
+window.addEventListener('storage',load);
+</script>
 
-<!-- FOOTER À BAS EXACT COMME PHOTO -->
+<!-- FOOTER À BAS COMME TA PHOTO -->
 <div class="footer">
     <div class="footer-grid">
         <div class="footer-col">
@@ -100,7 +127,6 @@ body{background:#0a0e1a;color:#fff;font-family:Arial;margin:0;min-height:100vh;d
                 <a href="#" class="btn-apk blue"><i class="fas fa-download"></i> Direct Download APK</a>
             </div>
         </div>
-
         <div class="footer-col">
             <h3>Categories</h3>
             <a href="#">SPORTS</a>
@@ -110,7 +136,6 @@ body{background:#0a0e1a;color:#fff;font-family:Arial;margin:0;min-height:100vh;d
             <a href="#">MOVIES</a>
             <a href="#">DOCUMENTARY</a>
         </div>
-
         <div class="footer-col">
             <h3>Legal & More</h3>
             <a href="#">Privacy Policy</a>
@@ -123,95 +148,5 @@ body{background:#0a0e1a;color:#fff;font-family:Arial;margin:0;min-height:100vh;d
     </div>
     <div class="footer-bottom">© 2026 TV PRO MEDIA. All rights reserved.</div>
 </div>
-
-<script>
-let hls;
-
-function load(){
-    const recherche = document.getElementById('search').value.toLowerCase();
-    const raw = localStorage.getItem('chaines_tvpro');
-    let chaines = [];
-
-    try {
-        chaines = raw? JSON.parse(raw) : [];
-    } catch(e) {
-        console.error(e);
-    }
-
-    document.getElementById('debug').textContent = Chaînes: ${chaines.length} | Domaine: ${location.hostname};
-
-    if(chaines.length === 0) {
-        document.getElementById('importBox').style.display = 'block';
-        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;color:#666;font-size:14px">Importe ton fichier JSON exporté depuis ADMIN local pour voir tes chaînes ici</div>';
-        return;
-    }
-
-    document.getElementById('importBox').style.display = 'none';
-
-    // Filtre recherche
-    if(recherche) {
-        chaines = chaines.filter(c =>
-            c.nom.toLowerCase().includes(recherche) ||
-            c.cat.toLowerCase().includes(recherche)
-        );
-    }
-
-    if(chaines.length === 0) {
-        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#888">Aucune chaîne trouvée</div>';
-        return;
-    }
-
-    grid.innerHTML = chaines.map((c,i) => `
-        <div class="box" onclick="play('${c.lien}','${c.nom}')">
-            <div class="live-badge">● LIVE</div>
-            <img src="${c.logo}" onerror="this.src='https://via.placeholder.com/150x80/0f172a/e50914?text=${encodeURIComponent(c.nom)}'">
-            <div class="box-nom">${c.nom}</div>
-        </div>
-    `).join('');
-}
-
-function importerJSON(e){
-    const file = e.target.files[0];
-    if(!file) return;
-
-    const reader = new FileReader();
-    reader.onload = function(ev){
-        try {
-            const data = ev.target.result;
-            JSON.parse(data); // Vérifie si JSON valide
-            localStorage.setItem('chaines_tvpro', data);
-            alert('✅ Chaînes importées avec succès boss!\n\nMaintenant tu peux supprimer le bloc IMPORT.');
-            load();
-        } catch(err) {
-            alert('❌ Fichier invalide!\n\nVa dans ADMIN local > F12 Console > tape:\ncopy(localStorage.getItem("chaines_tvpro"))\nPuis colle dans un fichier.json');
-        }
-    };
-    reader.readAsText(file);
-}
-
-function play(url, nom){
-    document.getElementById('now').textContent = '▶️ En cours: ' + nom;
-    const player = document.getElementById('player');
-
-    if(Hls.isSupported()){
-        if(hls) hls.destroy();
-        hls = new Hls();
-        hls.loadSource(url);
-        hls.attachMedia(player);
-        hls.on(Hls.Events.MANIFEST_PARSED, () => player.play());
-        hls.on(Hls.Events.ERROR, () => {
-            document.getElementById('now').textContent = '❌ Lien mort: ' + nom;
-        });
-    } else if(player.canPlayType('application/vnd.apple.mpegurl')){
-        player.src = url;
-        player.play();
-    } else {
-        alert('Ton navigateur ne supporte pas HLS');
-    }
-}
-
-window.onload = load;
-window.addEventListener('storage', load);
-</script>
 </body>
 </html>
