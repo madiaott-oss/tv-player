@@ -2,52 +2,81 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>TV PRO ADMIN</title>
+<title>ADMIN TV PRO</title>
 <style>
-body{background:#0a0e1a;color:#fff;font-family:Arial;padding:20px}
-input,select,button{padding:10px;margin:5px;border-radius:6px;border:1px solid #333;background:#1a1f2e;color:#fff}
-button{background:#e50914;cursor:pointer;border:none}
+body{background:#0a0e1a;color:#fff;font-family:Arial;padding:20px;max-width:700px;margin:auto}
+h2{color:#e50914;margin-bottom:20px}
+input,select,button{width:100%;padding:12px;margin:8px 0;border-radius:6px;border:1px solid #333;background:#1a1f2e;color:#fff;font-size:14px}
+button{background:#e50914;cursor:pointer;font-weight:bold;border:none}
 button:hover{background:#ff1a2a}
-.liste{margin-top:20px}
-.item{background:#1a1f2e;padding:10px;margin:10px 0;border-radius:6px;display:flex;justify-content:space-between}
+.item{background:#1a1f2e;padding:15px;margin:10px 0;border-radius:6px;display:flex;justify-content:space-between;align-items:center}
+.btn-del{background:red;padding:8px 15px;width:auto}
 </style>
 </head>
 <body>
 <script>
-// VERROU ADMIN - SANS KEY = REDIRECTION
-if(!location.search.includes('key=madiasoft2026')){
+// VERROU ADMIN - CHANGE MDP ICI AUSSI
+const MDP_ADMIN = "1234";
+if(!location.search.includes('key='+MDP_ADMIN)){
   location.href='index.html';
 }
 </script>
 
 <h2>⚙️ ADMIN TV PRO MEDIA</h2>
-<input id="nom" placeholder="Nom chaîne">
-<input id="lien" placeholder="Lien m3u8">
-<input id="logo" placeholder="URL Logo">
-<input id="cat" placeholder="Catégorie: GOSPEL, SPORTS...">
-<input id="ch" placeholder="Numéro chaîne">
-<input id="qualite" placeholder="HD/FHD" value="HD">
+
+<h3>➕ Ajouter une chaîne</h3>
+<input id="nom" placeholder="Nom de la chaîne">
+<input id="lien" placeholder="Lien m3u8/m3u">
+<input id="logo" placeholder="URL Logo PNG">
+<select id="cat">
+  <option>GOSPEL</option>
+  <option>SPORTS</option>
+  <option>NEWS</option>
+  <option>FILMS</option>
+  <option>MUSIQUE</option>
+  <option>GENERALISTE</option>
+</select>
 <button onclick="ajouter()">AJOUTER CHAÎNE</button>
-<div class="liste" id="liste"></div>
+
+<h3>📋 Mes chaînes</h3>
+<div id="liste"></div>
 
 <script>
 let chaines = JSON.parse(localStorage.getItem('chaines_tvpro')||'[]');
+
 function ajouter(){
   if(!nom.value ||!lien.value) return alert('Nom + Lien obligatoire boss');
-  chaines.push({nom:nom.value, lien:lien.value, logo:logo.value, cat:cat.value.toUpperCase(), ch:ch.value, qualite:qualite.value});
-  localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
-  nom.value=lien.value=logo.value=cat.value=ch.value='';
+  chaines.push({
+    nom:nom.value,
+    lien:lien.value,
+    logo:logo.value||'https://via.placeholder.com/150x80',
+    cat:cat.value
+  });
+  localStorage.setItem('chaines_tvpro',JSON.stringify(chaines));
+  nom.value=lien.value=logo.value='';
   afficher();
+  alert('✅ Ajouté boss');
 }
+
 function suppr(i){
-  if(confirm('Supprimer?')){
+  if(confirm('Supprimer '+chaines[i].nom+'?')){
     chaines.splice(i,1);
-    localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
+    localStorage.setItem('chaines_tvpro',JSON.stringify(chaines));
     afficher();
   }
 }
+
 function afficher(){
-  liste.innerHTML = chaines.map((c,i)=><div class="item">${c.nom} - ${c.cat} <button onclick="suppr(${i})">🗑️</button></div>).join('');
+  if(chaines.length === 0){
+    liste.innerHTML = '<p style="color:#888">Aucune chaîne encore</p>';
+    return;
+  }
+  liste.innerHTML = chaines.map((c,i)=>`
+    <div class="item">
+      <span><b>${c.nom}</b> [${c.cat}]</span>
+      <button class="btn-del" onclick="suppr(${i})">🗑️</button>
+    </div>
+  `).join('');
 }
 afficher();
 </script>
