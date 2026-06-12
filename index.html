@@ -5,38 +5,52 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 body{background:#0a0e1a;color:#fff;font-family:Arial;margin:0;min-height:100vh;display:flex;flex-direction:column}
-.header{background:#1a1f2e;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+.header{background:#1a1f2e;padding:15px 20px;display:flex;justify-content:space-between;align-items:center}
 .logo{font-size:22px;font-weight:bold;color:#e50914}
 .logo span{color:#fff}
 .search-box{flex:1;max-width:350px;margin:0 20px;position:relative}
 .search-box input{width:100%;padding:8px 35px 8px 12px;background:#0f1420;border:1px solid #333;border-radius:20px;color:#fff;font-size:13px}
 .search-icon{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#666;font-size:14px}
-.btn-admin{background:#e50914;color:#fff;padding:8px 15px;border-radius:20px;text-decoration:none;font-size:13px;border:none;cursor:pointer}
+.btn-admin{background:#e50914;color:#fff;padding:8px 15px;border-radius:20px;text-decoration:none;font-size:13px}
 
-.video{width:100%;height:40vh;background:#000}
-.now-bar{text-align:center;padding:8px;background:#1a1f2e;color:#4fc3f7;font-size:13px}
-.now-bar i{color:#4fc3f7;margin-right:5px}
+.video{width:100%;height:40vh;background:#000;display:block}
 
-.filters{padding:15px 20px;background:#0f1420;display:flex;gap:10px;align-items:center}
-.btn-filter{background:#2a2f3f;color:#fff;padding:8px 18px;border-radius:20px;border:none;cursor:pointer;font-size:13px}
+/* BARRE BLEUE COMME TA PHOTO */
+.now-bar{
+  text-align:center;
+  padding:10px;
+  background:#2a3f5f; /* bleu clair exact photo */
+  color:#4fc3f7; /* vert/bleu clair du texte */
+  font-size:13px;
+  font-weight:bold;
+  height:45px; /* 5 unités de hauteur */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+.now-bar i{color:#4fc3f7;font-size:14px}
+
+.filters{padding:12px 20px;background:#1a2333;display:flex;gap:10px}
+.btn-filter{background:#2a3a4a;color:#fff;padding:6px 16px;border-radius:20px;border:none;cursor:pointer;font-size:12px}
 .btn-filter.active{background:#e50914}
 .btn-filter i{margin-right:5px}
 
-.category-title{padding:15px 20px 5px;color:#e50914;font-size:14px;font-weight:bold}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;padding:15px 20px;flex:1}
-.box{background:#1a1f2e;padding:10px;border-radius:8px;cursor:pointer;text-align:center;transition:0.3s}
-.box:hover{background:#252b3d;transform:translateY(-3px)}
+.category-title{padding:12px 20px 5px;color:#e50914;font-size:13px;font-weight:bold;text-transform:uppercase}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmin(150px,1fr));gap:12px;padding:15px 20px;flex:1}
+.box{background:#1a2333;padding:10px;border-radius:8px;cursor:pointer;text-align:center;transition:0.3s}
+.box:hover{background:#252f3f}
 .box img{width:100%;height:70px;object-fit:contain;background:#0f172a;padding:5px;border-radius:6px;margin-bottom:5px}
 .box div:last-child{font-size:12px;font-weight:bold}
 
-.debug{padding:8px;background:#333;text-align:center;font-size:11px;color:#888}
+.debug{padding:6px;background:#1a2333;text-align:center;font-size:11px;color:#666}
 
-/* FOOTER COMME PHOTO */
+/* FOOTER */
 .footer{background:#0f1420;padding:40px 20px 20px;margin-top:50px;border-top:2px solid #e50914}
 .footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:30px}
 .footer-col h3{color:#e50914;font-size:16px;margin-bottom:15px;font-weight:bold}
 .footer-col p{color:#aaa;font-size:13px;line-height:1.6;margin-bottom:15px}
-.footer-col a{color:#aaa;text-decoration:none;display:block;margin:8px 0;font-size:13px;cursor:pointer}
+.footer-col a{color:#aaa;text-decoration:none;display:block;margin:8px 0;font-size:13px}
 .footer-col a:hover{color:#e50914}
 .footer-contact{display:flex;align-items:center;gap:8px;margin:10px 0;color:#aaa;font-size:13px}
 .footer-btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}
@@ -57,41 +71,31 @@ body{background:#0a0e1a;color:#fff;font-family:Arial;margin:0;min-height:100vh;d
 </div>
 
 <video id="player" class="video" controls></video>
-<div class="now-bar" id="now"><i class="fas fa-play-circle"></i> En cours: Aucune chaîne</div>
+
+<!-- BARRE BLEUE QUI S'AFFICHE TOUJOURS -->
+<div class="now-bar" id="now">
+  <i class="fas fa-circle-dot"></i> En cours: Aucune chaîne
+</div>
 
 <div class="filters">
-  <button class="btn-filter active" onclick="setFilter('all')"><i class="fas fa-tv"></i> Toutes</button>
-  <button class="btn-filter" onclick="setFilter('fav')"><i class="fas fa-star"></i> Favoris</button>
+  <button class="btn-filter active"><i class="fas fa-tv"></i> Toutes</button>
+  <button class="btn-filter"><i class="fas fa-star"></i> Favoris</button>
 </div>
 
 <div class="category-title">GENERALISTE</div>
 <div class="grid" id="grid"></div>
-
 <div class="debug" id="debug">Chargement...</div>
 
 <script>
-let currentFilter = 'all';
 let hls;
-
-function setFilter(f){
-  currentFilter = f;
-  document.querySelectorAll('.btn-filter').forEach(b=>b.classList.remove('active'));
-  event.target.classList.add('active');
-  load();
-}
 
 function load(){
   const data=localStorage.getItem('chaines_tvpro');
-  let chaines=data?JSON.parse(data):[];
-  const search=document.getElementById('search').value.toLowerCase();
-  
-  document.getElementById('debug').textContent=Chaînes: ${chaines.length} | Filtre: ${currentFilter};
-
-  if(search) chaines = chaines.filter(c=>c.nom.toLowerCase().includes(search));
-  if(currentFilter==='fav') chaines = chaines.filter(c=>c.fav);
+  const chaines=data?JSON.parse(data):[];
+  document.getElementById('debug').textContent=Chaînes: ${chaines.length};
 
   if(chaines.length===0){
-    grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:60px;color:#666">Aucune chaîne</div>';
+    grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:60px;color:#666">Chargement...</div>';
     return;
   }
   
@@ -104,7 +108,7 @@ function load(){
 }
 
 function play(url,nom){
-  document.getElementById('now').innerHTML=<i class="fas fa-play-circle"></i> En cours: ${nom};
+  document.getElementById('now').innerHTML=<i class="fas fa-circle-dot"></i> En cours: ${nom};
   const player=document.getElementById('player');
   if(Hls.isSupported()){if(hls)hls.destroy();hls=new Hls();hls.loadSource(url);hls.attachMedia(player);hls.on(Hls.Events.MANIFEST_PARSED,()=>player.play())}
   else{player.src=url;player.play()}
@@ -113,12 +117,11 @@ load();
 window.addEventListener('storage',load);
 </script>
 
-<!-- FOOTER À BAS COMME TA PHOTO -->
 <div class="footer">
     <div class="footer-grid">
         <div class="footer-col">
-            <h3 style="color:#e50914;font-size:20px;margin-bottom:10px">TV PRO <span style="color:#fff">MEDIA</span></h3>
-            <p>Your premier destination for live streaming entertainment across all categories. Access from anywhere, anytime</p>
+            <h3 style="color:#e50914;font-size:20px">TV PRO <span style="color:#fff">MEDIA</span></h3>
+            <p>Your premier destination for live streaming entertainment</p>
             <h3>Contact Us</h3>
             <div class="footer-contact"><i class="fas fa-envelope"></i> madiasoft@gmail.com</div>
             <div class="footer-contact"><i class="fas fa-phone"></i> +243 854 587 025</div>
@@ -129,21 +132,11 @@ window.addEventListener('storage',load);
         </div>
         <div class="footer-col">
             <h3>Categories</h3>
-            <a href="#">SPORTS</a>
-            <a href="#">GOSPEL</a>
-            <a href="#">NEWS</a>
-            <a href="#">KIDS</a>
-            <a href="#">MOVIES</a>
-            <a href="#">DOCUMENTARY</a>
+            <a href="#">SPORTS</a><a href="#">GOSPEL</a><a href="#">NEWS</a><a href="#">KIDS</a><a href="#">MOVIES</a><a href="#">DOCUMENTARY</a>
         </div>
         <div class="footer-col">
             <h3>Legal & More</h3>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">MUSIC</a>
-            <a href="#">SERIES</a>
-            <a href="#">INTERNATIONAL</a>
-            <a href="#">RADIOS</a>
+            <a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">MUSIC</a><a href="#">SERIES</a><a href="#">INTERNATIONAL</a><a href="#">RADIOS</a>
         </div>
     </div>
     <div class="footer-bottom">© 2026 TV PRO MEDIA. All rights reserved.</div>
