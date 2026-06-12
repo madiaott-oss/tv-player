@@ -1,108 +1,52 @@
 <!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"><title>TV PRO</title>
+<html><head><meta charset="UTF-8"><title>TV PRO</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-body{background:#0a0e1a;color:#fff;font-family:Arial;margin:0;min-height:100vh;display:flex;flex-direction:column}
-.header{background:#1a1f2e;padding:15px 20px;display:flex;justify-content:space-between;align-items:center}
+body{background:#0a0e1a;color:#fff;font-family:Arial;margin:0}
+.header{background:#1a1f2e;padding:15px 20px;display:flex;justify-content:space-between}
 .logo{font-size:22px;font-weight:bold;color:#e50914}
-.logo span{color:#fff}
-.search-box{flex:1;max-width:350px;margin:0 20px;position:relative}
-.search-box input{width:100%;padding:8px 35px 8px 12px;background:#0f1420;border:1px solid #333;border-radius:20px;color:#fff;font-size:13px}
-.search-icon{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#666;font-size:14px}
-.btn-admin{background:#e50914;color:#fff;padding:8px 15px;border-radius:20px;text-decoration:none;font-size:13px}
-.video{width:100%;height:40vh;background:#000;display:block}
-.now-bar{text-align:center;padding:10px;background:#2a3f5f;color:#4fc3f7;font-size:13px;font-weight:bold;height:45px;display:flex;align-items:center;justify-content:center;gap:8px}
-.filters{padding:12px 20px;background:#1a2333;display:flex;gap:10px}
-.btn-filter{background:#2a3a4a;color:#fff;padding:6px 16px;border-radius:20px;border:none;cursor:pointer;font-size:12px}
-.btn-filter.active{background:#e50914}
-.category-title{padding:12px 20px 5px;color:#e50914;font-size:13px;font-weight:bold;text-transform:uppercase}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;padding:15px 20px;flex:1}
+.video{width:100%;height:40vh;background:#000}
+.now-bar{text-align:center;padding:10px;background:#2563eb;color:#7dd3fc;font-weight:bold;height:45px;display:flex;align-items:center;justify-content:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;padding:20px}
 .box{background:#1a2333;padding:10px;border-radius:8px;cursor:pointer;text-align:center}
-.box:hover{background:#252f3f}
-.box img{width:100%;height:70px;object-fit:contain;background:#0f172a;padding:5px;border-radius:6px;margin-bottom:5px}
-.box div:last-child{font-size:12px;font-weight:bold}
-.debug{padding:10px;background:#ff4444;text-align:center;font-size:12px;color:#fff;font-weight:bold}
-.footer{background:#0f1420;padding:40px 20px 20px;margin-top:50px;border-top:2px solid #e50914}
-.footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:30px}
-.footer-col h3{color:#e50914;font-size:16px;margin-bottom:15px;font-weight:bold}
-.footer-col p{color:#aaa;font-size:13px;line-height:1.6;margin-bottom:15px}
-.footer-col a{color:#aaa;text-decoration:none;display:block;margin:8px 0;font-size:13px}
-.footer-contact{display:flex;align-items:center;gap:8px;margin:10px 0;color:#aaa;font-size:13px}
-.footer-btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}
-.btn-apk{background:#222;color:#fff;padding:10px 15px;border-radius:6px;text-decoration:none;font-size:12px;display:flex;align-items:center;gap:8px;border:1px solid #333}
-.btn-apk.blue{background:#0099ff;border-color:#0099ff}
-.footer-bottom{text-align:center;padding-top:20px;border-top:1px solid #222;color:#666;font-size:12px}
+.box img{width:100%;height:70px;object-fit:contain;background:#0f172a;padding:5px;border-radius:6px}
+.debug{padding:15px;background:#ec4899;color:#fff;font-weight:bold;font-size:14px}
 </style>
 </head>
 <body>
-<div class="header">
-  <div class="logo">TV PRO <span>MEDIA</span></div>
-  <div class="search-box">
-    <input type="text" id="search" placeholder="Recher une chaîne" oninput="load()">
-    <i class="fas fa-search search-icon"></i>
-  </div>
-  <a href="admin.html" class="btn-admin"><i class="fas fa-cog"></i> ADMIN</a>
-</div>
-
+<div class="header"><div class="logo">TV PRO <span>MEDIA</span></div><a href="admin.html" style="background:#e50914;color:#fff;padding:8px 15px;border-radius:20px;text-decoration:none">ADMIN</a></div>
 <video id="player" class="video" controls></video>
 <div class="now-bar" id="now"><i class="fas fa-circle-dot"></i> En cours: Aucune chaîne</div>
-
-<div class="filters">
-  <button class="btn-filter active"><i class="fas fa-tv"></i> Toutes</button>
-  <button class="btn-filter"><i class="fas fa-star"></i> Favoris</button>
-</div>
-
-<div class="category-title">GENERALISTE</div>
+<div class="debug" id="debug">SCAN EN COURS...</div>
 <div class="grid" id="grid"></div>
-<div class="debug" id="debug">SCAN localStorage...</div>
 
 <script>
 let hls;
+let debug = document.getElementById('debug');
+let output = 'SCAN localStorage:<br>';
 
-function getNom(c){return c.nom||c.name||c.title||c.channel||'Sans nom'}
-function getLien(c){return c.lien||c.url||c.link||c.stream||''}
-function getLogo(c){return c.logo||c.image||c.img||c.thumbnail||'https://via.placeholder.com/150x70/0f172a/e50914?text=TV'}
-
-function load(){
-  let chaines = [];
-  let cleUtilisee = 'AUCUNE';
-
-  // SCAN TOUT LE localStorage
-  for(let i=0; i<localStorage.length; i++){
-    const cle = localStorage.key(i);
-    const data = localStorage.getItem(cle);
-    try{
-      const parsed = JSON.parse(data);
-      if(Array.isArray(parsed) && parsed.length > 0 && parsed[0].nom || parsed[0].name){
-        chaines = parsed;
-        cleUtilisee = cle;
-        break;
-      }
-    }catch(e){}
-  }
-
-  const search = document.getElementById('search').value.toLowerCase();
-  let filtrees = search? chaines.filter(c=>getNom(c).toLowerCase().includes(search)) : chaines;
-
-  document.getElementById('debug').innerHTML = `
-    CLÉ TROUVÉE: ${cleUtilisee} | TOTAL: ${chaines.length} | AFFICHÉES: ${filtrees.length} |
-    CHAMPS: ${Object.keys(chaines[0]||{}).join(', ')}
-  `;
-
-  if(filtrees.length===0){
-    grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:60px;color:#666">Aucune chaîne. La clé localStorage est différente.</div>';
-    return;
-  }
-
-  grid.innerHTML=filtrees.map((c,i)=>`
-    <div class="box" onclick="play('${getLien(c)}','${getNom(c)}')">
-      <img src="${getLogo(c)}" onerror="this.src='https://via.placeholder.com/150x70/0f172a/e50914?text=TV'">
-      <div>${getNom(c)}</div>
-    </div>
-  `).join('');
+for(let i=0; i<localStorage.length; i++){
+  const cle = localStorage.key(i);
+  const data = localStorage.getItem(cle);
+  output += Clé ${i+1}: ${cle} = ${data.substring(0,80)}...<br>;
+  
+  try{
+    const parsed = JSON.parse(data);
+    if(Array.isArray(parsed) && parsed.length>0){
+      output += <b style="color:#4ade80">→ CHAÎNES TROUVÉES ICI: ${parsed.length} chaînes</b><br>;
+      
+      grid.innerHTML = parsed.map(c=>`
+        <div class="box" onclick="play('${c.lien||c.url}','${c.nom||c.name}')">
+          <img src="${c.logo||c.image||'https://via.placeholder.com/150x70'}">
+          <div>${c.nom||c.name}</div>
+        </div>
+      `).join('');
+    }
+  }catch(e){}
 }
+
+debug.innerHTML = output;
 
 function play(url,nom){
   document.getElementById('now').innerHTML=<i class="fas fa-circle-dot"></i> En cours: ${nom};
@@ -110,33 +54,5 @@ function play(url,nom){
   if(Hls.isSupported()){if(hls)hls.destroy();hls=new Hls();hls.loadSource(url);hls.attachMedia(player);hls.on(Hls.Events.MANIFEST_PARSED,()=>player.play())}
   else{player.src=url;player.play()}
 }
-load();
-window.addEventListener('storage',load);
 </script>
-
-<div class="footer">
-    <div class="footer-grid">
-        <div class="footer-col">
-            <h3 style="color:#e50914;font-size:20px">TV PRO <span style="color:#fff">MEDIA</span></h3>
-            <p>Your premier destination for live streaming entertainment</p>
-            <h3>Contact Us</h3>
-            <div class="footer-contact"><i class="fas fa-envelope"></i> madiasoft@gmail.com</div>
-            <div class="footer-contact"><i class="fas fa-phone"></i> +243 854 587 025</div>
-            <div class="footer-btns">
-                <a href="#" class="btn-apk"><i class="fab fa-google-play"></i> GET IT ON Google Play</a>
-                <a href="#" class="btn-apk blue"><i class="fas fa-download"></i> Direct Download APK</a>
-            </div>
-        </div>
-        <div class="footer-col">
-            <h3>Categories</h3>
-            <a href="#">SPORTS</a><a href="#">GOSPEL</a><a href="#">NEWS</a><a href="#">KIDS</a><a href="#">MOVIES</a><a href="#">DOCUMENTARY</a>
-        </div>
-        <div class="footer-col">
-            <h3>Legal & More</h3>
-            <a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">MUSIC</a><a href="#">SERIES</a><a href="#">INTERNATIONAL</a><a href="#">RADIOS</a>
-        </div>
-    </div>
-    <div class="footer-bottom">© 2026 TV PRO MEDIA. All rights reserved.</div>
-</div>
-</body>
-</html>
+</body></html>
