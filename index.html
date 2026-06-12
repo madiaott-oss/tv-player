@@ -7,64 +7,131 @@
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
-        body { background:#0a0e1a; color:#fff; font-family:Arial; }
-   .header { background:#1a1f2e; padding:15px 20px; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:100; gap:15px; }
-   .logo { font-size:24px; font-weight:bold; white-space:nowrap; }
-   .logo span { color:#e50914; }
-   .search-box { flex:1; max-width:400px; position:relative; }
-   .search-box input { width:100%; padding:10px 40px 10px 15px; background:#0f1420; border:1px solid #333; border-radius:25px; color:#fff; font-size:14px; }
-   .search-icon { position:absolute; right:15px; top:50%; transform:translateY(-50%); color:#666; }
-   .admin { background:#e50914; color:#fff; padding:8px 15px; border-radius:6px; text-decoration:none; font-size:14px; white-space:nowrap; }
-   .player { width:100%; height:40vh; background:#000; position:sticky; top:60px; z-index:90; }
-   .content { padding:20px; }
-   .section { margin-bottom:30px; }
-   .section-title { color:#e50914; font-size:18px; margin:0 0 15px; font-weight:bold; display:flex; align-items:center; gap:10px; }
-   .chaines { display:grid; grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:15px; }
-   .chaine { background:#1a1f2e; border-radius:8px; padding:10px; cursor:pointer; transition:0.3s; position:relative; }
-   .chaine:hover { transform:scale(1.05); background:#252b3d; }
-   .chaine.active { border:2px solid #e50914; }
-   .chaine img { width:100%; height:80px; object-fit:contain; background:#fff; border-radius:6px; margin-bottom:8px; }
-   .chaine-nom { font-size:13px; font-weight:bold; margin-bottom:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-   .chaine-ch { font-size:11px; color:#888; }
-   .btn-fav { position:absolute; top:5px; left:5px; background:rgba(0,0,0,0.7); color:#fff; border:none; border-radius:50%; width:28px; height:28px; cursor:pointer; font-size:14px; z-index:5; }
-   .btn-fav.active { color:#ffcc00; }
-   .btn-del-site { position:absolute; top:5px; right:5px; background:rgba(255,0,0,0.8); color:#fff; border:none; border-radius:50%; width:28px; height:28px; cursor:pointer; font-size:12px; opacity:0; transition:0.3s; z-index:5; }
-   .chaine:hover.btn-del-site { opacity:1; }
-   .now { text-align:center; padding:10px; background:#1a1f2e; color:#888; position:sticky; top:calc(40vh + 60px); z-index:80; font-size:14px; }
-   .vide { text-align:center; color:#888; padding:40px; grid-column:1/-1; }
-   .tabs { display:flex; gap:10px; margin-bottom:20px; overflow-x:auto; }
-   .tab { background:#1a1f2e; padding:10px 20px; border-radius:25px; cursor:pointer; white-space:nowrap; border:2px solid transparent; }
-   .tab.active { background:#e50914; border-color:#e50914; }
+        html, body { height:100%; }
+        body {
+            background:#0a0e1a;
+            color:#fff;
+            font-family:Arial;
+            display:flex;
+            flex-direction:column;
+            min-height:100vh;
+        }
+       .wrapper { flex:1; }
 
-    @media (max-width: 768px) {
-       .header { flex-wrap:wrap; }
-       .search-box { order:3; flex:1 0 100%; max-width:100%; }
-       .chaines { grid-template-columns:repeat(auto-fill, minmax(110px, 1fr)); gap:10px; }
-       .chaine img { height:65px; }
-       .player { height:35vh; }
-       .now { top:calc(35vh + 100px); }
-    }
+       .header { background:#1a1f2e; padding:15px 20px; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:100; gap:15px; }
+       .logo { font-size:24px; font-weight:bold; white-space:nowrap; }
+       .logo span { color:#e50914; }
+       .search-box { flex:1; max-width:400px; position:relative; }
+       .search-box input { width:100%; padding:10px 40px 10px 15px; background:#0f1420; border:1px solid #333; border-radius:25px; color:#fff; font-size:14px; }
+       .search-icon { position:absolute; right:15px; top:50%; transform:translateY(-50%); color:#666; }
+       .admin { background:#e50914; color:#fff; padding:8px 15px; border-radius:6px; text-decoration:none; font-size:14px; white-space:nowrap; }
+       .player { width:100%; height:40vh; background:#000; position:sticky; top:60px; z-index:90; }
+       .content { padding:20px; }
+       .section { margin-bottom:30px; }
+       .section-title { color:#e50914; font-size:18px; margin:0 0 15px; font-weight:bold; display:flex; align-items:center; gap:10px; }
+       .chaines { display:grid; grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:15px; }
+       .chaine { background:#1a1f2e; border-radius:8px; padding:10px; cursor:pointer; transition:0.3s; position:relative; }
+       .chaine:hover { transform:scale(1.05); background:#252b3d; }
+       .chaine.active { border:2px solid #e50914; }
+       .chaine img { width:100%; height:80px; object-fit:contain; background:#fff; border-radius:6px; margin-bottom:8px; }
+       .chaine-nom { font-size:13px; font-weight:bold; margin-bottom:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+       .chaine-ch { font-size:11px; color:#888; }
+       .btn-fav { position:absolute; top:5px; left:5px; background:rgba(0,0,0,0.7); color:#fff; border:none; border-radius:50%; width:28px; height:28px; cursor:pointer; font-size:14px; z-index:5; }
+       .btn-fav.active { color:#ffcc00; }
+       .btn-del-site { position:absolute; top:5px; right:5px; background:rgba(255,0,0,0.8); color:#fff; border:none; border-radius:50%; width:28px; height:28px; cursor:pointer; font-size:12px; opacity:0; transition:0.3s; z-index:5; }
+       .chaine:hover.btn-del-site { opacity:1; }
+       .now { text-align:center; padding:10px; background:#1a1f2e; color:#888; position:sticky; top:calc(40vh + 60px); z-index:80; font-size:14px; }
+       .vide { text-align:center; color:#888; padding:40px; grid-column:1/-1; }
+       .tabs { display:flex; gap:10px; margin-bottom:20px; overflow-x:auto; }
+       .tab { background:#1a1f2e; padding:10px 20px; border-radius:25px; cursor:pointer; white-space:nowrap; border:2px solid transparent; }
+       .tab.active { background:#e50914; border-color:#e50914; }
+
+        /* FOOTER COLLÉ EN BAS */
+       .footer {
+            background:#0f1420;
+            padding:40px 20px 20px;
+            margin-top:auto;
+            border-top:2px solid #e50914;
+        }
+       .footer-grid { max-width:1200px; margin:0 auto; display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:40px; margin-bottom:30px; }
+       .footer-col h3 { color:#e50914; font-size:16px; margin-bottom:15px; font-weight:bold; }
+       .footer-col p { color:#aaa; font-size:13px; line-height:1.6; margin-bottom:15px; }
+       .footer-col a { color:#aaa; text-decoration:none; display:block; margin:8px 0; font-size:13px; transition:0.2s; }
+       .footer-col a:hover { color:#e50914; }
+       .footer-contact { display:flex; align-items:center; gap:8px; margin:10px 0; color:#aaa; font-size:13px; }
+       .footer-btns { display:flex; gap:10px; flex-wrap:wrap; margin-top:15px; }
+       .btn-apk { background:#222; color:#fff; padding:10px 15px; border-radius:6px; text-decoration:none; font-size:12px; display:flex; align-items:center; gap:8px; border:1px solid #333; }
+       .btn-apk.blue { background:#0099ff; border-color:#0099ff; }
+       .footer-bottom { text-align:center; padding-top:20px; border-top:1px solid #222; color:#666; font-size:12px; }
+
+        @media (max-width: 768px) {
+          .header { flex-wrap:wrap; }
+          .search-box { order:3; flex:1 0 100%; max-width:100%; }
+          .chaines { grid-template-columns:repeat(auto-fill, minmax(110px, 1fr)); gap:10px; }
+          .chaine img { height:65px; }
+          .player { height:35vh; }
+          .now { top:calc(35vh + 100px); }
+          .footer-grid { grid-template-columns:1fr; gap:25px; }
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="logo"><span>TV PRO</span> MEDIA</div>
-        <div class="search-box">
-            <input type="text" id="search" placeholder="Rechercher une chaîne..." oninput="filtrer()">
-            <span class="search-icon">🔍</span>
+    <div class="wrapper">
+        <div class="header">
+            <div class="logo"><span>TV PRO</span> MEDIA</div>
+            <div class="search-box">
+                <input type="text" id="search" placeholder="Recher une chaîne..." oninput="filtrer()">
+                <span class="search-icon">🔍</span>
+            </div>
+            <a href="admin.html" class="admin">⚙️ ADMIN</a>
         </div>
-        <a href="admin.html" class="admin">⚙️ ADMIN</a>
+
+        <video id="player" class="player" controls></video>
+        <div class="now" id="now">Clique sur une chaîne pour commencer</div>
+
+        <div class="content">
+            <div class="tabs">
+                <div class="tab active" onclick="changerOnglet('tout', event)">📺 Toutes</div>
+                <div class="tab" onclick="changerOnglet('favoris', event)">⭐ Favoris</div>
+            </div>
+            <div id="content"></div>
+        </div>
     </div>
 
-    <video id="player" class="player" controls></video>
-    <div class="now" id="now">Clique sur une chaîne pour commencer</div>
-
-    <div class="content">
-        <div class="tabs">
-            <div class="tab active" onclick="changerOnglet('tout')">📺 Toutes</div>
-            <div class="tab" onclick="changerOnglet('favoris')">⭐ Favoris</div>
+    <!-- FOOTER COLLÉ EN BAS ICI -->
+    <div class="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3 style="color:#e50914;font-size:20px">TV PRO <span style="color:#fff">MEDIA</span></h3>
+                <p>Your premier destination for live streaming entertainment across all categories. Access from anywhere, anytime</p>
+                <h3>Contact Us</h3>
+                <div class="footer-contact">📧 madiasoft@gmail.com</div>
+                <div class="footer-contact">📞 +243 854 587 025</div>
+                <div class="footer-btns">
+                    <a href="#" class="btn-apk">📱 GET IT ON Google Play</a>
+                    <a href="#" class="btn-apk blue">⬇️ Direct Download APK</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Categories</h3>
+                <a href="#">SPORTS</a>
+                <a href="#">GOSPEL</a>
+                <a href="#">NEWS</a>
+                <a href="#">KIDS</a>
+                <a href="#">MOVIES</a>
+                <a href="#">DOCUMENTARY</a>
+            </div>
+            <div class="footer-col">
+                <h3>Legal & More</h3>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">MUSIC</a>
+                <a href="#">SERIES</a>
+                <a href="#">INTERNATIONAL</a>
+                <a href="#">RADIOS</a>
+            </div>
         </div>
-        <div id="content"></div>
+        <div class="footer-bottom">© 2026 TV PRO MEDIA. All rights reserved.</div>
     </div>
 
 <script>
@@ -79,7 +146,7 @@ function jouer(lien, nom, index) {
     document.getElementById('now').textContent = '▶️ En cours: ' + nom;
     chaineActive = index;
     window.scrollTo(0, 0);
-    afficherChaines(); // Refresh pour mettre le border actif
+    afficherChaines();
 
     if(Hls.isSupported()) {
         if(hls) hls.destroy();
@@ -98,11 +165,8 @@ function jouer(lien, nom, index) {
 
 function toggleFavori(index) {
     const i = favoris.indexOf(index);
-    if(i > -1) {
-        favoris.splice(i, 1);
-    } else {
-        favoris.push(index);
-    }
+    if(i > -1) favoris.splice(i, 1);
+    else favoris.push(index);
     localStorage.setItem('tvpro_favoris', JSON.stringify(favoris));
     afficherChaines();
 }
@@ -111,17 +175,16 @@ function supprimerDepuisSite(index) {
     if(confirm('Supprimer ' + chaines[index].nom + ' boss?')) {
         chaines.splice(index, 1);
         localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
-        // Nettoyer favoris
         favoris = favoris.filter(f => f!== index).map(f => f > index? f - 1 : f);
         localStorage.setItem('tvpro_favoris', JSON.stringify(favoris));
         afficherChaines();
     }
 }
 
-function changerOnglet(onglet) {
+function changerOnglet(onglet, e) {
     ongletActif = onglet;
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    event.target.classList.add('active');
+    e.target.classList.add('active');
     afficherChaines();
 }
 
@@ -136,7 +199,6 @@ function afficherChaines() {
 
     let chainesFiltrees = chaines.map((c, i) => ({...c, index: i}));
 
-    // Filtre recherche
     if(recherche) {
         chainesFiltrees = chainesFiltrees.filter(c =>
             c.nom.toLowerCase().includes(recherche) ||
@@ -144,7 +206,6 @@ function afficherChaines() {
         );
     }
 
-    // Filtre onglet favoris
     if(ongletActif === 'favoris') {
         chainesFiltrees = chainesFiltrees.filter(c => favoris.includes(c.index));
     }
@@ -154,7 +215,6 @@ function afficherChaines() {
         return;
     }
 
-    // Grouper par catégorie
     const categories = {};
     chainesFiltrees.forEach(c => {
         if(!categories[c.cat]) categories[c.cat] = [];
@@ -177,7 +237,7 @@ function afficherChaines() {
                                     ${favoris.includes(c.index)? '★' : '☆'}
                                 </button>
                                 <button class="btn-del-site" onclick="event.stopPropagation(); supprimerDepuisSite(${c.index})">🗑️</button>
-                                <div onclick="jouer('${c.lien}', '${c.nom}', ${c.index})">
+                                <div onclick="jouer('${c.lien.replace(/'/g,"\\'")}', '${c.nom.replace(/'/g,"\\'")}', ${c.index})">
                                     <img src="${c.logo}" onerror="this.src='https://via.placeholder.com/150x80/1a1f2e/e50914?text=${encodeURIComponent(c.nom)}'">
                                     <div class="chaine-nom">${c.nom}</div>
                                     <div class="chaine-ch">${c.ch} | ${c.qualite || 'HD'}</div>
