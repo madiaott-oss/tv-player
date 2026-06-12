@@ -1,58 +1,99 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><title>TV PRO</title>
+<html>
+<head><meta charset="UTF-8"><title>TV PRO</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-body{background:#0a0e1a;color:#fff;font-family:Arial;margin:0}
-.header{background:#1a1f2e;padding:15px 20px;display:flex;justify-content:space-between}
+body{background:#0a0e1a;color:#fff;font-family:Arial;margin:0;min-height:100vh;display:flex;flex-direction:column}
+.header{background:#1a1f2e;padding:15px 20px;display:flex;justify-content:space-between;align-items:center}
 .logo{font-size:22px;font-weight:bold;color:#e50914}
-.video{width:100%;height:40vh;background:#000}
-.now-bar{text-align:center;padding:10px;background:#2563eb;color:#7dd3fc;font-weight:bold;height:45px;display:flex;align-items:center;justify-content:center}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;padding:20px}
-.box{background:#1a2333;padding:10px;border-radius:8px;cursor:pointer;text-align:center}
-.box img{width:100%;height:70px;object-fit:contain;background:#0f172a;padding:5px;border-radius:6px}
-.debug{padding:15px;background:#ec4899;color:#fff;font-weight:bold;font-size:14px}
+.logo span{color:#fff}
+.search-box{flex:1;max-width:350px;margin:0 20px}
+.search-box input{width:100%;padding:8px 12px;background:#0f1420;border:1px solid #333;border-radius:20px;color:#fff;font-size:13px}
+.btn-admin{background:#e50914;color:#fff;padding:8px 15px;border-radius:20px;text-decoration:none;font-size:13px}
+.video{width:100%;height:40vh;background:#000;display:block}
+.now-bar{text-align:center;padding:10px;background:#2563eb;color:#7dd3fc;font-size:13px;font-weight:bold;height:45px;display:flex;align-items:center;justify-content:center;gap:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;padding:20px;flex:1}
+.box{background:#1a2333;padding:10px;border-radius:8px;cursor:pointer;text-align:center;transition:0.2s}
+.box:hover{background:#252f3f}
+.box img{width:100%;height:70px;object-fit:contain;background:#0f172a;padding:5px;border-radius:6px;margin-bottom:5px}
+.box div:last-child{font-size:12px;font-weight:bold}
+.debug{padding:10px;background:#ff4444;color:#fff;font-size:12px;text-align:center}
 </style>
 </head>
 <body>
-<div class="header"><div class="logo">TV PRO <span>MEDIA</span></div><a href="admin.html" style="background:#e50914;color:#fff;padding:8px 15px;border-radius:20px;text-decoration:none">ADMIN</a></div>
+<div class="header">
+  <div class="logo">TV PRO <span>MEDIA</span></div>
+  <div class="search-box"><input type="text" id="search" placeholder="Recher une chaîne" oninput="load()"></div>
+  <a href="admin.html" class="btn-admin">ADMIN</a>
+</div>
+
 <video id="player" class="video" controls></video>
 <div class="now-bar" id="now"><i class="fas fa-circle-dot"></i> En cours: Aucune chaîne</div>
-<div class="debug" id="debug">SCAN EN COURS...</div>
+<div class="debug" id="debug">Chargement...</div>
 <div class="grid" id="grid"></div>
 
 <script>
 let hls;
-let debug = document.getElementById('debug');
-let output = 'SCAN localStorage:<br>';
+let CHAINES = [];
 
-for(let i=0; i<localStorage.length; i++){
-  const cle = localStorage.key(i);
-  const data = localStorage.getItem(cle);
-  output += Clé ${i+1}: ${cle} = ${data.substring(0,80)}...<br>;
-  
-  try{
-    const parsed = JSON.parse(data);
-    if(Array.isArray(parsed) && parsed.length>0){
-      output += <b style="color:#4ade80">→ CHAÎNES TROUVÉES ICI: ${parsed.length} chaînes</b><br>;
-      
-      grid.innerHTML = parsed.map(c=>`
-        <div class="box" onclick="play('${c.lien||c.url}','${c.nom||c.name}')">
-          <img src="${c.logo||c.image||'https://via.placeholder.com/150x70'}">
-          <div>${c.nom||c.name}</div>
-        </div>
-      `).join('');
-    }
-  }catch(e){}
+function safe(str){
+  return String(str||'').replace(/'/g,"\\'").replace(/"/g,"&quot;")
 }
 
-debug.innerHTML = output;
+function load(){
+  try{
+    const data = localStorage.getItem('chaines_tvpro');
+    CHAINES = data ? JSON.parse(data) : [];
+    document.getElementById('debug').textContent = 'Chaînes trouvées: ' + CHAINES.length;
+    
+    const search = document.getElementById('search').value.toLowerCase();
+    let filtrees = search ? CHAINES.filter(c=>safe(c.nom).toLowerCase().includes(search)) : CHAINES;
 
-function play(url,nom){
+    if(filtrees.length===0){
+      grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:60px;color:#666">Aucune chaîne. Ajoute dans ADMIN.</div>';
+      return;
+    }
+
+    grid.innerHTML = filtrees.map((c,i)=>{
+      const nom = safe(c.nom);
+      const lien = safe(c.lien);
+      const logo = c.logo || 'https://via.placeholder.com/150x70/0f172a/e50914?text=TV';
+      return `
+        <div class="box" onclick="playChaine('${lien}','${nom}')">
+          <img src="${logo}" onerror="this.src='https://via.placeholder.com/150x70/0f172a/e50914?text=TV'">
+          <div>${c.nom}</div>
+        </div>
+      `;
+    }).join('');
+    
+  }catch(e){
+    document.getElementById('debug').textContent = 'ERREUR: ' + e.message;
+    document.getElementById('debug').style.background = '#ff0000';
+    grid.innerHTML = '<div style="color:red;padding:40px">Erreur JS: ' + e.message + '</div>';
+  }
+}
+
+function playChaine(url,nom){
   document.getElementById('now').innerHTML=<i class="fas fa-circle-dot"></i> En cours: ${nom};
   const player=document.getElementById('player');
-  if(Hls.isSupported()){if(hls)hls.destroy();hls=new Hls();hls.loadSource(url);hls.attachMedia(player);hls.on(Hls.Events.MANIFEST_PARSED,()=>player.play())}
-  else{player.src=url;player.play()}
+  try{
+    if(Hls.isSupported()){
+      if(hls)hls.destroy();
+      hls=new Hls();
+      hls.loadSource(url);
+      hls.attachMedia(player);
+      hls.on(Hls.Events.MANIFEST_PARSED,()=>player.play().catch(()=>{}))
+    } else {
+      player.src=url;
+      player.play().catch(()=>{});
+    }
+  }catch(e){
+    alert('Erreur lecture: '+e.message);
+  }
 }
+
+// LANCE AU CHARGEMENT
+document.addEventListener('DOMContentLoaded', load);
 </script>
 </body></html>
