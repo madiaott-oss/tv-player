@@ -8,48 +8,41 @@
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
         body { background:#0a0e1a; color:#fff; font-family:Arial; }
-.header { background:#1a1f2e; padding:15px 20px; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:100; gap:15px; }
-.logo { font-size:24px; font-weight:bold; white-space:nowrap; }
-.logo span { color:#e50914; }
-.search-box { flex:1; max-width:400px; position:relative; }
-.search-box input { width:100%; padding:10px 40px 10px 15px; background:#0f1420; border:1px solid #333; border-radius:25px; color:#fff; font-size:14px; }
-.search-icon { position:absolute; right:15px; top:50%; transform:translateY(-50%); color:#666; }
-.admin { background:#e50914; color:#fff; padding:8px 15px; border-radius:6px; text-decoration:none; font-size:14px; white-space:nowrap; }
-.player { width:100%; height:40vh; background:#000; position:sticky; top:60px; z-index:90; }
-.content { padding:20px; }
-.section { margin-bottom:30px; }
-.section-title { color:#e50914; font-size:18px; margin:0 0 15px; font-weight:bold; display:flex; align-items:center; gap:10px; }
-.section-title.tendance { color:#ff9900; }
-.chaines { display:grid; grid-template-columns:repeat(auto-fill, minmax(160px, 1fr)); gap:15px; }
-.chaine { background:#1a1f2e; border-radius:8px; padding:10px; cursor:pointer; transition:0.3s; position:relative; }
-.chaine:hover { transform:translateY(-3px); background:#252b3d; }
-.chaine.active { border:2px solid #e50914; }
-.chaine.tendance-card { border:1px solid #ff9900; }
-.chaine img { width:100%; height:80px; object-fit:contain; background:#fff; border-radius:6px; margin-bottom:8px; }
-.chaine-nom { font-size:13px; font-weight:bold; margin-bottom:6px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.chaine-footer { display:flex; justify-content:space-between; align-items:center; font-size:11px; color:#888; }
-.chaine-vues { display:flex; align-items:center; gap:3px; }
-.chaine-actions { display:flex; gap:8px; }
-.btn-icon { background:transparent; border:none; color:#888; cursor:pointer; font-size:14px; padding:2px; }
-.btn-icon:hover { color:#e50914; }
-.btn-fav.active { color:#ffcc00; }
-.btn-del-site { position:absolute; top:5px; right:5px; background:rgba(255,0,0,0.8); color:#fff; border:none; border-radius:50%; width:28px; height:28px; cursor:pointer; font-size:12px; opacity:0; transition:0.3s; z-index:5; }
-.chaine:hover.btn-del-site { opacity:1; }
-.now { text-align:center; padding:10px; background:#1a1f2e; color:#888; position:sticky; top:calc(40vh + 60px); z-index:80; font-size:14px; }
-.vide { text-align:center; color:#888; padding:40px; grid-column:1/-1; }
-.tabs { display:flex; gap:10px; margin-bottom:20px; overflow-x:auto; }
-.tab { background:#1a1f2e; padding:10px 20px; border-radius:25px; cursor:pointer; white-space:nowrap; border:2px solid transparent; }
-.tab.active { background:#e50914; border-color:#e50914; }
-.live-badge { position:absolute; top:8px; left:8px; background:#ff0000; color:#fff; padding:3px 8px; border-radius:4px; font-size:10px; font-weight:bold; z-index:5; }
-.rank-badge { position:absolute; top:8px; right:40px; background:#ff9900; color:#000; padding:3px 8px; border-radius:4px; font-size:10px; font-weight:bold; z-index:5; }
+   .header { background:#1a1f2e; padding:15px 20px; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:100; gap:15px; }
+   .logo { font-size:24px; font-weight:bold; white-space:nowrap; }
+   .logo span { color:#e50914; }
+   .search-box { flex:1; max-width:400px; position:relative; }
+   .search-box input { width:100%; padding:10px 40px 10px 15px; background:#0f1420; border:1px solid #333; border-radius:25px; color:#fff; font-size:14px; }
+   .search-icon { position:absolute; right:15px; top:50%; transform:translateY(-50%); color:#666; }
+   .admin { background:#e50914; color:#fff; padding:8px 15px; border-radius:6px; text-decoration:none; font-size:14px; white-space:nowrap; }
+   .player { width:100%; height:40vh; background:#000; position:sticky; top:60px; z-index:90; }
+   .content { padding:20px; }
+   .section { margin-bottom:30px; }
+   .section-title { color:#e50914; font-size:18px; margin:0 0 15px; font-weight:bold; display:flex; align-items:center; gap:10px; }
+   .chaines { display:grid; grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:15px; }
+   .chaine { background:#1a1f2e; border-radius:8px; padding:10px; cursor:pointer; transition:0.3s; position:relative; }
+   .chaine:hover { transform:scale(1.05); background:#252b3d; }
+   .chaine.active { border:2px solid #e50914; }
+   .chaine img { width:100%; height:80px; object-fit:contain; background:#fff; border-radius:6px; margin-bottom:8px; }
+   .chaine-nom { font-size:13px; font-weight:bold; margin-bottom:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+   .chaine-ch { font-size:11px; color:#888; }
+   .btn-fav { position:absolute; top:5px; left:5px; background:rgba(0,0,0,0.7); color:#fff; border:none; border-radius:50%; width:28px; height:28px; cursor:pointer; font-size:14px; z-index:5; }
+   .btn-fav.active { color:#ffcc00; }
+   .btn-del-site { position:absolute; top:5px; right:5px; background:rgba(255,0,0,0.8); color:#fff; border:none; border-radius:50%; width:28px; height:28px; cursor:pointer; font-size:12px; opacity:0; transition:0.3s; z-index:5; }
+   .chaine:hover.btn-del-site { opacity:1; }
+   .now { text-align:center; padding:10px; background:#1a1f2e; color:#888; position:sticky; top:calc(40vh + 60px); z-index:80; font-size:14px; }
+   .vide { text-align:center; color:#888; padding:40px; grid-column:1/-1; }
+   .tabs { display:flex; gap:10px; margin-bottom:20px; overflow-x:auto; }
+   .tab { background:#1a1f2e; padding:10px 20px; border-radius:25px; cursor:pointer; white-space:nowrap; border:2px solid transparent; }
+   .tab.active { background:#e50914; border-color:#e50914; }
 
     @media (max-width: 768px) {
-    .header { flex-wrap:wrap; }
-    .search-box { order:3; flex:1 0 100%; max-width:100%; }
-    .chaines { grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:10px; }
-    .chaine img { height:70px; }
-    .player { height:35vh; }
-    .now { top:calc(35vh + 100px); }
+       .header { flex-wrap:wrap; }
+       .search-box { order:3; flex:1 0 100%; max-width:100%; }
+       .chaines { grid-template-columns:repeat(auto-fill, minmax(110px, 1fr)); gap:10px; }
+       .chaine img { height:65px; }
+       .player { height:35vh; }
+       .now { top:calc(35vh + 100px); }
     }
     </style>
 </head>
@@ -70,7 +63,6 @@
         <div class="tabs">
             <div class="tab active" onclick="changerOnglet('tout')">📺 Toutes</div>
             <div class="tab" onclick="changerOnglet('favoris')">⭐ Favoris</div>
-            <div class="tab" onclick="changerOnglet('tendance')">📈 Tendance</div>
         </div>
         <div id="content"></div>
     </div>
@@ -80,20 +72,14 @@ const player = document.getElementById('player');
 let hls;
 let chaines = JSON.parse(localStorage.getItem('chaines_tvpro') || '[]');
 let favoris = JSON.parse(localStorage.getItem('tvpro_favoris') || '[]');
-let vues = JSON.parse(localStorage.getItem('tvpro_vues') || '{}');
 let ongletActif = 'tout';
 let chaineActive = null;
 
 function jouer(lien, nom, index) {
     document.getElementById('now').textContent = '▶️ En cours: ' + nom;
     chaineActive = index;
-
-    // Incrémente les vues
-    vues[index] = (vues[index] || 0) + 1;
-    localStorage.setItem('tvpro_vues', JSON.stringify(vues));
-
     window.scrollTo(0, 0);
-    afficherChaines();
+    afficherChaines(); // Refresh pour mettre le border actif
 
     if(Hls.isSupported()) {
         if(hls) hls.destroy();
@@ -107,24 +93,6 @@ function jouer(lien, nom, index) {
     } else if(player.canPlayType('application/vnd.apple.mpegurl')) {
         player.src = lien;
         player.play();
-    }
-}
-
-function formaterVues(nb) {
-    if(nb >= 1000000) return (nb/1000000).toFixed(1) + 'M';
-    if(nb >= 1000) return (nb/1000).toFixed(1) + 'K';
-    return nb || 0;
-}
-
-function partagerChaine(nom, index) {
-    const url = window.location.origin + window.location.pathname + '?chaine=' + index;
-    const texte = 📺 Regarde ${nom} en direct sur TV PRO MEDIA: ${url};
-
-    if(navigator.share) {
-        navigator.share({ title: nom, text: texte, url: url });
-    } else {
-        navigator.clipboard.writeText(texte);
-        alert('Lien copié boss! 📋\n' + url);
     }
 }
 
@@ -143,18 +111,9 @@ function supprimerDepuisSite(index) {
     if(confirm('Supprimer ' + chaines[index].nom + ' boss?')) {
         chaines.splice(index, 1);
         localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
+        // Nettoyer favoris
         favoris = favoris.filter(f => f!== index).map(f => f > index? f - 1 : f);
         localStorage.setItem('tvpro_favoris', JSON.stringify(favoris));
-
-        // Réindexer les vues
-        const nouvellesVues = {};
-        Object.keys(vues).forEach(key => {
-            const k = parseInt(key);
-            if(k < index) nouvellesVues[k] = vues[k];
-            if(k > index) nouvellesVues[k - 1] = vues[k];
-        });
-        vues = nouvellesVues;
-        localStorage.setItem('tvpro_vues', JSON.stringify(vues));
         afficherChaines();
     }
 }
@@ -175,8 +134,9 @@ function afficherChaines() {
     const recherche = document.getElementById('search').value.toLowerCase();
     chaines = JSON.parse(localStorage.getItem('chaines_tvpro') || '[]');
 
-    let chainesFiltrees = chaines.map((c, i) => ({...c, index: i, nbVues: vues[i] || 0}));
+    let chainesFiltrees = chaines.map((c, i) => ({...c, index: i}));
 
+    // Filtre recherche
     if(recherche) {
         chainesFiltrees = chainesFiltrees.filter(c =>
             c.nom.toLowerCase().includes(recherche) ||
@@ -184,14 +144,9 @@ function afficherChaines() {
         );
     }
 
+    // Filtre onglet favoris
     if(ongletActif === 'favoris') {
         chainesFiltrees = chainesFiltrees.filter(c => favoris.includes(c.index));
-    } else if(ongletActif === 'tendance') {
-        // Trie par vues et prend top 5
-        chainesFiltrees = chainesFiltrees
-          .filter(c => c.nbVues > 0)
-          .sort((a, b) => b.nbVues - a.nbVues)
-          .slice(0, 5);
     }
 
     if(chainesFiltrees.length === 0) {
@@ -199,102 +154,46 @@ function afficherChaines() {
         return;
     }
 
-    let html = '';
+    // Grouper par catégorie
+    const categories = {};
+    chainesFiltrees.forEach(c => {
+        if(!categories[c.cat]) categories[c.cat] = [];
+        categories[c.cat].push(c);
+    });
 
-    if(ongletActif === 'tendance') {
-        html += `
-            <div class="section">
-                <div class="section-title tendance">📈 TOP 5 TENDANCE</div>
-                <div class="chaines">
-                    ${chainesFiltrees.map((c, rank) => `
-                        <div class="chaine tendance-card ${chaineActive === c.index? 'active' : ''}">
-                            <div class="rank-badge">#${rank + 1}</div>
-                            <div class="live-badge">● LIVE</div>
-                            <button class="btn-del-site" onclick="event.stopPropagation(); supprimerDepuisSite(${c.index})">🗑️</button>
-                            <div onclick="jouer('${c.lien}', '${c.nom}', ${c.index})">
-                                <img src="${c.logo}" onerror="this.src='https://via.placeholder.com/150x80/1a1f2e/e50914?text=${encodeURIComponent(c.nom)}'">
-                                <div class="chaine-nom">${c.nom}</div>
-                                <div class="chaine-footer">
-                                    <div class="chaine-vues">🔥 ${formaterVues(c.nbVues)}</div>
-                                    <div class="chaine-actions">
-                                        <button class="btn-icon btn-fav ${favoris.includes(c.index)? 'active' : ''}"
-                                                onclick="event.stopPropagation(); toggleFavori(${c.index})"
-                                                title="Favoris">
-                                            ${favoris.includes(c.index)? '★' : '☆'}
-                                        </button>
-                                        <button class="btn-icon"
-                                                onclick="event.stopPropagation(); partagerChaine('${c.nom}', ${c.index})"
-                                                title="Partager">
-                                            🔗
-                                        </button>
-                                    </div>
+    let html = '';
+    const ordreCat = ['FAVORIS', 'GOSPEL', 'SPORTS', 'NEWS', 'FILMS', 'MUSIQUE', 'GENERALISTE', 'DOCUMENTAIRE', 'ENFANTS'];
+
+    ordreCat.forEach(cat => {
+        if(categories[cat]) {
+            html += `
+                <div class="section">
+                    <div class="section-title">${cat}</div>
+                    <div class="chaines">
+                        ${categories[cat].map(c => `
+                            <div class="chaine ${chaineActive === c.index? 'active' : ''}">
+                                <button class="btn-fav ${favoris.includes(c.index)? 'active' : ''}"
+                                        onclick="event.stopPropagation(); toggleFavori(${c.index})">
+                                    ${favoris.includes(c.index)? '★' : '☆'}
+                                </button>
+                                <button class="btn-del-site" onclick="event.stopPropagation(); supprimerDepuisSite(${c.index})">🗑️</button>
+                                <div onclick="jouer('${c.lien}', '${c.nom}', ${c.index})">
+                                    <img src="${c.logo}" onerror="this.src='https://via.placeholder.com/150x80/1a1f2e/e50914?text=${encodeURIComponent(c.nom)}'">
+                                    <div class="chaine-nom">${c.nom}</div>
+                                    <div class="chaine-ch">${c.ch} | ${c.qualite || 'HD'}</div>
                                 </div>
                             </div>
-                        </div>
-                    `).join('')}
-                </div>
-            </div>
-        `;
-    } else {
-        // Grouper par catégorie pour "Toutes" et "Favoris"
-        const categories = {};
-        chainesFiltrees.forEach(c => {
-            if(!categories[c.cat]) categories[c.cat] = [];
-            categories[c.cat].push(c);
-        });
-
-        const ordreCat = ['GOSPEL', 'SPORTS', 'NEWS', 'FILMS', 'MUSIQUE', 'GENERALISTE', 'DOCUMENTAIRE', 'ENFANTS'];
-
-        ordreCat.forEach(cat => {
-            if(categories[cat]) {
-                html += `
-                    <div class="section">
-                        <div class="section-title">${cat}</div>
-                        <div class="chaines">
-                            ${categories[cat].map(c => `
-                                <div class="chaine ${chaineActive === c.index? 'active' : ''}">
-                                    <div class="live-badge">● LIVE</div>
-                                    <button class="btn-del-site" onclick="event.stopPropagation(); supprimerDepuisSite(${c.index})">🗑️</button>
-                                    <div onclick="jouer('${c.lien}', '${c.nom}', ${c.index})">
-                                        <img src="${c.logo}" onerror="this.src='https://via.placeholder.com/150x80/1a1f2e/e50914?text=${encodeURIComponent(c.nom)}'">
-                                        <div class="chaine-nom">${c.nom}</div>
-                                        <div class="chaine-footer">
-                                            <div class="chaine-vues">👁️ ${formaterVues(c.nbVues)}</div>
-                                            <div class="chaine-actions">
-                                                <button class="btn-icon btn-fav ${favoris.includes(c.index)? 'active' : ''}"
-                                                        onclick="event.stopPropagation(); toggleFavori(${c.index})"
-                                                        title="Favoris">
-                                                    ${favoris.includes(c.index)? '★' : '☆'}
-                                                </button>
-                                                <button class="btn-icon"
-                                                        onclick="event.stopPropagation(); partagerChaine('${c.nom}', ${c.index})"
-                                                        title="Partager">
-                                                    🔗
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
+                        `).join('')}
                     </div>
-                `;
-            }
-        });
-    }
+                </div>
+            `;
+        }
+    });
 
     content.innerHTML = html;
 }
 
-// Auto-play si lien partagé avec?chaine=0
-window.onload = () => {
-    const params = new URLSearchParams(window.location.search);
-    const chaineId = params.get('chaine');
-    if(chaineId!== null && chaines[chaineId]) {
-        jouer(chaines[chaineId].lien, chaines[chaineId].nom, parseInt(chaineId));
-    }
-    afficherChaines();
-};
+afficherChaines();
 </script>
 </body>
 </html>
