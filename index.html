@@ -1,114 +1,145 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TV PRO MEDIA</title>
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#0a0e1a;color:#fff;font-family:Arial}
-.header{background:#1a1f2e;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;gap:15px}
-.logo{font-size:24px;font-weight:bold;cursor:pointer;user-select:none}
-.logo span{color:#e50914}
-.search-box{flex:1;max-width:400px}
-.search-box input{width:100%;padding:10px 15px;background:#0f1420;border:1px solid #333;border-radius:25px;color:#fff;outline:none}
-.player{width:100%;height:40vh;background:#000;margin-top:10px}
-.content{padding:20px}
-.chaines{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:15px}
-.chaine{background:#1a1f2e;border-radius:8px;padding:10px;cursor:pointer;position:relative;transition:0.3s}
-.chaine:hover{background:#252b3d;transform:scale(1.05)}
-.chaine img{width:100%;height:80px;object-fit:contain;background:#fff;border-radius:6px;margin-bottom:8px}
-.chaine-nom{font-size:13px;font-weight:bold;text-align:center}
-.btn-del{position:absolute;top:5px;right:5px;background:red;color:#fff;border:none;border-radius:50%;width:25px;height:25px;cursor:pointer;font-size:12px;display:none}
-.chaine:hover.btn-del{display:block}
+body{margin:0;background:#0a0a0a;color:#fff;font-family:Arial,sans-serif}
+header{background:#1a1a1a;padding:20px;text-align:center;font-size:24px;font-weight:bold;cursor:pointer;border-bottom:2px solid #e50914}
+#player{width:100%;max-width:1200px;margin:20px auto;display:block;background:#000;min-height:400px}
+#contact-info{text-align:center;padding:10px;color:#aaa;font-size:12px}
+#categories{max-width:1200px;margin:20px auto;padding:0 20px;display:flex;gap:10px;flex-wrap:wrap}
+.cat-btn{padding:8px 15px;background:#1a1a1a;border:1px solid #333;border-radius:20px;cursor:pointer;font-size:13px;color:#fff}
+.cat-btn.active{background:#e50914;border-color:#e50914}
+#channels{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:15px;padding:20px;max-width:1200px;margin:auto}
+.channel{background:#1a1a1a;padding:10px;border-radius:8px;text-align:center;cursor:pointer;transition:0.3s}
+.channel:hover{background:#e50914;transform:scale(1.05)}
+.channel img{width:100%;height:80px;object-fit:contain;background:#fff;border-radius:5px}
+.channel p{margin:8px 0 0;font-size:13px}
+.cat-label{font-size:10px;color:#e50914;margin-top:3px}
+footer{background:#111;margin-top:50px;padding:40px 20px;border-top:2px solid #e50914}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:30px;max-width:1200px;margin:auto}
+.footer-grid h4{color:#e50914;margin-bottom:10px}
+.footer-grid p,a{color:#aaa;font-size:13px;line-height:1.6;text-decoration:none}
+.copyright{text-align:center;padding-top:20px;margin-top:20px;border-top:1px solid #333;color:#666;font-size:12px}
 </style>
 </head>
 <body>
-<div class="header">
-  <div class="logo" id="logo"><span>TV</span> PRO MEDIA</div>
-  <div class="search-box"><input type="text" id="search" placeholder="Recher une chaîne..." oninput="afficher()"></div>
-</div>
 
-<video id="player" class="player" controls></video>
-<div style="text-align:center;padding:10px;color:#888" id="now">Clique sur une chaîne</div>
+<header id="logo">TV PRO MEDIA</header>
 
-<div class="content">
-  <div id="content"></div>
-</div>
+<video id="player" controls autoplay muted playsinline></video>
+<div id="contact-info">Clique une chaîne pour voir contact</div>
 
+<div id="categories"></div>
+<div id="channels"></div>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h4 style="color:#e50914">TV PRO MEDIA</h4>
+      <p>Your premier destination for live streaming entertainment across all categories. Access from anywhere, anytime</p>
+    </div>
+    <div>
+      <h4>Categories</h4>
+      <p>SPORTS<br>GOSPEL<br>NEWS<br>KIDS<br>MOVIES</p>
+    </div>
+    <div>
+      <h4>Legal & More</h4>
+      <p>Privacy Policy<br>Terms of Service<br>MUSIC<br>NEWS<br>SERIES</p>
+    </div>
+    <div>
+      <h4>Contact Us</h4>
+      <p>📧 marksonch@gmail.com</p>
+    </div>
+  </div>
+  <div class="copyright">© 2026 TV PRO MEDIA - All rights reserved</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <script>
-// =================== MDP ADMIN - CHANGE ICI ===================
-const MDP_ADMIN = "1234";
-// ==============================================================
+const MDP_ADMIN = "Microsoft1234";
 
-// 3 CLICS SUR LOGO = ADMIN
+// 3 CLICS SUR LOGO POUR ADMIN
 let clicks = 0;
-document.getElementById('logo').onclick = ()=>{
+document.getElementById('logo').onclick = function(){
   clicks++;
-  setTimeout(()=>clicks=0, 1000); // 1 seconde pour faire 3 clics
-
+  setTimeout(()=>clicks=0, 1000);
   if(clicks === 3){
-    clicks = 0;
-    let p = prompt("🔒 ADMIN TV PRO MEDIA\nEntre le mot de passe :");
-    if(p === MDP_ADMIN){
-      window.location = "admin.html?key=" + MDP_ADMIN;
-    } else if(p){
-      alert("❌ Mauvais mot de passe boss");
+    let mdp = prompt("Mot de passe admin :");
+    if(mdp === MDP_ADMIN){
+      window.location.href = "admin.html?key=Microsoft1234";
+    } else if(mdp!== null){
+      alert("Mauvais mot de passe boss");
     }
   }
 };
 
-let chaines = JSON.parse(localStorage.getItem('chaines_tvpro')||'[]');
-const player = document.getElementById('player');
-let hls;
+// CHAÎNES PAR DÉFAUT SI LOCALSTORAGE VIDE
+let defaultChannels = [
+  {name:"Test HD", url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8", logo:"https://via.placeholder.com/150x80/FF0000/FFFFFF?text=TEST+HD", categorie:"GÉNÉRAL", email:"test@tvpro.cd", tel:"+243 800 000 000"}
+];
 
-function jouer(lien, nom){
-  document.getElementById('now').innerText = '▶️ '+nom;
+let channels = JSON.parse(localStorage.getItem('tvpro_channels'));
+if(!channels || channels.length === 0){
+  channels = defaultChannels;
+  localStorage.setItem('tvpro_channels', JSON.stringify(channels));
+}
+
+const player = document.getElementById('player');
+const channelsDiv = document.getElementById('channels');
+const categoriesDiv = document.getElementById('categories');
+let categorieActive = 'TOUT';
+
+function loadChannel(ch){
+  player.poster = ch.logo;
   if(Hls.isSupported()){
-    if(hls) hls.destroy();
-    hls = new Hls();
-    hls.loadSource(lien);
+    let hls = new Hls();
+    hls.loadSource(ch.url);
     hls.attachMedia(player);
-    hls.on(Hls.Events.MANIFEST_PARSED, ()=>player.play());
-  } else {
-    player.src = lien;
+    hls.on(Hls.Events.MANIFEST_PARSED, function(){
+      player.play().catch(e=>console.log("Autoplay bloqué"));
+    });
+  } else if(player.canPlayType('application/vnd.apple.mpegurl')){
+    player.src = ch.url;
     player.play();
   }
+  document.getElementById('contact-info').innerHTML =
+    📧 ${ch.email || 'N/A'} | 📞 ${ch.tel || 'N/A'} | Catégorie: ${ch.categorie || 'GÉNÉRAL'};
 }
 
-function suppr(i){
-  if(confirm('Supprimer '+chaines[i].nom+'?')){
-    chaines.splice(i,1);
-    localStorage.setItem('chaines_tvpro',JSON.stringify(chaines));
-    afficher();
-  }
-}
-
-function afficher(){
-  const recherche = document.getElementById('search').value.toLowerCase();
-  let filtrees = chaines.filter(c=>c.nom.toLowerCase().includes(recherche));
-
-  if(filtrees.length === 0){
-    content.innerHTML = '<p style="text-align:center;color:#888">Aucune chaîne boss</p>';
-    return;
-  }
-
-  let html = '<div class="chaines">';
-  filtrees.forEach((c,i)=>{
-    let vraiIndex = chaines.indexOf(c);
-    html += `<div class="chaine">
-      <button class="btn-del" onclick="event.stopPropagation();suppr(${vraiIndex})">X</button>
-      <div onclick="jouer('${c.lien}','${c.nom}')">
-        <img src="${c.logo}" onerror="this.src='https://via.placeholder.com/150x80/333/888?text=NO+LOGO'">
-        <div class="chaine-nom">${c.nom}</div>
-      </div>
-    </div>`;
+function creerBoutonsCategories(){
+  let cats = ['TOUT',...new Set(channels.map(c => c.categorie || 'GÉNÉRAL'))];
+  categoriesDiv.innerHTML = '';
+  cats.forEach(cat => {
+    categoriesDiv.innerHTML += <button class="cat-btn ${cat===categorieActive?'active':''}" onclick="filtrer('${cat}')">${cat}</button>;
   });
-  html += '</div>';
-  content.innerHTML = html;
 }
-afficher();
+
+function filtrer(cat){
+  categorieActive = cat;
+  afficherChannels();
+  creerBoutonsCategories();
+}
+
+function afficherChannels(){
+  let filtered = categorieActive === 'TOUT'? channels : channels.filter(c => (c.categorie || 'GÉNÉRAL') === categorieActive);
+  channelsDiv.innerHTML = '';
+  filtered.forEach(ch => {
+    channelsDiv.innerHTML += `
+      <div class="channel" onclick='loadChannel(${JSON.stringify(ch)})'>
+        <img src="${ch.logo}" alt="${ch.name}">
+        <p>${ch.name}</p>
+        <div class="cat-label">${ch.categorie || 'GÉNÉRAL'}</div>
+      </div>
+    `;
+  });
+}
+
+creerBoutonsCategories();
+afficherChannels();
+loadChannel(channels[0]); // Lance direct la 1ère chaîne
 </script>
 </body>
 </html>
