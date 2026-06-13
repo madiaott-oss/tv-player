@@ -21,14 +21,11 @@ input, select { width:100%; padding:12px; background:#1a1f2e; border:1px solid #
 label { color:#888; font-size:13px; margin-top:10px; display:block; }
 .chaine-edit { background:#1a1f2e; padding:15px; border-radius:8px; margin:15px 0; border-left:3px solid #e50914; position:relative; }
 .btn-del { position:absolute; top:10px; right:10px; background:red; color:#fff; border:none; padding:5px 10px; border-radius:4px; cursor:pointer; }
-.logo-preview { width:80px; height:60px; object-fit:contain; background:#fff; border-radius:6px; border:2px solid #333; }
-small { color:#666; font-size:12px; }
 </style>
 </head>
 <body>
 <div class="container">
 
-<!-- ÉCRAN VERROUILLÉ -->
 <div class="lock" id="lockScreen">
   <h1>🔒 ACCÈS ADMIN</h1>
   <input type="password" id="mdp" placeholder="Mot de passe admin">
@@ -36,14 +33,12 @@ small { color:#666; font-size:12px; }
   <button onclick="verifier()">Entrer</button>
 </div>
 
-<!-- PANEL ADMIN -->
 <div class="panel" id="adminPanel">
   <h1>⚙️ ADMIN TV PRO MEDIA</h1>
 
   <div class="top-btns">
     <input type="file" id="importFile" accept=".json" style="display:none" onchange="importer(this)">
-    <button class="btn" onclick="document.getElementById('importFile').click()">📂 Importer JSON PC</button>
-    <button class="btn" onclick="exporter()">📥 Exporter JSON</button>
+    <button class="btn" onclick="document.getElementById('importFile').click()">📂 Importer depuis PC</button>
     <button class="btn save" onclick="sauvegarder()">💾 Sauvegarder</button>
     <button class="btn danger" onclick="toutSupprimer()">🗑️ Tout supprimer</button>
     <a href="index.html" class="btn">← Retour site</a>
@@ -60,7 +55,6 @@ small { color:#666; font-size:12px; }
 const MDP = "Microsoft";
 let chaines = [];
 
-// VÉRIFICATION CLÉ DANS URL OU MOT DE PASSE
 window.onload = function(){
   const urlParams = new URLSearchParams(window.location.search);
   const key = urlParams.get('key');
@@ -98,20 +92,14 @@ function afficherChaines(){
   div.innerHTML = chaines.map((c,i) => `
     <div class="chaine-edit">
       <button class="btn-del" onclick="supprimer(${i})">X</button>
-
-      <label>Logo chaîne:</label>
-      <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px">
-        <img src="${c.logo || 'https://via.placeholder.com/80x60/1a1f2e/666?text=Logo'}" class="logo-preview" id="logoPrev${i}">
-        <input type="file" accept="image/*" onchange="uploadLogo(event, ${i})">
-      </div>
-      <small>Ou colle une URL du logo :</small>
-      <input value="${c.logo || ''}" placeholder="https://..." onchange="chaines[${i}].logo=this.value; document.getElementById('logoPrev${i}').src=this.value">
-
       <label>Nom chaîne:</label>
       <input value="${c.nom}" onchange="chaines[${i}].nom=this.value">
 
       <label>Lien M3U8/TS:</label>
       <input value="${c.lien}" onchange="chaines[${i}].lien=this.value">
+
+      <label>Logo URL:</label>
+      <input value="${c.logo}" onchange="chaines[${i}].logo=this.value">
 
       <label>Catégorie:</label>
       <select onchange="chaines[${i}].cat=this.value">
@@ -151,33 +139,10 @@ function toutSupprimer(){
 }
 
 function sauvegarder(){
-  try{
-    localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
-    alert("✅ Sauvegardé! Recharge index.html pour voir les changements");
-  } catch(e){
-    alert("❌ Erreur: Trop de données boss. Supprime des logos lourds ou utilise des URLs");
-  }
+  localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
+  alert("✅ Sauvegardé! Recharge index.html pour voir les changements");
 }
 
-// UPLOAD LOGO DEPUIS PC
-function uploadLogo(event, index){
-  const file = event.target.files[0];
-  if(!file) return;
-
-  if(file.size > 500000){
-    alert("⚠️ Logo trop lourd boss. Prends une image < 500KB pour éviter les bugs");
-  }
-
-  const reader = new FileReader();
-  reader.onload = function(e){
-    chaines[index].logo = e.target.result; // base64
-    document.getElementById('logoPrev'+index).src = e.target.result;
-    alert("✅ Logo chargé! Clique Sauvegarder maintenant");
-  };
-  reader.readAsDataURL(file);
-}
-
-// IMPORT DEPUIS PC
 function importer(input){
   const file = input.files[0];
   if(!file) return;
@@ -198,18 +163,6 @@ function importer(input){
     }
   };
   reader.readAsText(file);
-}
-
-// EXPORT JSON BACKUP
-function exporter(){
-  const dataStr = JSON.stringify(chaines, null, 2);
-  const blob = new Blob([dataStr], {type: 'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'chaines_tvpro_backup.json';
-  a.click();
-  alert("✅ Fichier téléchargé! Garde-le en sécurité boss");
 }
 </script>
 </body>
