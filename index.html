@@ -7,21 +7,23 @@
 <style>
 body{margin:0;background:#0a0a0a;color:#fff;font-family:Arial,sans-serif}
 header{background:#1a1a1a;padding:20px;text-align:center;font-size:24px;font-weight:bold;cursor:pointer;border-bottom:2px solid #e50914}
-#player{width:100%;max-width:1200px;margin:20px auto;display:block;background:#000;min-height:400px}
-#contact-info{text-align:center;padding:10px;color:#aaa;font-size:12px}
+#player{width:100%;max-width:1200px;margin:20px auto;display:block;background:#000;min-height:400px;border-radius:8px}
+#channel-info{max-width:1200px;margin:0 auto 30px;padding:20px;background:#1a1a1a;border-radius:8px;border-left:4px solid #e50914;display:none}
+#channel-info h3{color:#e50914;margin:0 0 10px;font-size:22px}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:15px 0}
+.info-item{background:#2a2a2a;padding:10px;border-radius:6px;font-size:13px}
+.info-item b{color:#e50914;display:block;margin-bottom:3px}
+#desc{color:#aaa;font-size:14px;line-height:1.6;margin-top:10px}
 #categories{max-width:1200px;margin:20px auto;padding:0 20px;display:flex;gap:10px;flex-wrap:wrap}
 .cat-btn{padding:8px 15px;background:#1a1a1a;border:1px solid #333;border-radius:20px;cursor:pointer;font-size:13px;color:#fff}
 .cat-btn.active{background:#e50914;border-color:#e50914}
-#channels{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:15px;padding:20px;max-width:1200px;margin:auto}
-.channel{background:#1a1a1a;padding:10px;border-radius:8px;text-align:center;cursor:pointer;transition:0.3s}
-.channel:hover{background:#e50914;transform:scale(1.05)}
-.channel img{width:100%;height:80px;object-fit:contain;background:#fff;border-radius:5px}
-.channel p{margin:8px 0 0;font-size:13px}
-.cat-label{font-size:10px;color:#e50914;margin-top:3px}
+#channels{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:15px;padding:20px;max-width:1200px;margin:auto}
+.channel{background:#1a1a1a;padding:12px;border-radius:8px;text-align:center;cursor:pointer;transition:0.3s;border:2px solid transparent}
+.channel:hover{border-color:#e50914;transform:scale(1.05)}
+.channel img{width:100%;height:90px;object-fit:contain;background:#fff;border-radius:5px;padding:5px}
+.channel p{margin:8px 0 3px;font-size:14px;font-weight:bold}
+.channel small{color:#aaa;font-size:11px;display:block}
 footer{background:#111;margin-top:50px;padding:40px 20px;border-top:2px solid #e50914}
-.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:30px;max-width:1200px;margin:auto}
-.footer-grid h4{color:#e50914;margin-bottom:10px}
-.footer-grid p,a{color:#aaa;font-size:13px;line-height:1.6;text-decoration:none}
 .copyright{text-align:center;padding-top:20px;margin-top:20px;border-top:1px solid #333;color:#666;font-size:12px}
 </style>
 </head>
@@ -30,30 +32,24 @@ footer{background:#111;margin-top:50px;padding:40px 20px;border-top:2px solid #e
 <header id="logo">TV PRO MEDIA</header>
 
 <video id="player" controls autoplay muted playsinline></video>
-<div id="contact-info">Clique une chaîne pour voir contact</div>
+
+<div id="channel-info">
+  <h3 id="ch-name">Nom de la chaîne</h3>
+  <div class="info-grid">
+    <div class="info-item"><b>Numéro</b><span id="ch-numero">-</span></div>
+    <div class="info-item"><b>Catégorie</b><span id="ch-cat">-</span></div>
+    <div class="info-item"><b>Qualité</b><span id="ch-qualite">-</span></div>
+    <div class="info-item"><b>Pays</b><span id="ch-pays">-</span></div>
+    <div class="info-item"><b>Email</b><span id="ch-email">-</span></div>
+    <div class="info-item"><b>Téléphone</b><span id="ch-tel">-</span></div>
+  </div>
+  <div id="desc"></div>
+</div>
 
 <div id="categories"></div>
 <div id="channels"></div>
 
 <footer>
-  <div class="footer-grid">
-    <div>
-      <h4 style="color:#e50914">TV PRO MEDIA</h4>
-      <p>Your premier destination for live streaming entertainment across all categories. Access from anywhere, anytime</p>
-    </div>
-    <div>
-      <h4>Categories</h4>
-      <p>SPORTS<br>GOSPEL<br>NEWS<br>KIDS<br>MOVIES</p>
-    </div>
-    <div>
-      <h4>Legal & More</h4>
-      <p>Privacy Policy<br>Terms of Service<br>MUSIC<br>NEWS<br>SERIES</p>
-    </div>
-    <div>
-      <h4>Contact Us</h4>
-      <p>📧 marksonch@gmail.com</p>
-    </div>
-  </div>
   <div class="copyright">© 2026 TV PRO MEDIA - All rights reserved</div>
 </footer>
 
@@ -61,7 +57,6 @@ footer{background:#111;margin-top:50px;padding:40px 20px;border-top:2px solid #e
 <script>
 const MDP_ADMIN = "Microsoft1234";
 
-// 3 CLICS SUR LOGO POUR ADMIN
 let clicks = 0;
 document.getElementById('logo').onclick = function(){
   clicks++;
@@ -76,17 +71,7 @@ document.getElementById('logo').onclick = function(){
   }
 };
 
-// CHAÎNES PAR DÉFAUT SI LOCALSTORAGE VIDE
-let defaultChannels = [
-  {name:"Test HD", url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8", logo:"https://via.placeholder.com/150x80/FF0000/FFFFFF?text=TEST+HD", categorie:"GÉNÉRAL", email:"test@tvpro.cd", tel:"+243 800 000 000"}
-];
-
-let channels = JSON.parse(localStorage.getItem('tvpro_channels'));
-if(!channels || channels.length === 0){
-  channels = defaultChannels;
-  localStorage.setItem('tvpro_channels', JSON.stringify(channels));
-}
-
+let channels = JSON.parse(localStorage.getItem('tvpro_channels')) || [];
 const player = document.getElementById('player');
 const channelsDiv = document.getElementById('channels');
 const categoriesDiv = document.getElementById('categories');
@@ -99,18 +84,26 @@ function loadChannel(ch){
     hls.loadSource(ch.url);
     hls.attachMedia(player);
     hls.on(Hls.Events.MANIFEST_PARSED, function(){
-      player.play().catch(e=>console.log("Autoplay bloqué"));
+      player.play().catch(e=>{});
     });
   } else if(player.canPlayType('application/vnd.apple.mpegurl')){
     player.src = ch.url;
     player.play();
   }
-  document.getElementById('contact-info').innerHTML =
-    📧 ${ch.email || 'N/A'} | 📞 ${ch.tel || 'N/A'} | Catégorie: ${ch.categorie || 'GÉNÉRAL'};
+
+  document.getElementById('channel-info').style.display = 'block';
+  document.getElementById('ch-name').textContent = ch.name;
+  document.getElementById('ch-numero').textContent = ch.numero || '-';
+  document.getElementById('ch-cat').textContent = ch.categorie || 'GÉNÉRALISTE';
+  document.getElementById('ch-qualite').textContent = ch.qualite || 'HD';
+  document.getElementById('ch-pays').textContent = ch.pays || 'RDC';
+  document.getElementById('ch-email').textContent = ch.email || 'N/A';
+  document.getElementById('ch-tel').textContent = ch.tel || 'N/A';
+  document.getElementById('desc').textContent = ch.desc || 'Aucune description';
 }
 
 function creerBoutonsCategories(){
-  let cats = ['TOUT',...new Set(channels.map(c => c.categorie || 'GÉNÉRAL'))];
+  let cats = ['TOUT',...new Set(channels.map(c => c.categorie || 'GÉNÉRALISTE'))];
   categoriesDiv.innerHTML = '';
   cats.forEach(cat => {
     categoriesDiv.innerHTML += <button class="cat-btn ${cat===categorieActive?'active':''}" onclick="filtrer('${cat}')">${cat}</button>;
@@ -124,14 +117,18 @@ function filtrer(cat){
 }
 
 function afficherChannels(){
-  let filtered = categorieActive === 'TOUT'? channels : channels.filter(c => (c.categorie || 'GÉNÉRAL') === categorieActive);
+  let filtered = categorieActive === 'TOUT'? channels : channels.filter(c => (c.categorie || 'GÉNÉRALISTE') === categorieActive);
   channelsDiv.innerHTML = '';
+  if(filtered.length === 0){
+    channelsDiv.innerHTML = '<p style="text-align:center;color:#666;padding:40px">Aucune chaîne dans cette catégorie</p>';
+    return;
+  }
   filtered.forEach(ch => {
     channelsDiv.innerHTML += `
       <div class="channel" onclick='loadChannel(${JSON.stringify(ch)})'>
         <img src="${ch.logo}" alt="${ch.name}">
         <p>${ch.name}</p>
-        <div class="cat-label">${ch.categorie || 'GÉNÉRAL'}</div>
+        <small>${ch.numero || ''} • ${ch.qualite || 'HD'} • ${ch.pays || 'RDC'}</small>
       </div>
     `;
   });
@@ -139,7 +136,7 @@ function afficherChannels(){
 
 creerBoutonsCategories();
 afficherChannels();
-loadChannel(channels[0]); // Lance direct la 1ère chaîne
+if(channels.length > 0) loadChannel(channels[0]);
 </script>
 </body>
 </html>
