@@ -3,167 +3,261 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TV PRO MEDIA - ADMIN</title>
+<title>ADMIN TV PRO MEDIA</title>
 <style>
-body{background:#0a0e1a;color:#fff;font-family:Arial;padding:20px}
-h1{color:#e50914;margin-bottom:20px}
-input,select,button{padding:10px;margin:5px;border-radius:6px;border:1px solid #333;background:#1a1f2e;color:#fff}
-button{background:#e50914;cursor:pointer;border:none}
-button:hover{background:#ff1a2e}
-table{width:100%;margin-top:20px;border-collapse:collapse}
-th,td{padding:10px;border:1px solid #333;text-align:left}
-th{background:#1a1f2e;color:#e50914}
-.btn-del{background:#ff0000}
-.btn-del:hover{background:#cc0000}
-.msg{padding:10px;margin:10px 0;border-radius:6px;display:none}
-.msg.ok{background:#0f4c0f}
-.msg.err{background:#4c0f0f}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#0a1428; color:#fff; font-family:Arial; padding:20px; }
+.container { max-width:800px; margin:0 auto; }
+h1 { color:#fff; margin-bottom:20px; text-align:center; font-size:22px; }
+.lock { text-align:center; padding:100px 20px; }
+.lock input { padding:12px; width:300px; background:#1a2340; border:1px solid #333; color:#fff; border-radius:6px; margin:10px; }
+.lock button { padding:12px 25px; background:#e50914; border:none; color:#fff; border-radius:6px; cursor:pointer; font-weight:bold; }
+.panel { display:none; }
+.btn { padding:14px; border:none; border-radius:8px; cursor:pointer; font-weight:bold; font-size:15px; width:100%; margin:8px 0; }
+.btn-ajouter { background:#e50914; color:#fff; }
+.btn-export { background:#00c853; color:#fff; width:48%; }
+.btn-import { background:#00b0ff; color:#fff; width:48%; }
+.btn-retour { background:#444; color:#fff; margin-top:20px; }
+.top-btns { display:flex; gap:4%; margin-bottom:20px; }
+input, select { width:100%; padding:10px; background:#1a2340; border:1px solid #333; color:#fff; border-radius:6px; margin:5px 0; }
+label { color:#aaa; font-size:12px; margin-top:8px; display:block; }
+.header-liste { color:#aaa; font-size:14px; margin:15px 0; display:flex; align-items:center; gap:8px; }
+.chaine-box { background:#1a2340; border-radius:8px; padding:12px; margin:10px 0; display:flex; align-items:center; gap:12px; }
+.chaine-box img { width:50px; height:40px; object-fit:contain; background:#fff; border-radius:4px; }
+.chaine-info { flex:1; }
+.chaine-nom { font-weight:bold; font-size:15px; }
+.chaine-desc { color:#888; font-size:12px; margin-top:3px; }
+.btns-chaine { display:flex; gap:8px; }
+.btn-modif { background:#ffcc00; color:#000; padding:8px 12px; border:none; border-radius:5px; cursor:pointer; font-weight:bold; font-size:13px; }
+.btn-suppr { background:#ff4444; color:#fff; padding:8px 12px; border:none; border-radius:5px; cursor:pointer; font-weight:bold; font-size:13px; }
+.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:1000; align-items:center; justify-content:center; }
+.modal-content { background:#1a2340; padding:20px; border-radius:10px; width:90%; max-width:500px; max-height:90vh; overflow-y:auto; }
+.modal h2 { color:#e50914; margin-bottom:15px; }
+.modal.btn { width:auto; padding:10px 20px; margin:5px; }
+.logo-preview { width:80px; height:60px; object-fit:contain; background:#fff; border-radius:6px; margin:10px 0; }
 </style>
 </head>
 <body>
-<h1>⚙️ TV PRO MEDIA - ADMIN</h1>
-<div id="msg" class="msg"></div>
+<div class="container">
+<div class="lock" id="lockScreen">
+  <h1>🔒 ADMIN TV PRO MEDIA</h1>
+  <input type="password" id="mdp" placeholder="Mot de passe admin">
+  <br>
+  <button onclick="verifier()">Entrer</button>
+</div>
 
-<h3>Ajouter/Modifier une chaîne</h3>
-<input type="hidden" id="editIndex" value="-1">
-<input type="text" id="nom" placeholder="Nom chaîne" style="width:200px">
-<input type="text" id="lien" placeholder="Lien m3u8 HTTPS" style="width:300px">
-<input type="text" id="logo" placeholder="URL Logo - laisse vide pour auto" style="width:250px">
-<select id="cat">
-    <option>NEWS</option><option>SPORTS</option><option>GOSPEL</option>
-    <option>FILMS</option><option>MUSIQUE</option><option>GENERALISTE</option>
-    <option>DOCUMENTAIRE</option><option>ENFANTS</option>
-</select>
-<input type="number" id="ch" placeholder="Numéro" style="width:80px">
-<input type="text" id="qualite" placeholder="HD/SD" value="HD" style="width:60px">
-<button onclick="sauvegarder()">💾 Sauvegarder</button>
-<button onclick="viderForm()">🆕 Nouvelle</button>
+<div class="panel" id="adminPanel">
+  <h1>ADMIN TV PRO MEDIA</h1>
+  <button class="btn btn-ajouter" onclick="ouvrirModal()">AJOUTER LA CHAÎNE</button>
+  <div class="top-btns">
+    <button class="btn btn-export" onclick="exporter()">📥 EXPORTER</button>
+    <input type="file" id="importFile" accept=".json" style="display:none" onchange="importer(this)">
+    <button class="btn btn-import" onclick="document.getElementById('importFile').click()">📤 IMPORTER</button>
+  </div>
+  <div class="header-liste">📺 Chaines actuelles: <span id="nbChaines">0</span></div>
+  <div id="listeChaines"></div>
+  <button class="btn btn-retour" onclick="window.location='index.html'">← RETOUR AU SITE</button>
+</div>
+</div>
 
-<table id="table">
-<thead><tr><th>#</th><th>Logo</th><th>Nom</th><th>Cat</th><th>Ch</th><th>Lien</th><th>Action</th></tr></thead>
-<tbody></tbody>
-</table>
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <h2 id="modalTitre">Ajouter une chaîne</h2>
+    <label>Nom chaîne:</label>
+    <input id="mNom" placeholder="Ex: RTNC">
+    <label>Lien M3U8/TS:</label>
+    <input id="mLien" placeholder="https://...">
+    <label>Logo:</label>
+    <img id="mLogoPrev" class="logo-preview" src="https://via.placeholder.com/80x60/1a2340/666?text=Logo">
+    <input type="file" accept="image/*" onchange="uploadLogoModal(event)">
+    <small style="color:#666">Ou colle URL:</small>
+    <input id="mLogo" placeholder="https://..." onchange="document.getElementById('mLogoPrev').src=this.value">
+    <label>Catégorie:</label>
+    <select id="mCat">
+      <option>GOSPEL</option>
+      <option>SPORTS</option>
+      <option>NEWS</option>
+      <option>FILMS</option>
+      <option>MUSIQUE</option>
+      <option>GENERALISTE</option>
+      <option>DOCUMENTAIRE</option>
+      <option>ENFANTS</option>
+    </select>
+    <label>Numéro chaîne:</label>
+    <input type="number" id="mCh" value="1">
+    <div style="text-align:right;margin-top:15px">
+      <button class="btn" style="background:#666" onclick="fermerModal()">Annuler</button>
+      <button class="btn btn-ajouter" onclick="sauvegarderChaine()">Sauvegarder</button>
+    </div>
+  </div>
+</div>
 
 <script>
-const KEY = new URLSearchParams(window.location.search).get('key');
-if(KEY!== 'Microsoft') {
-    document.body.innerHTML = '<h1>⛔ Accès refusé boss</h1><p>3 clics sur le logo depuis index.html</p>';
-}
-
+const MDP = "Microsoft";
 let chaines = [];
+let editIndex = -1;
 
-function showMsg(text, ok) {
-    const m = document.getElementById('msg');
-    m.textContent = text;
-    m.className = 'msg ' + (ok? 'ok' : 'err');
-    m.style.display = 'block';
-    setTimeout(() => m.style.display = 'none', 3000);
+window.onload = function(){
+  const urlParams = new URLSearchParams(window.location.search);
+  const key = urlParams.get('key');
+  if(key === MDP){
+    entrer();
+  }
 }
 
-async function chargerChaines() {
-    try {
-        const res = await fetch('admin.php?key=' + KEY);
-        chaines = await res.json();
-        afficherTable();
-    } catch(e) { showMsg('Erreur chargement: ' + e, false); }
+function verifier(){
+  if(document.getElementById('mdp').value === MDP){
+    entrer();
+  } else {
+    alert("Mauvais mot de passe boss");
+  }
 }
 
-function afficherTable() {
-    const tbody = document.querySelector('#table tbody');
-    if(chaines.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#888">Aucune chaîne. Ajoute-en une boss.</td></tr>';
-        return;
+async function entrer(){
+  document.getElementById('lockScreen').style.display = 'none';
+  document.getElementById('adminPanel').style.display = 'block';
+  await chargerChaines();
+}
+
+async function chargerChaines(){
+  try {
+    const res = await fetch('chaines.json');
+    chaines = await res.json();
+  } catch(e) {
+    chaines = [];
+  }
+  afficherChaines();
+}
+
+function afficherChaines(){
+  const div = document.getElementById('listeChaines');
+  document.getElementById('nbChaines').textContent = chaines.length;
+  if(chaines.length === 0){
+    div.innerHTML = '<p style="color:#888;text-align:center;padding:40px">Aucune chaîne boss</p>';
+    return;
+  }
+  div.innerHTML = chaines.map((c,i) => `
+    <div class="chaine-box">
+      <img src="${c.logo || 'https://via.placeholder.com/50x40/1a2340/666?text=Logo'}" onerror="this.src='https://via.placeholder.com/50x40/1a2340/666?text=Logo'">
+      <div class="chaine-info">
+        <div class="chaine-nom">${c.ch} - ${c.nom}</div>
+        <div class="chaine-desc">${c.cat} | HD | RDC</div>
+      </div>
+      <div class="btns-chaine">
+        <button class="btn-modif" onclick="modifier(${i})">MODIFIER</button>
+        <button class="btn-suppr" onclick="supprimer(${i})">SUPPRIMER</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function ouvrirModal(){
+  editIndex = -1;
+  document.getElementById('modalTitre').textContent = 'Ajouter une chaîne';
+  document.getElementById('mNom').value = '';
+  document.getElementById('mLien').value = '';
+  document.getElementById('mLogo').value = '';
+  document.getElementById('mLogoPrev').src = 'https://via.placeholder.com/80x60/1a2340/666?text=Logo';
+  document.getElementById('mCat').value = 'GENERALISTE';
+  document.getElementById('mCh').value = chaines.length + 1;
+  document.getElementById('modal').style.display = 'flex';
+}
+
+function modifier(index){
+  editIndex = index;
+  const c = chaines[index];
+  document.getElementById('modalTitre').textContent = 'Modifier la chaîne';
+  document.getElementById('mNom').value = c.nom;
+  document.getElementById('mLien').value = c.lien;
+  document.getElementById('mLogo').value = c.logo;
+  document.getElementById('mLogoPrev').src = c.logo;
+  document.getElementById('mCat').value = c.cat;
+  document.getElementById('mCh').value = c.ch;
+  document.getElementById('modal').style.display = 'flex';
+}
+
+function fermerModal(){
+  document.getElementById('modal').style.display = 'none';
+}
+
+function uploadLogoModal(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e){
+    document.getElementById('mLogo').value = e.target.result;
+    document.getElementById('mLogoPrev').src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+// SAUVEGARDE SUR SERVEUR AU LIEU DE LOCALSTORAGE
+async function sauvegarderServeur() {
+  await fetch('save.php', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(chaines)
+  });
+}
+
+async function sauvegarderChaine(){
+  const nouvelle = {
+    nom: document.getElementById('mNom').value,
+    lien: document.getElementById('mLien').value,
+    logo: document.getElementById('mLogo').value || https://via.placeholder.com/50x40/1a2340/fff?text=${encodeURIComponent(document.getElementById('mNom').value)},
+    cat: document.getElementById('mCat').value,
+    ch: parseInt(document.getElementById('mCh').value)
+  };
+
+  if(editIndex === -1){
+    chaines.push(nouvelle);
+  } else {
+    chaines[editIndex] = nouvelle;
+  }
+
+  await sauvegarderServeur(); // ICI ON SAUVE SUR SERVEUR
+  fermerModal();
+  afficherChaines();
+  alert("✅ Sauvegardé boss - Visible sur tel maintenant");
+}
+
+async function supprimer(index){
+  if(confirm("Supprimer "+chaines[index].nom+"?")){
+    chaines.splice(index,1);
+    await sauvegarderServeur(); // ICI AUSSI
+    afficherChaines();
+  }
+}
+
+function exporter(){
+  const dataStr = JSON.stringify(chaines, null, 2);
+  const blob = new Blob([dataStr], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'chaines_tvpro_backup.json';
+  a.click();
+}
+
+function importer(input){
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = async function(e){
+    try{
+      const data = JSON.parse(e.target.result);
+      if(Array.isArray(data)){
+        chaines = data;
+        await sauvegarderServeur(); // SAUVE SUR SERVEUR
+        afficherChaines();
+        alert("✅ Importé "+data.length+" chaînes - Visible partout");
+      }
+    } catch(err){
+      alert("Erreur fichier JSON");
     }
-    tbody.innerHTML = chaines.map((c, i) => `
-        <tr>
-            <td>${i+1}</td>
-            <td><img src="${c.logo}" style="height:40px" onerror="this.src='https://via.placeholder.com/60x40/1a1f2e/e50914?text=NO'"></td>
-            <td>${c.nom}</td>
-            <td>${c.cat}</td>
-            <td>${c.ch}</td>
-            <td style="font-size:11px;max-width:200px;overflow:hidden">${c.lien.substring(0,50)}...</td>
-            <td>
-                <button onclick="editer(${i})">✏️ Edit</button>
-                <button class="btn-del" onclick="supprimer(${i})">🗑️ Del</button>
-            </td>
-        </tr>
-    `).join('');
+  };
+  reader.readAsText(file);
 }
-
-async function sauvegarder() {
-    let nom = document.getElementById('nom').value.trim();
-    let lien = document.getElementById('lien').value.trim();
-    let logo = document.getElementById('logo').value.trim();
-
-    // CORRECTION: Génère logo auto si vide
-    if(!logo && nom) {
-        logo = https://via.placeholder.com/150x80/1a1f2e/e50914?text=${encodeURIComponent(nom)};
-    }
-
-    const chaine = {
-        nom: nom,
-        lien: lien,
-        logo: logo,
-        cat: document.getElementById('cat').value,
-        ch: parseInt(document.getElementById('ch').value) || chaines.length + 1,
-        qualite: document.getElementById('qualite').value || 'HD'
-    };
-
-    if(!chaine.nom ||!chaine.lien ||!chaine.lien.startsWith('https://')) {
-        showMsg('Nom + Lien HTTPS obligatoires boss', false);
-        return;
-    }
-
-    const index = parseInt(document.getElementById('editIndex').value);
-    if(index === -1) chaines.push(chaine);
-    else chaines[index] = chaine;
-
-    await enregistrer();
-    viderForm();
-    showMsg('Chaîne sauvegardée ✅ Tout le monde la voit maintenant', true);
-}
-
-async function enregistrer() {
-    try {
-        await fetch('admin.php?key=' + KEY, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(chaines)
-        });
-        afficherTable();
-    } catch(e) { showMsg('Erreur sauvegarde: ' + e, false); }
-}
-
-function editer(i) {
-    const c = chaines[i];
-    document.getElementById('editIndex').value = i;
-    document.getElementById('nom').value = c.nom;
-    document.getElementById('lien').value = c.lien;
-    document.getElementById('logo').value = c.logo.includes('placeholder')? '' : c.logo;
-    document.getElementById('cat').value = c.cat;
-    document.getElementById('ch').value = c.ch;
-    document.getElementById('qualite').value = c.qualite;
-    window.scrollTo(0,0);
-}
-
-async function supprimer(i) {
-    if(confirm('Supprimer ' + chaines[i].nom + ' boss?')) {
-        chaines.splice(i, 1);
-        await enregistrer();
-        showMsg('Chaîne supprimée', true);
-    }
-}
-
-function viderForm() {
-    document.getElementById('editIndex').value = -1;
-    document.getElementById('nom').value = '';
-    document.getElementById('lien').value = '';
-    document.getElementById('logo').value = '';
-    document.getElementById('ch').value = '';
-    document.getElementById('qualite').value = 'HD';
-}
-
-chargerChaines();
 </script>
 </body>
 </html>
