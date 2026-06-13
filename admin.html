@@ -1,261 +1,216 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ADMIN TV PRO MEDIA</title>
+<title>TV PRO MEDIA - ADMIN</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#0a0a0a;color:#fff;font-family:Arial;padding:20px}
-.warning{background:#ff9500;color:#000;padding:12px;text-align:center;font-weight:bold;border-radius:8px;margin-bottom:20px}
-.container{max-width:900px;margin:auto;background:#1a1a1a;padding:25px;border-radius:12px}
-h2{color:#e50914;margin-bottom:20px;text-align:center}
-h3{color:#e50914;margin:20px 0 10px}
-input,select,textarea{width:100%;padding:12px;margin:8px 0;background:#2a2a2a;color:#fff;border:1px solid #333;border-radius:6px;font-size:14px}
-textarea{resize:vertical;min-height:60px}
-label{font-size:12px;color:#aaa;display:block;margin-top:8px}
-.btn{padding:12px;border:none;border-radius:6px;font-weight:bold;cursor:pointer;font-size:14px}
-.btn-red{background:#e50914;color:#fff;width:100%;margin:15px 0}
-.btn-red:hover{background:#ff0f1f}
-.btn-green{background:#00c853;color:#fff;flex:1}
-.btn-blue{background:#0091ea;color:#fff;flex:1}
-.btn-yellow{background:#ffc107;color:#000}
-.btn-orange{background:#ff5722;color:#fff}
-.btn-group{display:flex;gap:10px;margin:15px 0}
-.channel-item{background:#2a2a2a;padding:15px;margin:10px 0;border-radius:8px;display:flex;align-items:center;gap:15px}
-.channel-item img{width:60px;height:40px;object-fit:contain;background:#fff;border-radius:4px}
-.channel-info{flex:1}
-.channel-info strong{display:block;margin-bottom:3px}
-.channel-info small{color:#aaa;font-size:12px}
-.btn-small{padding:6px 12px;font-size:12px;margin-left:5px}
-.btn-back{background:#333;color:#fff;width:100%;margin-top:20px;padding:15px}
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:15px}
-.sauvegarde{background:#00c853;padding:15px;border-radius:8px;text-align:center;margin:20px 0}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#0a0e1a; color:#fff; font-family:Arial; padding:20px; }
+.container { max-width:900px; margin:0 auto; }
+h1 { color:#e50914; margin-bottom:20px; }
+.lock { text-align:center; padding:100px 20px; }
+.lock input { padding:12px; width:300px; background:#1a1f2e; border:1px solid #333; color:#fff; border-radius:6px; margin:10px; }
+.lock button { padding:12px 25px; background:#e50914; border:none; color:#fff; border-radius:6px; cursor:pointer; font-weight:bold; }
+.panel { display:none; }
+.top-btns { display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap; }
+.btn { padding:12px 20px; background:#1a1f2e; border:1px solid #e50914; color:#fff; border-radius:6px; cursor:pointer; font-weight:bold; }
+.btn.save { background:#e50914; }
+.btn.danger { border-color:red; background:red; }
+input, select { width:100%; padding:12px; background:#1a1f2e; border:1px solid #333; color:#fff; border-radius:6px; margin:8px 0; }
+label { color:#888; font-size:13px; margin-top:10px; display:block; }
+.chaine-edit { background:#1a1f2e; padding:15px; border-radius:8px; margin:15px 0; border-left:3px solid #e50914; position:relative; }
+.btn-del { position:absolute; top:10px; right:10px; background:red; color:#fff; border:none; padding:5px 10px; border-radius:4px; cursor:pointer; }
+.logo-preview { width:80px; height:60px; object-fit:contain; background:#fff; border-radius:6px; border:2px solid #333; }
+small { color:#666; font-size:12px; }
 </style>
 </head>
 <body>
-
-<div class="warning">⚠️ PAGE ADMIN CACHÉE - NE PARTAGE PAS CE LIEN</div>
-
 <div class="container">
-<h2>ADMIN TV PRO MEDIA</h2>
 
-<!-- BLOC SAUVEGARDE EN HAUT POUR PAS OUBLIER -->
-<div class="sauvegarde">
-  <h3>💾 SAUVEGARDE URGENTE</h3>
-  <p style="font-size:12px;margin:8px 0">Clique EXPORTER avant coupure courant!</p>
-  <div class="btn-group">
-    <button class="btn btn-green" onclick="exporter()">📁 EXPORTER JSON</button>
-    <button class="btn btn-blue" onclick="document.getElementById('importFile').click()">📁 IMPORTER JSON</button>
-    <input type="file" id="importFile" accept=".json" style="display:none" onchange="importer(event)">
-  </div>
+<!-- ÉCRAN VERROUILLÉ -->
+<div class="lock" id="lockScreen">
+  <h1>🔒 ACCÈS ADMIN</h1>
+  <input type="password" id="mdp" placeholder="Mot de passe admin">
+  <br>
+  <button onclick="verifier()">Entrer</button>
 </div>
 
-<h3>+ Ajouter une chaîne</h3>
-<input type="text" id="nom" placeholder="NOM DE LA CHAÎNE * Ex: AFRI TV">
-<input type="text" id="url" placeholder="LIEN M3U8 * https://stream.exemple.com/live.m3u8">
-<input type="text" id="logo" placeholder="LOGO URL https://...png">
+<!-- PANEL ADMIN -->
+<div class="panel" id="adminPanel">
+  <h1>⚙️ ADMIN TV PRO MEDIA</h1>
 
-<label>OU Uploader depuis mon PC :</label>
-<input type="file" id="logoFile" accept="image/*">
+  <div class="top-btns">
+    <input type="file" id="importFile" accept=".json" style="display:none" onchange="importer(this)">
+    <button class="btn" onclick="document.getElementById('importFile').click()">📂 Importer JSON PC</button>
+    <button class="btn" onclick="exporter()">📥 Exporter JSON</button>
+    <button class="btn save" onclick="sauvegarder()">💾 Sauvegarder</button>
+    <button class="btn danger" onclick="toutSupprimer()">🗑️ Tout supprimer</button>
+    <a href="index.html" class="btn">← Retour site</a>
+  </div>
 
-<div class="grid-2">
-  <div>
-    <label>CATÉGORIE</label>
-    <select id="categorie">
-      <option>GÉNÉRALISTE</option>
-      <option>SPORTS</option>
-      <option>GOSPEL</option>
-      <option>NEWS</option>
-      <option>MUSIQUE</option>
-      <option>FILMS</option>
-      <option>ENFANTS</option>
-    </select>
-  </div>
-  <div>
-    <label>NUMÉRO DE CHAÎNE</label>
-    <input type="text" id="numero" placeholder="Ex: CH 1">
-  </div>
+  <div id="listeChaines"></div>
+
+  <button class="btn" onclick="ajouterChaine()">+ Ajouter une chaîne</button>
 </div>
 
-<div class="grid-2">
-  <div>
-    <label>EMAIL CONTACT</label>
-    <input type="email" id="email" placeholder="contact@chaine.com">
-  </div>
-  <div>
-    <label>TÉLÉPHONE</label>
-    <input type="tel" id="tel" placeholder="+243 8XX XXX">
-  </div>
-</div>
-
-<div class="grid-2">
-  <div>
-    <label>QUALITÉ</label>
-    <select id="qualite">
-      <option>HD</option>
-      <option>FHD</option>
-      <option>4K</option>
-      <option>SD</option>
-    </select>
-  </div>
-  <div>
-    <label>PAYS</label>
-    <input type="text" id="pays" placeholder="Ex: RDC">
-  </div>
-</div>
-
-<label>DESCRIPTION</label>
-<textarea id="desc" placeholder="Description de la chaîne..."></textarea>
-
-<button class="btn btn-red" onclick="ajouterChaine()">AJOUTER LA CHAÎNE</button>
-
-<h3>📺 Chaînes actuelles: <span id="count">0</span></h3>
-<div id="liste"></div>
-
-<button class="btn btn-back" onclick="window.location.href='index.html'">← RETOUR AU SITE</button>
 </div>
 
 <script>
-const MDP_ADMIN = "Microsoft1234";
-if(!location.search.includes('key='+MDP_ADMIN)){
-  alert("Accès interdit boss");
-  window.location.href = "index.html";
+const MDP = "Microsoft";
+let chaines = [];
+
+// VÉRIFICATION CLÉ DANS URL OU MOT DE PASSE
+window.onload = function(){
+  const urlParams = new URLSearchParams(window.location.search);
+  const key = urlParams.get('key');
+  if(key === MDP){
+    entrer();
+  }
 }
 
-let channels = JSON.parse(localStorage.getItem('tvpro_channels')) || [];
-let editIndex = -1;
+function verifier(){
+  if(document.getElementById('mdp').value === MDP){
+    entrer();
+  } else {
+    alert("Mauvais mot de passe boss");
+  }
+}
 
-function sauvegarder(){
-  localStorage.setItem('tvpro_channels', JSON.stringify(channels));
-  afficherListe();
+function entrer(){
+  document.getElementById('lockScreen').style.display = 'none';
+  document.getElementById('adminPanel').style.display = 'block';
+  chargerChaines();
+}
+
+function chargerChaines(){
+  chaines = JSON.parse(localStorage.getItem('chaines_tvpro') || '[]');
+  afficherChaines();
+}
+
+function afficherChaines(){
+  const div = document.getElementById('listeChaines');
+  if(chaines.length === 0){
+    div.innerHTML = '<p style="color:#888;text-align:center;padding:40px">Aucune chaîne. Clique "+ Ajouter une chaîne" boss</p>';
+    return;
+  }
+
+  div.innerHTML = chaines.map((c,i) => `
+    <div class="chaine-edit">
+      <button class="btn-del" onclick="supprimer(${i})">X</button>
+
+      <label>Logo chaîne:</label>
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px">
+        <img src="${c.logo || 'https://via.placeholder.com/80x60/1a1f2e/666?text=Logo'}" class="logo-preview" id="logoPrev${i}">
+        <input type="file" accept="image/*" onchange="uploadLogo(event, ${i})">
+      </div>
+      <small>Ou colle une URL du logo :</small>
+      <input value="${c.logo || ''}" placeholder="https://..." onchange="chaines[${i}].logo=this.value; document.getElementById('logoPrev${i}').src=this.value">
+
+      <label>Nom chaîne:</label>
+      <input value="${c.nom}" onchange="chaines[${i}].nom=this.value">
+
+      <label>Lien M3U8/TS:</label>
+      <input value="${c.lien}" onchange="chaines[${i}].lien=this.value">
+
+      <label>Catégorie:</label>
+      <select onchange="chaines[${i}].cat=this.value">
+        <option ${c.cat=='GOSPEL'?'selected':''}>GOSPEL</option>
+        <option ${c.cat=='SPORTS'?'selected':''}>SPORTS</option>
+        <option ${c.cat=='NEWS'?'selected':''}>NEWS</option>
+        <option ${c.cat=='FILMS'?'selected':''}>FILMS</option>
+        <option ${c.cat=='MUSIQUE'?'selected':''}>MUSIQUE</option>
+        <option ${c.cat=='GENERALISTE'?'selected':''}>GENERALISTE</option>
+        <option ${c.cat=='DOCUMENTAIRE'?'selected':''}>DOCUMENTAIRE</option>
+        <option ${c.cat=='ENFANTS'?'selected':''}>ENFANTS</option>
+      </select>
+
+      <label>Numéro chaîne:</label>
+      <input type="number" value="${c.ch}" onchange="chaines[${i}].ch=parseInt(this.value)">
+    </div>
+  `).join('');
 }
 
 function ajouterChaine(){
-  let nom = document.getElementById('nom').value.trim();
-  let url = document.getElementById('url').value.trim();
-  let logo = document.getElementById('logo').value.trim();
-  let categorie = document.getElementById('categorie').value;
-  let numero = document.getElementById('numero').value.trim();
-  let email = document.getElementById('email').value.trim();
-  let tel = document.getElementById('tel').value.trim();
-  let qualite = document.getElementById('qualite').value;
-  let pays = document.getElementById('pays').value.trim();
-  let desc = document.getElementById('desc').value.trim();
-
-  if(!nom ||!url){
-    alert("Nom + Lien M3U8 obligatoires boss");
-    return;
-  }
-
-  let obj = {name:nom, url:url, logo:logo || 'https://via.placeholder.com/60x40/333/fff?text=TV', categorie, numero, email, tel, qualite, pays, desc};
-
-  if(editIndex >= 0){
-    channels[editIndex] = obj;
-    editIndex = -1;
-    alert("Chaîne modifiée ✅");
-  } else {
-    channels.push(obj);
-    alert("Chaîne ajoutée ✅");
-  }
-
-  resetForm();
-  sauvegarder();
+  chaines.push({nom:"Nouvelle chaîne", lien:"", logo:"", cat:"GENERALISTE", ch:chaines.length+1});
+  afficherChaines();
 }
 
-function resetForm(){
-  document.getElementById('nom').value = '';
-  document.getElementById('url').value = '';
-  document.getElementById('logo').value = '';
-  document.getElementById('numero').value = '';
-  document.getElementById('email').value = '';
-  document.getElementById('tel').value = '';
-  document.getElementById('pays').value = '';
-  document.getElementById('desc').value = '';
-  document.querySelector('.btn-red').textContent = 'AJOUTER LA CHAÎNE';
-}
-
-function modifier(i){
-  let ch = channels[i];
-  document.getElementById('nom').value = ch.name;
-  document.getElementById('url').value = ch.url;
-  document.getElementById('logo').value = ch.logo;
-  document.getElementById('categorie').value = ch.categorie || 'GÉNÉRALISTE';
-  document.getElementById('numero').value = ch.numero || '';
-  document.getElementById('email').value = ch.email || '';
-  document.getElementById('tel').value = ch.tel || '';
-  document.getElementById('qualite').value = ch.qualite || 'HD';
-  document.getElementById('pays').value = ch.pays || '';
-  document.getElementById('desc').value = ch.desc || '';
-  editIndex = i;
-  document.querySelector('.btn-red').textContent = 'MODIFIER LA CHAÎNE';
-  window.scrollTo({top:0, behavior:'smooth'});
-}
-
-function supprimer(i){
-  if(confirm("Supprimer "+channels[i].name+"?")){
-    channels.splice(i,1);
-    sauvegarder();
+function supprimer(index){
+  if(confirm("Supprimer "+chaines[index].nom+"?")){
+    chaines.splice(index,1);
+    afficherChaines();
   }
 }
 
-function afficherListe(){
-  let div = document.getElementById('liste');
-  document.getElementById('count').textContent = channels.length;
-  if(channels.length === 0){
-    div.innerHTML = '<p style="text-align:center;color:#666;padding:30px">Aucune chaîne. Ajoute-en une!</p>';
-    return;
+function toutSupprimer(){
+  if(confirm("⚠️ SUPPRIMER TOUTES LES CHAÎNES?")){
+    chaines = [];
+    afficherChaines();
   }
-  div.innerHTML = '';
-  channels.forEach((ch,i) => {
-    div.innerHTML += `
-      <div class="channel-item">
-        <img src="${ch.logo}" alt="">
-        <div class="channel-info">
-          <strong>${ch.numero || 'CH?'} - ${ch.name}</strong>
-          <small>${ch.categorie || 'GÉNÉRALISTE'} | ${ch.qualite || 'HD'} | ${ch.pays || 'RDC'}<br>📧 ${ch.email || 'N/A'} | 📞 ${ch.tel || 'N/A'}</small>
-        </div>
-        <button class="btn btn-yellow btn-small" onclick="modifier(${i})">MODIFIER</button>
-        <button class="btn btn-orange btn-small" onclick="supprimer(${i})">SUPPRIMER</button>
-      </div>
-    `;
-  });
 }
 
-document.getElementById('logoFile').onchange = function(e){
-  let file = e.target.files[0];
-  if(file){
-    let reader = new FileReader();
-    reader.onload = function(ev){
-      document.getElementById('logo').value = ev.target.result;
-      alert("Logo uploadé ✅");
+function sauvegarder(){
+  try{
+    localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
+    alert("✅ Sauvegardé! Recharge index.html pour voir les changements");
+  } catch(e){
+    alert("❌ Erreur: Trop de données boss. Supprime des logos lourds ou utilise des URLs");
+  }
+}
+
+// UPLOAD LOGO DEPUIS PC
+function uploadLogo(event, index){
+  const file = event.target.files[0];
+  if(!file) return;
+
+  if(file.size > 500000){
+    alert("⚠️ Logo trop lourd boss. Prends une image < 500KB pour éviter les bugs");
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e){
+    chaines[index].logo = e.target.result; // base64
+    document.getElementById('logoPrev'+index).src = e.target.result;
+    alert("✅ Logo chargé! Clique Sauvegarder maintenant");
+  };
+  reader.readAsDataURL(file);
+}
+
+// IMPORT DEPUIS PC
+function importer(input){
+  const file = input.files[0];
+  if(!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e){
+    try{
+      const data = JSON.parse(e.target.result);
+      if(Array.isArray(data)){
+        chaines = data;
+        afficherChaines();
+        alert("✅ Importé "+data.length+" chaînes depuis PC");
+      } else {
+        alert("Fichier invalide boss. Il faut un tableau JSON");
+      }
+    } catch(err){
+      alert("Erreur fichier JSON: "+err.message);
     }
-    reader.readAsDataURL(file);
-  }
-}
-
-function exporter(){
-  let data = JSON.stringify(channels, null, 2);
-  let blob = new Blob([data], {type:'application/json'});
-  let a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'tvpro_sauvegarde.json';
-  a.click();
-  alert("Sauvegarde téléchargée! Garde ce fichier au chaud boss");
-}
-
-function importer(e){
-  let file = e.target.files[0];
-  let reader = new FileReader();
-  reader.onload = function(ev){
-    channels = JSON.parse(ev.target.result);
-    sauvegarder();
-    alert("Chaînes restaurées ✅ Plus de panique courant");
-  }
+  };
   reader.readAsText(file);
 }
 
-afficherListe();
+// EXPORT JSON BACKUP
+function exporter(){
+  const dataStr = JSON.stringify(chaines, null, 2);
+  const blob = new Blob([dataStr], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'chaines_tvpro_backup.json';
+  a.click();
+  alert("✅ Fichier téléchargé! Garde-le en sécurité boss");
+}
 </script>
 </body>
 </html>
