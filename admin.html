@@ -22,8 +22,10 @@ h1 { color:#fff; margin-bottom:20px; text-align:center; font-size:22px; }
 .btn-retour { background:#444; color:#fff; margin-top:20px; }
 
 .top-btns { display:flex; gap:4%; margin-bottom:20px; }
-input, select { width:100%; padding:10px; background:#1a2340; border:1px solid #333; color:#fff; border-radius:6px; margin:5px 0; }
+input, select, textarea { width:100%; padding:10px; background:#1a2340; border:1px solid #333; color:#fff; border-radius:6px; margin:5px 0; }
+textarea { resize:vertical; min-height:60px; }
 label { color:#aaa; font-size:12px; margin-top:8px; display:block; }
+label span { color:#e50914; }
 
 .header-liste { color:#aaa; font-size:14px; margin:15px 0; display:flex; align-items:center; gap:8px; }
 .chaine-box { background:#1a2340; border-radius:8px; padding:12px; margin:10px 0; display:flex; align-items:center; gap:12px; }
@@ -38,8 +40,9 @@ label { color:#aaa; font-size:12px; margin-top:8px; display:block; }
 .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:1000; align-items:center; justify-content:center; }
 .modal-content { background:#1a2340; padding:20px; border-radius:10px; width:90%; max-width:500px; max-height:90vh; overflow-y:auto; }
 .modal h2 { color:#e50914; margin-bottom:15px; }
-.modal.btn { width:auto; padding:10px 20px; margin:5px; }
+.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
 .logo-preview { width:80px; height:60px; object-fit:contain; background:#fff; border-radius:6px; margin:10px 0; }
+.badge-warning { background:#ff9800; color:#000; padding:8px; border-radius:6px; text-align:center; font-weight:bold; margin-bottom:15px; }
 </style>
 </head>
 <body>
@@ -55,9 +58,10 @@ label { color:#aaa; font-size:12px; margin-top:8px; display:block; }
 
 <!-- PANEL ADMIN -->
 <div class="panel" id="adminPanel">
+  <div class="badge-warning">⚠️ PAGE ADMIN CACHÉE - NE PARTAGE PAS CE LIEN</div>
   <h1>ADMIN TV PRO MEDIA</h1>
 
-  <button class="btn btn-ajouter" onclick="ouvrirModal()">AJOUTER LA CHAÎNE</button>
+  <button class="btn btn-ajouter" onclick="ouvrirModal()">+ AJOUTER LA CHAÎNE</button>
 
   <div class="top-btns">
     <button class="btn btn-export" onclick="exporter()">📥 EXPORTER</button>
@@ -77,36 +81,62 @@ label { color:#aaa; font-size:12px; margin-top:8px; display:block; }
 <div class="modal" id="modal">
   <div class="modal-content">
     <h2 id="modalTitre">Ajouter une chaîne</h2>
-    <label>Nom chaîne:</label>
-    <input id="mNom" placeholder="Ex: RTNC">
 
-    <label>Lien M3U8/TS:</label>
-    <input id="mLien" placeholder="https://...">
+    <label>NOM DE LA CHAÎNE <span>*</span></label>
+    <input id="mNom" placeholder="Ex: AFRI TV, NEXT TV, CANAL+ SPORT">
 
-    <label>Logo:</label>
+    <label>LIEN M3U8 <span>*</span></label>
+    <input id="mLien" placeholder="https://stream.exemple.com/live.m3u8">
+
+    <label>LOGO DE LA CHAÎNE</label>
     <img id="mLogoPrev" class="logo-preview" src="https://via.placeholder.com/80x60/1a2340/666?text=Logo">
-    <input type="file" accept="image/*" onchange="uploadLogoModal(event)">
-    <small style="color:#666">Ou colle URL:</small>
+    <button class="btn btn-import" onclick="document.getElementById('logoFile').click()">📁 UPLOADER DEPUIS MON PC</button>
+    <input type="file" id="logoFile" accept="image/*" style="display:none" onchange="uploadLogoModal(event)">
+    <small style="color:#666">OU colle une URL https://...png</small>
     <input id="mLogo" placeholder="https://..." onchange="document.getElementById('mLogoPrev').src=this.value">
 
-    <label>Catégorie:</label>
-    <select id="mCat">
-      <option>GOSPEL</option>
-      <option>SPORTS</option>
-      <option>NEWS</option>
-      <option>FILMS</option>
-      <option>MUSIQUE</option>
-      <option>GENERALISTE</option>
-      <option>DOCUMENTAIRE</option>
-      <option>ENFANTS</option>
-    </select>
+    <div class="grid2">
+      <div>
+        <label>CATÉGORIE</label>
+        <select id="mCat">
+          <option>GOSPEL</option>
+          <option>SPORTS</option>
+          <option>NEWS</option>
+          <option>FILMS</option>
+          <option>MUSIQUE</option>
+          <option>GENERALISTE</option>
+          <option>DOCUMENTAIRE</option>
+          <option>ENFANTS</option>
+        </select>
+      </div>
+      <div>
+        <label>NUMÉRO DE CHAÎNE</label>
+        <input type="number" id="mCh" placeholder="Ex: CH 1, CH 20">
+      </div>
+    </div>
 
-    <label>Numéro chaîne:</label>
-    <input type="number" id="mCh" value="1">
+    <div class="grid2">
+      <div>
+        <label>QUALITÉ</label>
+        <select id="mQualite">
+          <option>HD</option>
+          <option>SD</option>
+          <option>4K</option>
+          <option>FHD</option>
+        </select>
+      </div>
+      <div>
+        <label>PAYS</label>
+        <input id="mPays" placeholder="Ex: RDC, FRANCE, USA">
+      </div>
+    </div>
+
+    <label>DESCRIPTION</label>
+    <textarea id="mDesc" placeholder="Description de la chaîne..."></textarea>
 
     <div style="text-align:right;margin-top:15px">
       <button class="btn" style="background:#666" onclick="fermerModal()">Annuler</button>
-      <button class="btn btn-ajouter" onclick="sauvegarderChaine()">Sauvegarder</button>
+      <button class="btn btn-ajouter" onclick="sauvegarderChaine()">AJOUTER LA CHAÎNE</button>
     </div>
   </div>
 </div>
@@ -116,7 +146,7 @@ const MDP = "Microsoft";
 let chaines = [];
 let editIndex = -1;
 
-// VÉRIFICATION CLÉ
+// VÉRIFICATION CLÉ DANS URL OU MOT DE PASSE
 window.onload = function(){
   const urlParams = new URLSearchParams(window.location.search);
   const key = urlParams.get('key');
@@ -149,7 +179,7 @@ function afficherChaines(){
   document.getElementById('nbChaines').textContent = chaines.length;
 
   if(chaines.length === 0){
-    div.innerHTML = '<p style="color:#888;text-align:center;padding:40px">Aucune chaîne boss</p>';
+    div.innerHTML = '<p style="color:#888;text-align:center;padding:40px">Aucune chaîne</p>';
     return;
   }
 
@@ -158,7 +188,7 @@ function afficherChaines(){
       <img src="${c.logo || 'https://via.placeholder.com/50x40/1a2340/666?text=Logo'}" onerror="this.src='https://via.placeholder.com/50x40/1a2340/666?text=Logo'">
       <div class="chaine-info">
         <div class="chaine-nom">${c.ch} - ${c.nom}</div>
-        <div class="chaine-desc">${c.cat} | HD | RDC</div>
+        <div class="chaine-desc">${c.cat} | ${c.qualite || 'HD'} | ${c.pays || 'RDC'}</div>
       </div>
       <div class="btns-chaine">
         <button class="btn-modif" onclick="modifier(${i})">MODIFIER</button>
@@ -177,6 +207,9 @@ function ouvrirModal(){
   document.getElementById('mLogoPrev').src = 'https://via.placeholder.com/80x60/1a2340/666?text=Logo';
   document.getElementById('mCat').value = 'GENERALISTE';
   document.getElementById('mCh').value = chaines.length + 1;
+  document.getElementById('mQualite').value = 'HD';
+  document.getElementById('mPays').value = 'RDC';
+  document.getElementById('mDesc').value = '';
   document.getElementById('modal').style.display = 'flex';
 }
 
@@ -190,6 +223,9 @@ function modifier(index){
   document.getElementById('mLogoPrev').src = c.logo;
   document.getElementById('mCat').value = c.cat;
   document.getElementById('mCh').value = c.ch;
+  document.getElementById('mQualite').value = c.qualite || 'HD';
+  document.getElementById('mPays').value = c.pays || 'RDC';
+  document.getElementById('mDesc').value = c.desc || '';
   document.getElementById('modal').style.display = 'flex';
 }
 
@@ -209,12 +245,20 @@ function uploadLogoModal(event){
 }
 
 function sauvegarderChaine(){
+  if(!document.getElementById('mNom').value ||!document.getElementById('mLien').value){
+    alert("Nom et Lien M3U8 obligatoires boss");
+    return;
+  }
+
   const nouvelle = {
     nom: document.getElementById('mNom').value,
     lien: document.getElementById('mLien').value,
     logo: document.getElementById('mLogo').value,
     cat: document.getElementById('mCat').value,
-    ch: parseInt(document.getElementById('mCh').value)
+    ch: parseInt(document.getElementById('mCh').value),
+    qualite: document.getElementById('mQualite').value,
+    pays: document.getElementById('mPays').value,
+    desc: document.getElementById('mDesc').value
   };
 
   if(editIndex === -1){
@@ -226,7 +270,7 @@ function sauvegarderChaine(){
   localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
   fermerModal();
   afficherChaines();
-  alert("✅ Sauvegardé boss");
+  alert("✅ Chaîne sauvegardée boss");
 }
 
 function supprimer(index){
