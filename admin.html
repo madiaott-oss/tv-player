@@ -1,126 +1,191 @@
 <!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"><title>ADMIN TV PRO</title>
+<html lang="fr">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ADMIN TV PRO</title>
 <style>
-body{background:#0a1428;color:#fff;font-family:Arial;padding:20px}
-.lock{text-align:center;padding:100px}input,button{padding:15px;margin:10px;border-radius:8px}
-input{background:#1a2340;border:2px solid #e50914;color:#fff;width:300px}
-button{background:#e50914;border:none;color:#fff;font-weight:bold;cursor:pointer}
-.panel{display:none}.btn{width:100%;padding:18px;background:#e50914;color:#fff;border:none;border-radius:10px;margin:10px 0;font-weight:bold;cursor:pointer}
-.btn-code{background:#ff9800;color:#000}.chaine{background:#1a2340;padding:15px;margin:10px 0;border-radius:8px;display:flex;gap:15px;align-items:center;flex-wrap:wrap}
-.btns-chaine{display:flex;gap:8px}
+body{background:#0a1428;color:#fff;font-family:Segoe UI,Arial;padding:20px;margin:0}
+.lock{text-align:center;padding:100px 20px}
+.lock input{padding:15px;font-size:18px;border:2px solid #e50914;border-radius:8px;background:#1a2340;color:#fff;width:280px}
+.lock button{padding:15px 30px;font-size:18px;background:#e50914;color:#fff;border:none;border-radius:8px;cursor:pointer;margin-top:15px}
+.panel{display:none;max-width:1000px;margin:0 auto}
+h1{color:#e50914;text-align:center;margin-bottom:30px}
+.btn{width:100%;padding:18px;background:#e50914;color:#fff;border:none;border-radius:10px;margin:10px 0;font-weight:bold;cursor:pointer;font-size:16px}
+.btn:hover{opacity:0.8}
+.btn-code{background:#ff9800;color:#000}
+.btn-export{background:#00c853;margin-right:10px}
+.btn-import{background:#2196f3}
+.btns-top{display:flex;gap:10px}
+.btn-upload{background:#00b0ff;padding:12px;width:100%}
+.chaine{background:#1a2340;padding:15px;margin:10px 0;border-radius:8px;display:flex;gap:15px;align-items:center;flex-wrap:wrap;border-left:4px solid #e50914}
 .btn-modif{background:#ffcc00;color:#000;padding:10px 15px;border:none;border-radius:6px;font-weight:bold;cursor:pointer}
 .btn-suppr{background:#ff4444;color:#fff;padding:10px 15px;border:none;border-radius:6px;font-weight:bold;cursor:pointer}
 .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:1000;align-items:center;justify-content:center}
-.modal-content{background:#1a2340;padding:30px;border-radius:15px;width:90%;max-width:500px;max-height:90vh;overflow-y:auto}
-input,select,textarea{width:100%;padding:12px;margin:8px 0;background:#0a1428;border:2px solid #333;color:#fff;border-radius:8px}
-label{color:#bbb;display:block;margin-top:10px}
-.logo-prev{width:100px;height:70px;object-fit:contain;background:#fff;border-radius:8px;margin:10px 0;border:2px solid #e50914}
-.btn-upload{background:#00b0ff;padding:12px;width:100%}
-small{color:#888;font-size:12px}
+.modal-content{background:#1a2340;padding:30px;border-radius:15px;width:90%;max-width:550px;max-height:90vh;overflow-y:auto}
+input,select,textarea{width:100%;padding:12px;margin:8px 0;background:#0a1428;border:2px solid #333;color:#fff;border-radius:8px;box-sizing:border-box;font-size:15px}
+label{color:#bbb;display:block;margin-top:12px;font-weight:500}
+.logo-prev{width:120px;height:80px;object-fit:contain;background:#fff;border-radius:8px;margin:10px 0;border:2px solid #e50914}
 .filtres{display:flex;gap:10px;margin:20px 0;flex-wrap:wrap}
-.filtre-btn{padding:10px 20px;background:#1a2340;border:2px solid #333;border-radius:20px;cursor:pointer}
+.filtre-btn{padding:10px 20px;background:#1a2340;border:2px solid #333;border-radius:20px;cursor:pointer;color:#fff}
 .filtre-btn.active{background:#e50914;border-color:#e50914}
-.btn-cat-add{background:#00b0ff;padding:10px;width:100%;margin-top:5px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+small{color:#888;font-size:12px}
+.alert{background:#ff9800;color:#000;padding:12px;border-radius:8px;text-align:center;margin-bottom:20px;font-weight:bold}
 </style>
 </head>
 <body>
-<div class="lock" id="lock"><h1 style="color:#e50914">🔒 ADMIN TV PRO</h1>
-<input type="password" id="mdp" placeholder="Mot de passe: Microsoft"><br>
-<button onclick="if(document.getElementById('mdp').value=='Microsoft'){document.getElementById('lock').style.display='none';document.getElementById('panel').style.display='block';charger()}else{alert('Mauvais mdp')}">Entrer</button>
+
+<div class="lock" id="lock">
+<h1 style="color:#e50914;font-size:32px">🔒 ADMIN TV PRO MEDIA</h1>
+<input type="password" id="mdp" placeholder="Mot de passe: Microsoft" onkeypress="if(event.key=='Enter')login()">
+<br>
+<button onclick="login()">Entrer</button>
 </div>
 
 <div class="panel" id="panel">
-<h1 style="color:#e50914">📺 ADMIN TV PRO MEDIA</h1>
-<button class="btn" onclick="ouvrir()">+ AJOUTER LA CHAÎNE</button>
+<div class="alert">⚠️ PAGE ADMIN CACHÉE - NE PARTAGE PAS CE LIEN</div>
+<h1>📺 GESTION DES CHAÎNES</h1>
+<button class="btn" onclick="ouvrir()">+ Ajouter une chaîne</button>
+<div class="btns-top">
+<button class="btn btn-export" onclick="exporter()">📥 EXPORTER</button>
+<button class="btn btn-import" onclick="importer()">📤 IMPORTER</button>
+</div>
 <button class="btn btn-code" onclick="generer()">📋 CODE POUR INDEX</button>
 
-<div class="filtres">
-<button class="filtre-btn active" onclick="filtrer('TOUS')">TOUS <span id="nb-tous">0</span></button>
-</div>
-
-<div>Chaines affichées: <span id="nb">0</span></div>
+<div class="filtres" id="filtres"></div>
+<div>Chaînes actuelles: <span id="nb">0</span></div>
 <div id="liste"></div>
-<a href="index.html" style="color:#00b0ff">← Retour site</a>
+<a href="index.html" style="color:#00b0ff;display:block;margin-top:30px;text-align:center">← RETOUR AU SITE</a>
 </div>
 
 <div class="modal" id="modal"><div class="modal-content">
-<h2 style="color:#e50914" id="titre">Ajouter chaîne</h2>
-<label>NOM *</label><input id="n" placeholder="ESPOIR TV">
-<label>LIEN M3U8 *</label><input id="l" placeholder="https://...m3u8">
+<h2 style="color:#e50914" id="titre">Ajouter une chaîne</h2>
+
+<label>NOM DE LA CHAÎNE *</label><input id="n" placeholder="Ex: AFRI TV, NEXT TV, CANAL+ SPORT">
+
+<label>LIEN M3U8 *</label><input id="l" placeholder="https://stream.exemple.com/live.m3u8">
+<small>Lien direct.m3u8 de la chaîne</small>
 
 <label>LOGO DE LA CHAÎNE</label>
-<img id="prev" class="logo-prev" src="https://via.placeholder.com/100x70/1a2340/666?text=LOGO">
-<button class="btn-upload" onclick="document.getElementById('file').click()">📁 UPLOADER DEPUIS PC</button>
+<img id="prev" class="logo-prev" src="https://via.placeholder.com/120x80/1a2340/666?text=LOGO">
+<button class="btn-upload" type="button" onclick="document.getElementById('file').click()">📁 UPLOADER DEPUIS MON PC</button>
 <input type="file" id="file" accept="image/*" style="display:none" onchange="uploadLogo(event)">
-<small>OU colle URL imgur ici ↓</small>
-<input id="g" placeholder="https://i.imgur.com/xxx.png" onchange="document.getElementById('prev').src=this.value">
+<input id="g" placeholder="Colle une URL https://...png ou jpg" onchange="document.getElementById('prev').src=this.value">
 
+<div class="grid-2">
+<div>
 <label>CATÉGORIE</label>
 <select id="c"></select>
-<button class="btn-cat-add" onclick="nouvelleCat()">+ NOUVELLE CATÉGORIE</button>
+<button type="button" onclick="nouvelleCat()" style="width:100%;padding:8px;background:#00b0ff;border:none;color:#fff;border-radius:5px;margin-top:5px">+ Nouvelle catégorie</button>
+</div>
+<div>
+<label>NUMÉRO DE CHAÎNE</label><input type="number" id="ch" value="1" min="1" placeholder="Ex: CH 1, CH 20">
+</div>
+</div>
 
-<label>NUMÉRO</label><input type="number" id="ch" value="1">
-<button class="btn" onclick="sauver()">SAUVEGARDER</button>
-<button class="btn" style="background:#555" onclick="fermer()">Annuler</button>
+<div class="grid-2">
+<div>
+<label>QUALITÉ</label>
+<select id="q"><option>HD</option><option>FHD</option><option>4K</option><option>SD</option></select>
+</div>
+<div>
+<label>PAYS</label><input id="p" placeholder="Ex: RDC, FRANCE, USA">
+</div>
+</div>
+
+<label>DESCRIPTION</label><textarea id="d" rows="3" placeholder="Description de la chaîne..."></textarea>
+
+<button class="btn" type="button" onclick="sauver()">AJOUTER LA CHAÎNE</button>
+<button class="btn" type="button" style="background:#555" onclick="fermer()">Annuler</button>
 </div></div>
 
 <script>
-let chaines=JSON.parse(localStorage.getItem('chaines')||'[]');
+let chaines=JSON.parse(localStorage.getItem('chaines_tvpro_v2')||'[]');
 let logoBase64='';
 let editIndex=-1;
 let filtreActif='TOUS';
+const catsDefaut=['GENERALISTE','GOSPEL','SPORTS','NEWS','FILMS','MUSIQUE','ENFANTS','INTERNATIONAL','SERIES'];
 
-const catsDefaut=['GENERALISTE','GOSPEL','SPORTS','NEWS','FILMS','MUSIQUE','ENFANTS','INTERNATIONAL'];
+function login(){
+if(document.getElementById('mdp').value=='Microsoft'){
+document.getElementById('lock').style.display='none';
+document.getElementById('panel').style.display='block';
+charger();
+}else{alert('Mauvais mot de passe')}
+}
 
 function charger(){
 let cats=[...new Set([...catsDefaut,...chaines.map(c=>c.cat)])];
-document.querySelector('.filtres').innerHTML=<button class="filtre-btn ${filtreActif=='TOUS'?'active':''}" onclick="filtrer('TOUS')">TOUS <span id="nb-tous">${chaines.length}</span></button>+cats.map(cat=><button class="filtre-btn ${filtreActif==cat?'active':''}" onclick="filtrer('${cat}')">${cat} <span>${chaines.filter(c=>c.cat==cat).length}</span></button>).join('');
+let html='<button class="filtre-btn '+(filtreActif=='TOUS'?'active':'')+'" onclick="filtrer(\'TOUS\')">TOUS ('+chaines.length+')</button>';
+cats.forEach(cat=>{
+let count=chaines.filter(c=>c.cat==cat).length;
+html+='<button class="filtre-btn '+(filtreActif==cat?'active':'')+'" onclick="filtrer(\''+cat+'\')">'+cat+' ('+count+')</button>';
+});
+document.getElementById('filtres').innerHTML=html;
 
 let select=document.getElementById('c');
-select.innerHTML=cats.map(cat=><option value="${cat}">${cat}</option>).join('');
+select.innerHTML=cats.map(cat=>'<option value="'+cat+'">'+cat+'</option>').join('');
 
 let listFiltre=filtreActif=='TOUS'?chaines:chaines.filter(c=>c.cat==filtreActif);
+listFiltre.sort((a,b)=>parseInt(a.ch)-parseInt(b.ch));
 document.getElementById('nb').textContent=listFiltre.length;
-document.getElementById('liste').innerHTML=listFiltre.map((c,i)=>{
+
+if(listFiltre.length==0){
+document.getElementById('liste').innerHTML='<div style="text-align:center;padding:40px;color:#666">Aucune chaîne</div>';
+return;
+}
+
+html='';
+listFiltre.forEach(c=>{
 let vraiIndex=chaines.indexOf(c);
-return <div class="chaine"><img src="${c.logo||''}" style="width:50px;height:40px;object-fit:contain;background:#fff;border-radius:5px" onerror="this.style.display='none'"><div style="flex:1"><b>CH ${c.ch} - ${c.nom}</b><br><small style="color:#00b0ff">[${c.cat}]</small></div><div class="btns-chaine"><button class="btn-modif" onclick="modifier(${vraiIndex})">✏️ MODIFIER</button><button class="btn-suppr" onclick="supprimer(${vraiIndex})">🗑️ SUPPRIMER</button></div></div>
-}).join('')||'<div style="text-align:center;padding:40px;color:#666">Aucune chaîne dans cette catégorie</div>'
+html+='<div class="chaine"><img src="'+(c.logo||'')+'" style="width:60px;height:45px;object-fit:contain;background:#fff;border-radius:5px" onerror="this.src=\'https://via.placeholder.com/60x45/1a2340/666?text=TV\'"><div style="flex:1"><b>'+c.ch+' - '+c.nom+'</b><br><small style="color:#00b0ff">'+c.cat+' | '+c.qualite+' | '+c.pays+'</small></div><div><button class="btn-modif" onclick="modifier('+vraiIndex+')">MODIFIER</button> <button class="btn-suppr" onclick="supprimer('+vraiIndex+')">SUPPRIMER</button></div></div>';
+});
+document.getElementById('liste').innerHTML=html;
 }
 
 function filtrer(cat){filtreActif=cat;charger()}
 
-function ouvrir(){
-editIndex=-1;
-document.getElementById('titre').textContent='➕ Ajouter chaîne';
-logoBase64='';document.getElementById('n').value='';document.getElementById('l').value='';document.getElementById('g').value='';document.getElementById('prev').src='https://via.placeholder.com/100x70/1a2340/666?text=LOGO';document.getElementById('ch').value=chaines.length+1;
-charger();document.getElementById('modal').style.display='flex'
-}
-
 function nouvelleCat(){
-let cat=prompt('Nom de la nouvelle catégorie:');
+let cat=prompt('Nom nouvelle catégorie:');
 if(cat&&cat.trim()){
 catsDefaut.push(cat.trim().toUpperCase());
 charger();document.getElementById('c').value=cat.trim().toUpperCase();
 }}
 
+function ouvrir(){
+editIndex=-1;
+document.getElementById('titre').textContent='Ajouter une chaîne';
+logoBase64='';
+document.getElementById('n').value='';
+document.getElementById('l').value='';
+document.getElementById('g').value='';
+document.getElementById('prev').src='https://via.placeholder.com/120x80/1a2340/666?text=LOGO';
+document.getElementById('ch').value=chaines.length+1;
+document.getElementById('q').value='HD';
+document.getElementById('p').value='RDC';
+document.getElementById('d').value='';
+charger();
+document.getElementById('modal').style.display='flex';
+}
+
 function modifier(index){
 editIndex=index;
 const c=chaines[index];
-document.getElementById('titre').textContent='✏️ Modifier chaîne';
+document.getElementById('titre').textContent='Modifier chaîne';
 document.getElementById('n').value=c.nom;
-document.getElementById('l').value=c.c.lien;
+document.getElementById('l').value=c.lien;
 document.getElementById('g').value=c.logo;
-document.getElementById('prev').src=c.logo||'https://via.placeholder.com/100x70/1a2340/666?text=LOGO';
+document.getElementById('prev').src=c.logo||'https://via.placeholder.com/120x80/1a2340/666?text=LOGO';
 document.getElementById('c').value=c.cat;
 document.getElementById('ch').value=c.ch;
-document.getElementById('modal').style.display='flex'
+document.getElementById('q').value=c.qualite||'HD';
+document.getElementById('p').value=c.pays||'RDC';
+document.getElementById('d').value=c.desc||'';
+document.getElementById('modal').style.display='flex';
 }
 
 function supprimer(index){
 if(confirm('🗑️ Supprimer '+chaines[index].nom+'?')){
 chaines.splice(index,1);
-localStorage.setItem('chaines',JSON.stringify(chaines));
+localStorage.setItem('chaines_tvpro_v2',JSON.stringify(chaines));
 charger();
 }}
 
@@ -138,12 +203,50 @@ reader.readAsDataURL(file);
 }
 
 function sauver(){
-if(!document.getElementById('n').value||!document.getElementById('l').value){alert('Nom + Lien obligatoires');return}
-const nouvelle={nom:document.getElementById('n').value,lien:document.getElementById('l').value,logo:document.getElementById('g').value||logoBase64,cat:document.getElementById('c').value,ch:document.getElementById('ch').value};
+let nom=document.getElementById('n').value.trim();
+let lien=document.getElementById('l').value.trim();
+if(!nom||!lien){alert('Nom + Lien M3U8 obligatoires');return}
+let nouvelle={nom:nom,lien:lien,logo:document.getElementById('g').value||logoBase64,cat:document.getElementById('c').value,ch:document.getElementById('ch').value,qualite:document.getElementById('q').value,pays:document.getElementById('p').value.trim(),desc:document.getElementById('d').value.trim()};
 if(editIndex==-1){chaines.push(nouvelle)}else{chaines[editIndex]=nouvelle}
-localStorage.setItem('chaines',JSON.stringify(chaines));fermer();charger()}
+localStorage.setItem('chaines_tvpro_v2',JSON.stringify(chaines));
+fermer();
+charger();
+alert('✅ Chaîne sauvegardée');
+}
+
+function exporter(){
+let data=JSON.stringify(chaines,null,2);
+let blob=new Blob([data],{type:'application/json'});
+let url=URL.createObjectURL(blob);
+let a=document.createElement('a');
+a.href=url;a.download='chaines_tvpro_'+new Date().toISOString().split('T')[0]+'.json';
+a.click();
+alert('✅ Fichier JSON exporté');
+}
+
+function importer(){
+let input=document.createElement('input');
+input.type='file';input.accept='.json';
+input.onchange=function(e){
+let file=e.target.files[0];
+let reader=new FileReader();
+reader.onload=function(ev){
+try{
+chaines=JSON.parse(ev.target.result);
+localStorage.setItem('chaines_tvpro_v2',JSON.stringify(chaines));
+charger();
+alert('✅ Import réussi! '+chaines.length+' chaînes chargées');
+}catch(err){alert('Fichier invalide')}
+}
+reader.readAsText(file);
+}
+input.click();
+}
 
 function generer(){
-let code='const CHAINES_BASE = [\n'+chaines.map(c=>` {"nom":"${c.nom}","lien":"${c.lien}","logo":"${c.logo||''}","cat":"${c.cat}","ch":${c.ch}}`).join(',\n')+'\n];';
-navigator.clipboard.writeText(code);alert('✅ CODE COPIÉ! Colle dans index.html → const CHAINES_BASE = [')}
+if(chaines.length==0){alert('Ajoute d\'abord des chaînes');return}
+let code='const CHAINES_BASE = [\n'+chaines.map(c=>' {"nom":"'+c.nom+'","lien":"'+c.lien+'","logo":"'+(c.logo||'')+'","cat":"'+c.cat+'","ch":'+c.ch+',"qualite":"'+(c.qualite||'HD')+'","pays":"'+(c.pays||'RDC')+'","desc":"'+(c.desc||'')+'"}').join(',\n')+'\n];';
+navigator.clipboard.writeText(code);
+alert('✅ CODE COPIÉ!\n\nColle dans index.html à la place de const CHAINES_BASE = []');
+}
 </script></body></html>
