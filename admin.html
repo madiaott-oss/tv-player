@@ -1,4 +1,30 @@
-<!DOCTYPE html>
+[00:20, 15/06/2026] Dg Patrick Feni Espoir Tv: <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>TV PRO MEDIA</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html, body { height:100%; }
+        body {
+            background:#0a0e1a;
+            color:#fff;
+            font-family:Arial;
+            display:flex;
+            flex-direction:column;
+            min-height:100vh;
+        }
+   .wrapper { flex:1; }
+
+   .header { background:#1a1f2e; padding:15px 20px; display:flex; justify-content:space-between; align-items:center; pos…
+[00:34, 15/06/2026] Dg Patrick Feni Espoir Tv: <img src="${c.logo}" loading="lazy" 
+     onerror="this.onerror=null; this.style.background='#1a1f2e'; this.style.color='#e50914'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.innerHTML='${c.nom}'">
+[00:37, 15/06/2026] Dg Patrick Feni Espoir Tv: <img src="${c.logo}" loading="lazy" style="background:#1a1f2e;color:#e50914;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:bold"
+     onerror="this.onerror=null; this.src=''; this.innerHTML='${c.nom}';">
+[00:48, 15/06/2026] Dg Patrick Feni Espoir Tv: <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -15,16 +41,35 @@ h1 { color:#fff; margin-bottom:20px; text-align:center; font-size:22px; }
 /* FIX MOBILE/TV : TOUCH CIBLE 44px MIN */
 .lock { text-align:center; padding:100px 20px; }
 .lock input { padding:14px; width:100%; max-width:300px; background:#1a2340; border:1px solid #333; color:#fff; border-radius:6px; margin:10px; font-size:16px; }
+…
+[01:01, 15/06/2026] Dg Patrick Feni Espoir Tv: Code admin
+[01:01, 15/06/2026] Dg Patrick Feni Espoir Tv: <!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>ADMIN TV PRO MEDIA</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { height:100%; }
+body { background:#0a1428; color:#fff; font-family:Arial; padding:20px; }
+.container { max-width:800px; margin:0 auto; }
+h1 { color:#fff; margin-bottom:20px; text-align:center; font-size:22px; }
+
+.lock { text-align:center; padding:100px 20px; }
+.lock input { padding:14px; width:100%; max-width:300px; background:#1a2340; border:1px solid #333; color:#fff; border-radius:6px; margin:10px; font-size:16px; }
 .lock button { padding:14px 25px; background:#e50914; border:none; color:#fff; border-radius:6px; cursor:pointer; font-weight:bold; font-size:16px; min-height:44px; }
 
 .panel { display:none; }
 .btn { padding:16px; border:none; border-radius:8px; cursor:pointer; font-weight:bold; font-size:16px; width:100%; margin:8px 0; min-height:44px; touch-action:manipulation; }
 .btn-ajouter { background:#e50914; color:#fff; }
-.btn-export { background:#00c853; color:#fff; width:48%; }
-.btn-import { background:#00b0ff; color:#fff; width:48%; }
+.btn-export { background:#00c853; color:#fff; width:32%; }
+.btn-import { background:#00b0ff; color:#fff; width:32%; }
+.btn-code { background:#ff9800; color:#000; width:32%; } /* NOUVEAU BOUTON */
 .btn-retour { background:#444; color:#fff; margin-top:20px; }
 
-.top-btns { display:flex; gap:4%; margin-bottom:20px; flex-wrap:wrap; }
+.top-btns { display:flex; gap:2%; margin-bottom:20px; flex-wrap:wrap; }
 input, select, textarea { width:100%; padding:12px; background:#1a2340; border:1px solid #333; color:#fff; border-radius:6px; margin:5px 0; font-size:16px; }
 textarea { resize:vertical; min-height:80px; }
 label { color:#aaa; font-size:13px; margin-top:8px; display:block; }
@@ -40,7 +85,6 @@ label span { color:#e50914; }
 .btn-modif { background:#ffcc00; color:#000; padding:10px 14px; border:none; border-radius:5px; cursor:pointer; font-weight:bold; font-size:14px; min-height:44px; }
 .btn-suppr { background:#ff4444; color:#fff; padding:10px 14px; border:none; border-radius:5px; cursor:pointer; font-weight:bold; font-size:14px; min-height:44px; }
 
-/* MODAL FIX MOBILE/TV */
 .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:1000; align-items:center; justify-content:center; padding:10px; }
 .modal-content { background:#1a2340; padding:20px; border-radius:10px; width:100%; max-width:500px; max-height:90vh; overflow-y:auto; -webkit-overflow-scrolling:touch; }
 .modal h2 { color:#e50914; margin-bottom:15px; font-size:20px; }
@@ -48,32 +92,29 @@ label span { color:#e50914; }
 .logo-preview { width:80px; height:60px; object-fit:contain; background:#fff; border-radius:6px; margin:10px 0; }
 .badge-warning { background:#ff9800; color:#000; padding:10px; border-radius:6px; text-align:center; font-weight:bold; margin-bottom:15px; font-size:14px; }
 
-/* RESPONSIVE TEL/TABLETTE/TV */
 @media (max-width: 768px) {
   body { padding:10px; }
- .container { max-width:100%; }
+.container { max-width:100%; }
   h1 { font-size:20px; }
- .lock { padding:60px 15px; }
- .top-btns { flex-direction:column; gap:10px; }
- .btn-export,.btn-import { width:100%; }
- .chaine-box { flex-direction:column; align-items:flex-start; }
- .btns-chaine { width:100%; }
- .btn-modif,.btn-suppr { flex:1; }
- .grid2 { grid-template-columns:1fr; }
+.lock { padding:60px 15px; }
+.top-btns { flex-direction:column; gap:10px; }
+.btn-export,.btn-import,.btn-code { width:100%; }
+.chaine-box { flex-direction:column; align-items:flex-start; }
+.btns-chaine { width:100%; }
+.btn-modif,.btn-suppr { flex:1; }
+.grid2 { grid-template-columns:1fr; }
 }
 
-/* FIX SMART TV : BOUTONS PLUS GROS */
 @media (min-width: 1920px) {
- .btn, input, select { font-size:18px; padding:18px; min-height:50px; }
- .chaine-box { padding:16px; }
- .chaine-nom { font-size:18px; }
+.btn, input, select { font-size:18px; padding:18px; min-height:50px; }
+.chaine-box { padding:16px; }
+.chaine-nom { font-size:18px; }
 }
 </style>
 </head>
 <body>
 <div class="container">
 
-<!-- ÉCRAN VERROUILLÉ -->
 <div class="lock" id="lockScreen">
   <h1>🔒 ADMIN TV PRO MEDIA</h1>
   <input type="password" id="mdp" placeholder="Mot de passe admin">
@@ -81,7 +122,6 @@ label span { color:#e50914; }
   <button onclick="verifier()">Entrer</button>
 </div>
 
-<!-- PANEL ADMIN -->
 <div class="panel" id="adminPanel">
   <div class="badge-warning">⚠️ PAGE ADMIN CACHÉE - NE PARTAGE PAS CE LIEN</div>
   <h1>ADMIN TV PRO MEDIA</h1>
@@ -89,9 +129,10 @@ label span { color:#e50914; }
   <button class="btn btn-ajouter" onclick="ouvrirModal()">+ AJOUTER LA CHAÎNE</button>
 
   <div class="top-btns">
-    <button class="btn btn-export" onclick="exporter()">📥 EXPORTER</button>
+    <button class="btn btn-export" onclick="exporter()">📥 EXPORTER JSON</button>
     <input type="file" id="importFile" accept=".json" style="display:none" onchange="importer(this)">
-    <button class="btn btn-import" onclick="document.getElementById('importFile').click()">📤 IMPORTER</button>
+    <button class="btn btn-import" onclick="document.getElementById('importFile').click()">📤 IMPORTER JSON</button>
+    <button class="btn btn-code" onclick="genererCodeIndex()">📋 CODE POUR INDEX</button> <!-- NOUVEAU -->
   </div>
 
   <div class="header-liste">📺 Chaines actuelles: <span id="nbChaines">0</span></div>
@@ -102,24 +143,19 @@ label span { color:#e50914; }
 
 </div>
 
-<!-- MODAL AJOUT/MODIF -->
 <div class="modal" id="modal">
   <div class="modal-content">
     <h2 id="modalTitre">Ajouter une chaîne</h2>
-
     <label>NOM DE LA CHAÎNE <span>*</span></label>
     <input id="mNom" placeholder="Ex: AFRI TV, NEXT TV, CANAL+ SPORT">
-
     <label>LIEN M3U8 <span>*</span></label>
     <input id="mLien" placeholder="https://stream.exemple.com/live.m3u8">
-
     <label>LOGO DE LA CHAÎNE</label>
     <img id="mLogoPrev" class="logo-preview" src="https://via.placeholder.com/80x60/1a2340/666?text=Logo">
     <button class="btn btn-import" onclick="document.getElementById('logoFile').click()">📁 UPLOADER DEPUIS MON PC</button>
     <input type="file" id="logoFile" accept="image/*" style="display:none" onchange="uploadLogoModal(event)">
     <small style="color:#666">OU colle une URL https://...png</small>
     <input id="mLogo" placeholder="https://..." onchange="document.getElementById('mLogoPrev').src=this.value">
-
     <div class="grid2">
       <div>
         <label>CATÉGORIE</label>
@@ -139,7 +175,6 @@ label span { color:#e50914; }
         <input type="number" id="mCh" placeholder="Ex: CH 1, CH 20">
       </div>
     </div>
-
     <div class="grid2">
       <div>
         <label>QUALITÉ</label>
@@ -155,10 +190,8 @@ label span { color:#e50914; }
         <input id="mPays" placeholder="Ex: RDC, FRANCE, USA">
       </div>
     </div>
-
     <label>DESCRIPTION</label>
     <textarea id="mDesc" placeholder="Description de la chaîne..."></textarea>
-
     <div style="display:flex; gap:10px; margin-top:15px">
       <button class="btn" style="background:#666; flex:1" onclick="fermerModal()">Annuler</button>
       <button class="btn btn-ajouter" style="flex:1" onclick="sauvegarderChaine()">AJOUTER</button>
@@ -171,21 +204,15 @@ const MDP = "Microsoft";
 let chaines = [];
 let editIndex = -1;
 
-// VÉRIFICATION CLÉ DANS URL OU MOT DE PASSE
 window.onload = function(){
   const urlParams = new URLSearchParams(window.location.search);
   const key = urlParams.get('key');
-  if(key === MDP){
-    entrer();
-  }
+  if(key === MDP){ entrer(); }
 }
 
 function verifier(){
-  if(document.getElementById('mdp').value === MDP){
-    entrer();
-  } else {
-    alert("Mauvais mot de passe boss");
-  }
+  if(document.getElementById('mdp').value === MDP){ entrer(); }
+  else { alert("Mauvais mot de passe boss"); }
 }
 
 function entrer(){
@@ -202,12 +229,10 @@ function chargerChaines(){
 function afficherChaines(){
   const div = document.getElementById('listeChaines');
   document.getElementById('nbChaines').textContent = chaines.length;
-
   if(chaines.length === 0){
     div.innerHTML = '<p style="color:#888;text-align:center;padding:40px">Aucune chaîne</p>';
     return;
   }
-
   div.innerHTML = chaines.map((c,i) => `
     <div class="chaine-box">
       <img src="${c.logo || 'https://via.placeholder.com/50x40/1a2340/666?text=Logo'}" loading="lazy" onerror="this.src='https://via.placeholder.com/50x40/1a2340/666?text=Logo'">
@@ -254,9 +279,7 @@ function modifier(index){
   document.getElementById('modal').style.display = 'flex';
 }
 
-function fermerModal(){
-  document.getElementById('modal').style.display = 'none';
-}
+function fermerModal(){ document.getElementById('modal').style.display = 'none'; }
 
 function uploadLogoModal(event){
   const file = event.target.files[0];
@@ -274,7 +297,6 @@ function sauvegarderChaine(){
     alert("Nom et Lien M3U8 obligatoires boss");
     return;
   }
-
   const nouvelle = {
     nom: document.getElementById('mNom').value,
     lien: document.getElementById('mLien').value,
@@ -285,13 +307,8 @@ function sauvegarderChaine(){
     pays: document.getElementById('mPays').value,
     desc: document.getElementById('mDesc').value
   };
-
-  if(editIndex === -1){
-    chaines.push(nouvelle);
-  } else {
-    chaines[editIndex] = nouvelle;
-  }
-
+  if(editIndex === -1){ chaines.push(nouvelle); }
+  else { chaines[editIndex] = nouvelle; }
   localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
   fermerModal();
   afficherChaines();
@@ -306,7 +323,6 @@ function supprimer(index){
   }
 }
 
-// EXPORT JSON
 function exporter(){
   const dataStr = JSON.stringify(chaines, null, 2);
   const blob = new Blob([dataStr], {type: 'application/json'});
@@ -317,7 +333,6 @@ function exporter(){
   a.click();
 }
 
-// IMPORT JSON
 function importer(input){
   const file = input.files[0];
   if(!file) return;
@@ -331,11 +346,31 @@ function importer(input){
         afficherChaines();
         alert("✅ Importé "+data.length+" chaînes");
       }
-    } catch(err){
-      alert("Erreur fichier JSON");
-    }
+    } catch(err){ alert("Erreur fichier JSON"); }
   };
   reader.readAsText(file);
+}
+
+// NOUVELLE FONCTION : GÉNÈRE CODE POUR INDEX.HTML
+function genererCodeIndex(){
+  if(chaines.length === 0){
+    alert("Aucune chaîne à exporter boss");
+    return;
+  }
+
+  let code = 'const CHAINES_BASE = [\n';
+  chaines.forEach((c, i) => {
+    code += ` {"nom":"${c.nom}","lien":"${c.lien}","logo":"${c.logo || ''}","cat":"${c.cat}","ch":${c.ch},"qualite":"${c.qualite || 'HD'}","pays":"${c.pays || 'RDC'}","desc":"${(c.desc || '').replace(/"/g, '\\"')}"}${i < chaines.length - 1? ',' : ''}\n`;
+  });
+  code += '];';
+
+  // Copie dans presse-papier
+  navigator.clipboard.writeText(code).then(() => {
+    alert('✅ CODE COPIÉ!\n\nColle ça dans index.html à la place de const CHAINES_BASE = [...]\n\nCommit GitHub → Ctrl+F5 → toutes tes chaînes s\'affichent');
+  }).catch(() => {
+    // Si clipboard marche pas, on ouvre prompt
+    prompt('COPIE CE CODE POUR INDEX.HTML:', code);
+  });
 }
 </script>
 </body>
