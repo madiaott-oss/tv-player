@@ -2,204 +2,118 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#0a1428">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="TV PROMEDIA">
-<title>TV PROMEDIA</title>
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="https://via.placeholder.com/192x192/e50914/fff?text=TVPRO">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TV PRO MEDIA - Live Streaming</title>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;overflow-x:hidden}
-body{background:#0a1428;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;display:flex;flex-direction:column;min-height:100vh}
-header{background:#000;padding:12px 15px;position:sticky;top:0;z-index:100;border-bottom:3px solid #e50914;flex-shrink:0}
-.header-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.logo{font-size:20px;font-weight:bold;color:#e50914;white-space:nowrap}
-.search-box{flex:1;background:#1a2340;border:2px solid #333;border-radius:25px;padding:8px 15px;color:#fff;font-size:14px;outline:none}
-.search-box:focus{border-color:#e50914}
-.btn-reset{padding:8px 12px;background:#ff4444;border:none;border-radius:18px;color:#fff;font-weight:bold;cursor:pointer;font-size:12px;white-space:nowrap}
-.filtres{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
-.filtres::-webkit-scrollbar{display:none}
-.filtre-btn{padding:7px 14px;background:#1a2340;border:2px solid #333;border-radius:18px;color:#fff;cursor:pointer;white-space:nowrap;font-size:13px;font-weight:500;flex-shrink:0}
-.filtre-btn.active{background:#e50914;border-color:#e50914}
-.container{padding:12px;max-width:1200px;margin:0 auto;width:100%;flex:1;padding-bottom:80px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
-@media(min-width:600px){.grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px}}
-@media(min-width:900px){.grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px}}
-.carte{background:#1a2340;border-radius:10px;overflow:hidden;cursor:pointer;transition:transform 0.15s;border:2px solid transparent;position:relative}
-.carte:active{transform:scale(0.97)}
-.carte:hover{border-color:#e50914}
-.logo-chaine{width:100%;height:80px;background:#fff;display:flex;align-items:center;justify-content:center;padding:10px}
-@media(min-width:600px){.logo-chaine{height:110px}}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:#0a0a0a;color:#fff;overflow-x:hidden}
+.header{padding:20px;text-align:center;border-bottom:2px solid #ff3b3b}
+.header h1{color:#ff3b3b;font-size:28px}
+.subtitle{text-align:center;padding:10px;color:#ccc}
+.container{max-width:1200px;margin:0 auto;padding:20px}
+.categories{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:30px}
+.cat-btn{padding:10px 20px;background:#1a1a1a;border:2px solid #333;color:#fff;border-radius:25px;cursor:pointer;font-weight:bold}
+.cat-btn.active{background:#ff3b3b;border-color:#ff3b3b}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:15px}
+.chaine-card{background:#1a1a1a;border-radius:10px;overflow:hidden;cursor:pointer;transition:0.3s;border:2px solid #333}
+.chaine-card:hover{border-color:#ff3b3b;transform:scale(1.05)}
+.logo-chaine{height:100px;background:#fff;display:flex;align-items:center;justify-content:center;padding:10px}
 .logo-chaine img{max-width:100%;max-height:100%;object-fit:contain}
-.info{padding:10px}
-.nom{font-weight:bold;font-size:13px;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.meta{font-size:10px;color:#00b0ff;margin-bottom:3px}
-.desc{font-size:10px;color:#999;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.num{position:absolute;top:6px;left:6px;background:#e50914;color:#fff;padding:2px 6px;border-radius:10px;font-size:10px;font-weight:bold}
-.player-modal{display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;height:100dvh;background:#000;z-index:1000;flex-direction:column}
-.player-header{background:#000;padding:10px 12px;display:flex;align-items:center;gap:12px;border-bottom:3px solid #e50914;flex-shrink:0}
-.btn-back{font-size:26px;color:#fff;background:none;border:none;cursor:pointer;padding:0 5px}
-.player-title{flex:1;font-size:14px;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-video{flex:1;width:100%;background:#000;outline:none;object-fit:contain}
-.videotitle{padding:12px;background:#0a1428;flex-shrink:0}
-.videotitle h2{color:#e50914;margin-bottom:6px;font-size:16px}
-.videotitle p{color:#bbb;font-size:13px;line-height:1.4}
-.empty{text-align:center;padding:80px 20px;color:#666;font-size:14px}
-.install-btn{position:fixed;bottom:15px;right:15px;background:#e50914;color:#fff;padding:10px 16px;border-radius:25px;border:none;font-weight:bold;cursor:pointer;display:none;z-index:999;box-shadow:0 4px 15px rgba(229,9,20,0.4);font-size:13px}
+.info-chaine{padding:10px;text-align:center}
+.nom{font-weight:bold;font-size:14px;margin-bottom:5px}
+.ch{color:#ff3b3b;font-size:12px}
+.player-container{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:999;display:none}
+#videoPlayer{width:100%;height:100%}
+.close-player{position:absolute;top:20px;right:30px;font-size:40px;cursor:pointer;z-index:1000;color:#fff}
 </style>
 </head>
 <body>
 
-<header>
-<div class="header-top">
-<div class="logo">📺 TV PROMEDIA</div>
-<input type="text" class="search-box" id="search" placeholder="Recher...">
-<button class="btn-reset" onclick="reset()">Reset</button>
+<div class="header">
+<h1>TV PRO MEDIA</h1>
 </div>
-<div class="filtres" id="filtres"></div>
-</header>
+<div class="subtitle">Clique sur une chaîne pour commencer</div>
 
 <div class="container">
-<div class="grid" id="grid"></div>
-<div class="empty" id="empty" style="display:none">Aucune chaîne trouvée</div>
+<div class="categories" id="categories"></div>
+<div class="grid" id="gridChaines"></div>
 </div>
 
-<div class="player-modal" id="player">
-<div class="player-header">
-<button class="btn-back" onclick="fermerPlayer()">←</button>
-<div style="flex:1">
-<div class="player-title" id="playerTitle">Chargement...</div>
-<div style="font-size:10px;color:#888;margin-top:1px">TV PROMEDIA</div>
-</div>
-</div>
-<video id="video" controls autoplay playsinline></video>
-<div class="videotitle">
-<h2 id="videoNom"></h2>
-<p id="videoDesc"></p>
-</div>
+<div class="player-container" id="playerContainer">
+<span class="close-player" onclick="fermerPlayer()">×</span>
+<video id="videoPlayer" controls autoplay></video>
 </div>
 
-<button class="install-btn" id="installBtn">📲 Installer</button>
-
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <script>
-// COLLE TON CODE GÉNÉRÉ PAR ADMIN.HTML ICI
+// ==================== CONFIG ====================
+// COLLE ICI LE CODE GÉNÉRÉ PAR admin.html
 const CHAINES_BASE = [
-{"nom":"S MEDIA TV","lien":"https://live2.digicongo.net/live/dc.m3u8","logo":"","cat":"GENERALISTE","ch":1,"qualite":"HD","pays":"RDC","desc":"S Media TV Kinshasa"},
-{"nom":"RTNC 1","lien":"https://rtv.rtnc.cd/live/rtnc1.m3u8","logo":"","cat":"GENERALISTE","ch":2,"qualite":"HD","pays":"RDC","desc":"RTNC 1"},
-{"nom":"DIGITALE CONGO","lien":"https://live2.digicongo.net/live/dc.m3u8","logo":"","cat":"GENERALISTE","ch":3,"qualite":"HD","pays":"RDC","desc":"Digitale Congo"}
+{"nom":"S MEDIA TV","lien":"https://cph-p2p-msl.akamaized.net/hls/live/2000341/test/master.m3u8","logo":"","cat":"GENERALISTE","ch":1,"qualite":"HD","pays":"RDC","desc":"Test flux"},
+{"nom":"RTNC 1","lien":"https://cph-p2p-msl.akamaized.net/hls/live/2000341/test/master.m3u8","logo":"","cat":"GENERALISTE","ch":2,"qualite":"HD","pays":"RDC","desc":"Test flux"},
+{"nom":"DIGITALE CONGO","lien":"https://cph-p2p-msl.akamaized.net/hls/live/2000341/test/master.m3u8","logo":"","cat":"GENERALISTE","ch":3,"qualite":"HD","pays":"RDC","desc":"Test flux"}
 ];
-let chaines = [...CHAINES_BASE];
-let filtreActif = 'TOUS';
-let deferredPrompt;
+// ==================== FIN CONFIG ====================
 
-function init(){
-chargerFiltres();
-afficherChaines();
-setupPWA();
-}
+let player = document.getElementById('videoPlayer');
+let hls;
+let chaineActive = null;
 
-function chargerFiltres(){
-let cats = [...new Set(chaines.map(c=>c.cat))].sort();
-let html = '<button class="filtre-btn '+(filtreActif=='TOUS'?'active':'')+'" onclick="filtrer(\'TOUS\')">TOUS</button>';
-cats.forEach(cat=>{
-html += '<button class="filtre-btn '+(filtreActif==cat?'active':'')+'" onclick="filtrer(\''+cat+'\')">'+cat+'</button>';
-});
-document.getElementById('filtres').innerHTML = html;
-}
+// Afficher catégories
+const cats = ['TOUS', ...new Set(CHAINES_BASE.map(c=>c.cat))];
+document.getElementById('categories').innerHTML = cats.map(cat=>
+<button class="cat-btn ${cat==='TOUS'?'active':''}" onclick="filtrerCat('${cat}',this)">${cat}</button>
+).join('');
 
-function filtrer(cat){
-filtreActif = cat;
-document.querySelectorAll('.filtre-btn').forEach(b=>b.classList.remove('active'));
-event.target.classList.add('active');
-afficherChaines();
-}
-
-function afficherChaines(){
-let search = document.getElementById('search').value.toLowerCase();
-let list = chaines.filter(c=>{
-let matchCat = filtreActif=='TOUS' || c.cat==filtreActif;
-let matchSearch = c.nom.toLowerCase().includes(search) || (c.desc||'').toLowerCase().includes(search) || (c.pays||'').toLowerCase().includes(search);
-return matchCat && matchSearch;
-});
-list.sort((a,b)=>parseInt(a.ch)-parseInt(b.ch));
-
-if(list.length==0){
-document.getElementById('grid').innerHTML = '';
-document.getElementById('empty').style.display = 'block';
-return;
-}
-document.getElementById('empty').style.display = 'none';
-
-document.getElementById('grid').innerHTML = list.map(c=>`
-<div class="carte" onclick="lire('${c.lien}','${c.nom.replace(/'/g,"\\'")}','${(c.desc||'').replace(/'/g,"\\'")}')">
-<div class="num">CH ${c.ch}</div>
-<div class="logo-chaine"><img src="${c.logo||'https://via.placeholder.com/100x70/1a2340/666?text=TV'}" onerror="this.src='https://via.placeholder.com/100x70/1a2340/666?text=TV'"></div>
-<div class="info">
+// Afficher chaînes
+function afficherChaines(cat='TOUS'){
+const filtre = cat==='TOUS' ? CHAINES_BASE : CHAINES_BASE.filter(c=>c.cat===cat);
+document.getElementById('gridChaines').innerHTML = filtre.map(c=>`
+<div class="chaine-card" onclick="lireChaine('${c.lien}','${c.nom}')">
+<div class="logo-chaine">
+${c.logo ? <img src="${c.logo}" onerror="this.outerHTML='<div style=background:#fff;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;color:#000;padding:5px;text-align:center'>${c.nom}</div>'"> : <div style="background:#fff;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;color:#000;padding:5px;text-align:center">${c.nom}</div>}
+</div>
+<div class="info-chaine">
 <div class="nom">${c.nom}</div>
-<div class="meta">${c.cat} | ${c.qualite||'HD'} | ${c.pays||'RDC'}</div>
-<div class="desc">${c.desc||''}</div>
+<div class="ch">CH ${c.ch} • ${c.qualite}</div>
 </div>
 </div>
 `).join('');
 }
+afficherChaines();
 
-function lire(lien,nom,desc){
-document.getElementById('player').style.display='flex';
-document.getElementById('playerTitle').textContent = nom;
-document.getElementById('videoNom').textContent = nom;
-document.getElementById('videoDesc').textContent = desc || 'Regardez '+nom+' en direct sur TV PROMEDIA';
-
-let video = document.getElementById('video');
-if(Hls.isSupported()){
-let hls = new Hls();
-hls.loadSource(lien);
-hls.attachMedia(video);
-hls.on(Hls.Events.MANIFEST_PARSED,()=>video.play());
-hls.on(Hls.Events.ERROR,(e,data)=>{if(data.fatal)alert('Erreur de lecture: '+data.type)});
-}else if(video.canPlayType('application/vnd.apple.mpegurl')){
-video.src = lien;
-video.addEventListener('loadedmetadata',()=>video.play());
+function filtrerCat(cat, btn){
+document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+afficherChaines(cat);
 }
-window.scrollTo(0,0);
+
+function lireChaine(lien, nom){
+document.getElementById('playerContainer').style.display = 'block';
+document.body.style.overflow = 'hidden';
+if(Hls.isSupported()){
+if(hls) hls.destroy();
+hls = new Hls();
+hls.loadSource(lien);
+hls.attachMedia(player);
+hls.on(Hls.Events.MANIFEST_PARSED, ()=>player.play());
+hls.on(Hls.Events.ERROR, ()=>{
+document.getElementById('playerContainer').innerHTML = '<span class="close-player" onclick="fermerPlayer()">×</span><div style="padding:50px;text-align:center;color:#fff">Erreur de lecture.<br>Teste sur mobile 4G ou vérifie le lien M3U8</div>';
+});
+}else{
+player.src = lien;
+player.play();
+}
 }
 
 function fermerPlayer(){
-document.getElementById('player').style.display='none';
-let video = document.getElementById('video');
-video.pause();
-video.src='';
+document.getElementById('playerContainer').style.display = 'none';
+document.body.style.overflow = 'auto';
+if(hls) hls.stopLoad();
+player.pause();
+player.src = '';
 }
-
-function reset(){
-document.getElementById('search').value='';
-filtreActif='TOUS';
-chargerFiltres();
-afficherChaines();
-}
-
-document.getElementById('search').addEventListener('input',afficherChaines);
-
-// PWA Installation
-function setupPWA(){
-window.addEventListener('beforeinstallprompt',(e)=>{
-e.preventDefault();
-deferredPrompt = e;
-document.getElementById('installBtn').style.display='block';
-});
-document.getElementById('installBtn').addEventListener('click',()=>{
-if(deferredPrompt){
-deferredPrompt.prompt();
-deferredPrompt.userChoice.then(()=>deferredPrompt=null);
-document.getElementById('installBtn').style.display='none';
-}
-});
-}
-
-init();
 </script>
+
 </body>
 </html>
