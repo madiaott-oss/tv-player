@@ -1,227 +1,342 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>TV PRO MEDIA</title>
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>ADMIN TV PRO MEDIA</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{background:#0a0e1a;color:#fff;font-family:Arial}
-.header{position:sticky;top:0;z-index:100;background:#1a1f2e;padding:12px 15px;display:flex;align-items:center;gap:10px}
-.logo{font-size:20px;font-weight:bold}
-.logo span{color:#e50914}
-.search-box{flex:1;position:relative}
-.search-box input{width:100%;padding:10px 35px 10px 12px;background:#0f1420;border:1px solid #333;border-radius:20px;color:#fff;font-size:14px}
-.search-icon{position:absolute;right:12px;top:50%;transform:translateY(-50%)}
-.tabs{display:flex;background:#151a28;position:sticky;top:56px;z-index:95}
-.tab{flex:1;padding:12px;text-align:center;font-weight:bold;cursor:pointer;border-bottom:3px solid transparent}
-.tab.active{background:#1a1f2e;border-bottom:3px solid #e50914;color:#e50914}
-.player-wrapper{position:sticky;top:calc(56px + 45px);z-index:90;background:#000}
-video{width:100%;height:35vh;max-height:280px;background:#000;display:block}
-.audio-player{width:100%;height:120px;background:#1a1f2e;display:none;align-items:center;justify-content:center;flex-direction:column}
-.audio-player.active{display:flex}
-.audio-player img{width:80px;height:80px;border-radius:50%;margin-bottom:8px;border:3px solid #e50914}
-audio{width:90%;max-width:400px}
-.now{padding:10px;text-align:center;background:#151a28;color:#e50914;font-weight:bold;font-size:14px;border-bottom:2px solid #e50914;position:sticky;top:calc(56px + 45px + 35vh);z-index:80}
-.content{padding:15px}
-.section{margin-bottom:25px}
-.section-title{color:#e50914;font-size:16px;margin:0 0 12px;font-weight:bold;padding:8px;background:#1a1f2e;border-radius:6px}
-.items{display:grid;grid-template-columns:repeat(auto-fill, minmax(110px, 1fr));gap:12px}
-.item{background:#1a1f2e;border-radius:10px;padding:8px;cursor:pointer;transition:0.2s;border:2px solid transparent}
-.item:active{transform:scale(0.95)}
-.item.active{border:2px solid #e50914;background:#252b3d}
-.item img{width:100%;height:70px;object-fit:contain;background:#fff;border-radius:6px;margin-bottom:6px}
-.item-nom{font-size:12px;font-weight:bold;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.item-freq{font-size:10px;color:#888}
-.vide{text-align:center;color:#666;padding:50px 20px}
-.footer{background:#0f1420;padding:25px 15px;margin-top:30px;border-top:2px solid #e50914}
-.footer-col h3{color:#e50914;font-size:15px;margin-bottom:12px}
-.footer-contact{display:flex;align-items:center;gap:8px;margin:8px 0;color:#aaa;font-size:13px}
-.footer-contact a{color:#e50914;text-decoration:none;font-weight:bold}
-.footer-bottom{text-align:center;padding-top:15px;border-top:1px solid #222;color:#666;font-size:11px;margin-top:15px}
-.admin-btn{color:#e50914;font-weight:bold;text-decoration:none;padding:6px 12px;border:1px solid #e50914;border-radius:15px;font-size:12px}
-.hidden{display:none}
-@media (min-width:768px){
-video{height:50vh;max-height:450px}
-.now{top:calc(56px + 45px + 50vh)}
-.items{grid-template-columns:repeat(auto-fill, minmax(160px, 1fr));gap:15px}
-.item img{height:95px}
-.item-nom{font-size:14px}
-.content{padding:25px 30px}
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { height:100%; }
+body { background:#0a1428; color:#fff; font-family:Arial; padding:20px; }
+.container { max-width:800px; margin:0 auto; }
+h1 { color:#fff; margin-bottom:20px; text-align:center; font-size:22px; }
+
+/* FIX MOBILE/TV : TOUCH CIBLE 44px MIN */
+.lock { text-align:center; padding:100px 20px; }
+.lock input { padding:14px; width:100%; max-width:300px; background:#1a2340; border:1px solid #333; color:#fff; border-radius:6px; margin:10px; font-size:16px; }
+.lock button { padding:14px 25px; background:#e50914; border:none; color:#fff; border-radius:6px; cursor:pointer; font-weight:bold; font-size:16px; min-height:44px; }
+
+.panel { display:none; }
+.btn { padding:16px; border:none; border-radius:8px; cursor:pointer; font-weight:bold; font-size:16px; width:100%; margin:8px 0; min-height:44px; touch-action:manipulation; }
+.btn-ajouter { background:#e50914; color:#fff; }
+.btn-export { background:#00c853; color:#fff; width:48%; }
+.btn-import { background:#00b0ff; color:#fff; width:48%; }
+.btn-retour { background:#444; color:#fff; margin-top:20px; }
+
+.top-btns { display:flex; gap:4%; margin-bottom:20px; flex-wrap:wrap; }
+input, select, textarea { width:100%; padding:12px; background:#1a2340; border:1px solid #333; color:#fff; border-radius:6px; margin:5px 0; font-size:16px; }
+textarea { resize:vertical; min-height:80px; }
+label { color:#aaa; font-size:13px; margin-top:8px; display:block; }
+label span { color:#e50914; }
+
+.header-liste { color:#aaa; font-size:14px; margin:15px 0; display:flex; align-items:center; gap:8px; }
+.chaine-box { background:#1a2340; border-radius:8px; padding:12px; margin:10px 0; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.chaine-box img { width:50px; height:40px; object-fit:contain; background:#fff; border-radius:4px; flex-shrink:0; }
+.chaine-info { flex:1; min-width:150px; }
+.chaine-nom { font-weight:bold; font-size:15px; }
+.chaine-desc { color:#888; font-size:12px; margin-top:3px; }
+.btns-chaine { display:flex; gap:8px; flex-wrap:wrap; }
+.btn-modif { background:#ffcc00; color:#000; padding:10px 14px; border:none; border-radius:5px; cursor:pointer; font-weight:bold; font-size:14px; min-height:44px; }
+.btn-suppr { background:#ff4444; color:#fff; padding:10px 14px; border:none; border-radius:5px; cursor:pointer; font-weight:bold; font-size:14px; min-height:44px; }
+
+/* MODAL FIX MOBILE/TV */
+.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:1000; align-items:center; justify-content:center; padding:10px; }
+.modal-content { background:#1a2340; padding:20px; border-radius:10px; width:100%; max-width:500px; max-height:90vh; overflow-y:auto; -webkit-overflow-scrolling:touch; }
+.modal h2 { color:#e50914; margin-bottom:15px; font-size:20px; }
+.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.logo-preview { width:80px; height:60px; object-fit:contain; background:#fff; border-radius:6px; margin:10px 0; }
+.badge-warning { background:#ff9800; color:#000; padding:10px; border-radius:6px; text-align:center; font-weight:bold; margin-bottom:15px; font-size:14px; }
+
+/* RESPONSIVE TEL/TABLETTE/TV */
+@media (max-width: 768px) {
+  body { padding:10px; }
+ .container { max-width:100%; }
+  h1 { font-size:20px; }
+ .lock { padding:60px 15px; }
+ .top-btns { flex-direction:column; gap:10px; }
+ .btn-export,.btn-import { width:100%; }
+ .chaine-box { flex-direction:column; align-items:flex-start; }
+ .btns-chaine { width:100%; }
+ .btn-modif,.btn-suppr { flex:1; }
+ .grid2 { grid-template-columns:1fr; }
+}
+
+/* FIX SMART TV : BOUTONS PLUS GROS */
+@media (min-width: 1920px) {
+ .btn, input, select { font-size:18px; padding:18px; min-height:50px; }
+ .chaine-box { padding:16px; }
+ .chaine-nom { font-size:18px; }
+}
 </style>
 </head>
 <body>
+<div class="container">
 
-<div class="header">
-<div class="logo"><span>TV PRO</span> MEDIA</div>
-<div class="search-box">
-<input type="text" id="search" placeholder="Recher TV/Radio..." oninput="afficher()">
-<span class="search-icon">🔍</span>
-</div>
-<a href="admin.html" class="admin-btn">⚙️</a>
-</div>
-
-<div class="tabs">
-<div class="tab active" onclick="switchTab('tv')">📺 TV</div>
-<div class="tab" onclick="switchTab('radio')">📻 RADIO</div>
+<!-- ÉCRAN VERROUILLÉ -->
+<div class="lock" id="lockScreen">
+  <h1>🔒 ADMIN TV PRO MEDIA</h1>
+  <input type="password" id="mdp" placeholder="Mot de passe admin">
+  <br>
+  <button onclick="verifier()">Entrer</button>
 </div>
 
-<div class="player-wrapper">
-<video id="player" controls playsinline webkit-playsinline preload="none"></video>
-<div class="audio-player" id="audioPlayer">
-<img id="radioLogo" src="" alt="Radio">
-<audio id="audio" controls></audio>
-</div>
-</div>
-<div class="now" id="now">👆 Choisis TV ou Radio</div>
+<!-- PANEL ADMIN -->
+<div class="panel" id="adminPanel">
+  <div class="badge-warning">⚠️ PAGE ADMIN CACHÉE - NE PARTAGE PAS CE LIEN</div>
+  <h1>ADMIN TV PRO MEDIA</h1>
 
-<div class="content">
-<div id="content"></div>
+  <button class="btn btn-ajouter" onclick="ouvrirModal()">+ AJOUTER LA CHAÎNE</button>
+
+  <div class="top-btns">
+    <button class="btn btn-export" onclick="exporter()">📥 EXPORTER</button>
+    <input type="file" id="importFile" accept=".json" style="display:none" onchange="importer(this)">
+    <button class="btn btn-import" onclick="document.getElementById('importFile').click()">📤 IMPORTER</button>
+  </div>
+
+  <div class="header-liste">📺 Chaines actuelles: <span id="nbChaines">0</span></div>
+  <div id="listeChaines"></div>
+
+  <button class="btn btn-retour" onclick="window.location='index.html'">← RETOUR AU SITE</button>
 </div>
 
-<div class="footer">
-<div class="footer-col">
-<h3 style="color:#e50914;font-size:18px">TV PRO <span style="color:#fff">MEDIA</span></h3>
-<p style="color:#aaa;font-size:12px;margin:10px 0">TV + Radio en direct</p>
-<h3>Contact</h3>
-<div class="footer-contact">📧 <a href="mailto:madiaott@gmail.com">madiaott@gmail.com</a></div>
-<div class="footer-contact">📞 <a href="tel:+243854587025">+243 854 587 025</a></div>
 </div>
-<div class="footer-bottom">©️ 2026 TV PRO MEDIA. Kinshasa</div>
+
+<!-- MODAL AJOUT/MODIF -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <h2 id="modalTitre">Ajouter une chaîne</h2>
+
+    <label>NOM DE LA CHAÎNE <span>*</span></label>
+    <input id="mNom" placeholder="Ex: AFRI TV, NEXT TV, CANAL+ SPORT">
+
+    <label>LIEN M3U8 <span>*</span></label>
+    <input id="mLien" placeholder="https://stream.exemple.com/live.m3u8">
+
+    <label>LOGO DE LA CHAÎNE</label>
+    <img id="mLogoPrev" class="logo-preview" src="https://via.placeholder.com/80x60/1a2340/666?text=Logo">
+    <button class="btn btn-import" onclick="document.getElementById('logoFile').click()">📁 UPLOADER DEPUIS MON PC</button>
+    <input type="file" id="logoFile" accept="image/*" style="display:none" onchange="uploadLogoModal(event)">
+    <small style="color:#666">OU colle une URL https://...png</small>
+    <input id="mLogo" placeholder="https://..." onchange="document.getElementById('mLogoPrev').src=this.value">
+
+    <div class="grid2">
+      <div>
+        <label>CATÉGORIE</label>
+        <select id="mCat">
+          <option>GOSPEL</option>
+          <option>SPORTS</option>
+          <option>NEWS</option>
+          <option>FILMS</option>
+          <option>MUSIQUE</option>
+          <option>GENERALISTE</option>
+          <option>DOCUMENTAIRE</option>
+          <option>ENFANTS</option>
+        </select>
+      </div>
+      <div>
+        <label>NUMÉRO DE CHAÎNE</label>
+        <input type="number" id="mCh" placeholder="Ex: CH 1, CH 20">
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div>
+        <label>QUALITÉ</label>
+        <select id="mQualite">
+          <option>HD</option>
+          <option>SD</option>
+          <option>4K</option>
+          <option>FHD</option>
+        </select>
+      </div>
+      <div>
+        <label>PAYS</label>
+        <input id="mPays" placeholder="Ex: RDC, FRANCE, USA">
+      </div>
+    </div>
+
+    <label>DESCRIPTION</label>
+    <textarea id="mDesc" placeholder="Description de la chaîne..."></textarea>
+
+    <div style="display:flex; gap:10px; margin-top:15px">
+      <button class="btn" style="background:#666; flex:1" onclick="fermerModal()">Annuler</button>
+      <button class="btn btn-ajouter" style="flex:1" onclick="sauvegarderChaine()">AJOUTER</button>
+    </div>
+  </div>
 </div>
 
 <script>
-const player = document.getElementById('player');
-const audio = document.getElementById('audio');
-const audioPlayer = document.getElementById('audioPlayer');
-let hls;
-let typeActif = 'tv';
-let itemActif = null;
+const MDP = "Microsoft";
+let chaines = [];
+let editIndex = -1;
 
-// ======= TES 18 TV =======
-const chaines = [
-{nom:"ESPOIR TV HD",lien:"TON_LIEN_TV_1.m3u8",logo:"TON_LOGO_1.png",cat:"GOSPEL",ch:1},
-{nom:"CHAINE 2",lien:"TON_LIEN_TV_2.m3u8",logo:"TON_LOGO_2.png",cat:"GENERALISTE",ch:2},
-{nom:"CHAINE 3",lien:"TON_LIEN_TV_3.m3u8",logo:"TON_LOGO_3.png",cat:"NEWS",ch:3},
-//... COLLE TES 18 ICI...
-{nom:"CHAINE 18",lien:"TON_LIEN_TV_18.m3u8",logo:"TON_LOGO_18.png",cat:"MUSIQUE",ch:18}
-];
-
-// ======= TES RADIOS ICI BOSS =======
-const radios = [
-{nom:"RADIO OKAPI",lien:"http://stream.rfi.fr/rfi_monde_3.mp3",logo:"https://via.placeholder.com/150x150/1a1f2e/e50914?text=OKAPI",cat:"NEWS",freq:"FM 96.1"},
-{nom:"RTNC RADIO",lien:"TON_LIEN_RADIO_2.mp3",logo:"TON_LOGO_RADIO_2.png",cat:"GENERALISTE",freq:"FM 88.9"},
-{nom:"RADIO 7",lien:"TON_LIEN_RADIO_3.mp3",logo:"TON_LOGO_RADIO_3.png",cat:"MUSIQUE",freq:"FM 97.5"},
-{nom:"RADIO MARIA",lien:"TON_LIEN_RADIO_4.mp3",logo:"TON_LOGO_RADIO_4.png",cat:"GOSPEL",freq:"FM 91.3"}
-// Ajoute autant de radios que tu veux
-];
-// ======= FIN =======
-
-function switchTab(type){
-typeActif = type;
-document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-event.target.classList.add('active');
-
-if(type === 'tv'){
-player.classList.remove('hidden');
-audioPlayer.classList.remove('active');
-audio.pause();
-document.getElementById('now').textContent = '📺 Mode TV';
-} else {
-player.classList.add('hidden');
-audioPlayer.classList.add('active');
-if(hls) hls.destroy();
-document.getElementById('now').textContent = '📻 Mode Radio';
-}
-itemActif = null;
-afficher();
+// VÉRIFICATION CLÉ DANS URL OU MOT DE PASSE
+window.onload = function(){
+  const urlParams = new URLSearchParams(window.location.search);
+  const key = urlParams.get('key');
+  if(key === MDP){
+    entrer();
+  }
 }
 
-function jouerTV(lien, nom, ch){
-document.getElementById('now').textContent = '▶️ TV: ' + nom;
-itemActif = ch;
-player.muted = false;
-audio.pause();
-window.scrollTo({top: 0, behavior: 'smooth'});
-afficher();
-
-if(Hls.isSupported()){
-if(hls) hls.destroy();
-hls = new Hls({lowLatencyMode: true});
-hls.loadSource(lien);
-hls.attachMedia(player);
-hls.on(Hls.Events.MANIFEST_PARSED, () => player.play().catch(()=>{}));
-hls.on(Hls.Events.ERROR, () => document.getElementById('now').textContent = '❌ Lien mort: ' + nom);
-} else {
-player.src = lien;
-player.play();
-}
+function verifier(){
+  if(document.getElementById('mdp').value === MDP){
+    entrer();
+  } else {
+    alert("Mauvais mot de passe boss");
+  }
 }
 
-function jouerRadio(lien, nom, logo){
-document.getElementById('now').textContent = '🎵 Radio: ' + nom;
-document.getElementById('radioLogo').src = logo;
-itemActif = nom;
-player.pause();
-window.scrollTo({top: 0, behavior: 'smooth'});
-afficher();
-audio.src = lien;
-audio.play().catch(()=>{});
+function entrer(){
+  document.getElementById('lockScreen').style.display = 'none';
+  document.getElementById('adminPanel').style.display = 'block';
+  chargerChaines();
 }
 
-function afficher(){
-const content = document.getElementById('content');
-const recherche = document.getElementById('search').value.toLowerCase();
-let data = typeActif === 'tv'? chaines : radios;
-
-let filtres = data.filter(i =>
-i.nom.toLowerCase().includes(recherche) ||
-i.cat.toLowerCase().includes(recherche)
-);
-
-if(filtres.length === 0){
-content.innerHTML = '<div class="vide">Aucun résultat 🔍</div>';
-return;
+function chargerChaines(){
+  chaines = JSON.parse(localStorage.getItem('chaines_tvpro') || '[]');
+  afficherChaines();
 }
 
-const categories = {};
-filtres.forEach(i => {
-if(!categories[i.cat]) categories[i.cat] = [];
-categories[i.cat].push(i);
-});
+function afficherChaines(){
+  const div = document.getElementById('listeChaines');
+  document.getElementById('nbChaines').textContent = chaines.length;
 
-const ordreCat = ['GOSPEL','GENERALISTE','NEWS','SPORTS','FILMS','MUSIQUE','ENFANTS','DOCUMENTAIRE','SERIES','CUISINE','EDUCATION','LOCALE'];
+  if(chaines.length === 0){
+    div.innerHTML = '<p style="color:#888;text-align:center;padding:40px">Aucune chaîne</p>';
+    return;
+  }
 
-let html = '';
-ordreCat.forEach(cat => {
-if(categories[cat]){
-html += `
-<div class="section">
-<div class="section-title">${cat} - ${categories[cat].length}</div>
-<div class="items">
-${categories[cat].map(i => typeActif === 'tv'? `
-<div class="item ${itemActif === i.ch? 'active' : ''}" onclick="jouerTV('${i.lien}', '${i.nom}', ${i.ch})">
-<img src="${i.logo}" onerror="this.src='https://via.placeholder.com/150x80/1a1f2e/e50914?text=TV'">
-<div class="item-nom">${i.nom}</div>
-<div class="item-freq">CH ${i.ch} • HD</div>
-</div>
-` : `
-<div class="item ${itemActif === i.nom? 'active' : ''}" onclick="jouerRadio('${i.lien}', '${i.nom}', '${i.logo}')">
-<img src="${i.logo}" onerror="this.src='https://via.placeholder.com/150x150/1a1f2e/e50914?text=RADIO'">
-<div class="item-nom">${i.nom}</div>
-<div class="item-freq">${i.freq}</div>
-</div>
-`).join('')}
-</div>
-</div>
-`;
-}
-});
-content.innerHTML = html;
+  div.innerHTML = chaines.map((c,i) => `
+    <div class="chaine-box">
+      <img src="${c.logo || 'https://via.placeholder.com/50x40/1a2340/666?text=Logo'}" loading="lazy" onerror="this.src='https://via.placeholder.com/50x40/1a2340/666?text=Logo'">
+      <div class="chaine-info">
+        <div class="chaine-nom">${c.ch} - ${c.nom}</div>
+        <div class="chaine-desc">${c.cat} | ${c.qualite || 'HD'} | ${c.pays || 'RDC'}</div>
+      </div>
+      <div class="btns-chaine">
+        <button class="btn-modif" onclick="modifier(${i})">MODIFIER</button>
+        <button class="btn-suppr" onclick="supprimer(${i})">SUPPRIMER</button>
+      </div>
+    </div>
+  `).join('');
 }
 
-afficher();
+function ouvrirModal(){
+  editIndex = -1;
+  document.getElementById('modalTitre').textContent = 'Ajouter une chaîne';
+  document.getElementById('mNom').value = '';
+  document.getElementById('mLien').value = '';
+  document.getElementById('mLogo').value = '';
+  document.getElementById('mLogoPrev').src = 'https://via.placeholder.com/80x60/1a2340/666?text=Logo';
+  document.getElementById('mCat').value = 'GENERALISTE';
+  document.getElementById('mCh').value = chaines.length + 1;
+  document.getElementById('mQualite').value = 'HD';
+  document.getElementById('mPays').value = 'RDC';
+  document.getElementById('mDesc').value = '';
+  document.getElementById('modal').style.display = 'flex';
+}
+
+function modifier(index){
+  editIndex = index;
+  const c = chaines[index];
+  document.getElementById('modalTitre').textContent = 'Modifier la chaîne';
+  document.getElementById('mNom').value = c.nom;
+  document.getElementById('mLien').value = c.lien;
+  document.getElementById('mLogo').value = c.logo;
+  document.getElementById('mLogoPrev').src = c.logo;
+  document.getElementById('mCat').value = c.cat;
+  document.getElementById('mCh').value = c.ch;
+  document.getElementById('mQualite').value = c.qualite || 'HD';
+  document.getElementById('mPays').value = c.pays || 'RDC';
+  document.getElementById('mDesc').value = c.desc || '';
+  document.getElementById('modal').style.display = 'flex';
+}
+
+function fermerModal(){
+  document.getElementById('modal').style.display = 'none';
+}
+
+function uploadLogoModal(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e){
+    document.getElementById('mLogo').value = e.target.result;
+    document.getElementById('mLogoPrev').src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function sauvegarderChaine(){
+  if(!document.getElementById('mNom').value ||!document.getElementById('mLien').value){
+    alert("Nom et Lien M3U8 obligatoires boss");
+    return;
+  }
+
+  const nouvelle = {
+    nom: document.getElementById('mNom').value,
+    lien: document.getElementById('mLien').value,
+    logo: document.getElementById('mLogo').value,
+    cat: document.getElementById('mCat').value,
+    ch: parseInt(document.getElementById('mCh').value),
+    qualite: document.getElementById('mQualite').value,
+    pays: document.getElementById('mPays').value,
+    desc: document.getElementById('mDesc').value
+  };
+
+  if(editIndex === -1){
+    chaines.push(nouvelle);
+  } else {
+    chaines[editIndex] = nouvelle;
+  }
+
+  localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
+  fermerModal();
+  afficherChaines();
+  alert("✅ Chaîne sauvegardée boss");
+}
+
+function supprimer(index){
+  if(confirm("Supprimer "+chaines[index].nom+"?")){
+    chaines.splice(index,1);
+    localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
+    afficherChaines();
+  }
+}
+
+// EXPORT JSON
+function exporter(){
+  const dataStr = JSON.stringify(chaines, null, 2);
+  const blob = new Blob([dataStr], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'chaines_tvpro_backup.json';
+  a.click();
+}
+
+// IMPORT JSON
+function importer(input){
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e){
+    try{
+      const data = JSON.parse(e.target.result);
+      if(Array.isArray(data)){
+        chaines = data;
+        localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
+        afficherChaines();
+        alert("✅ Importé "+data.length+" chaînes");
+      }
+    } catch(err){
+      alert("Erreur fichier JSON");
+    }
+  };
+  reader.readAsText(file);
+}
 </script>
 </body>
 </html>
