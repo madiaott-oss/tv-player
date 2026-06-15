@@ -3,123 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
     <title>TV PRO MEDIA</title>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
-        html, body { height:100%; }
-        body {
-            background:#0a0e1a;
-            color:#fff;
-            font-family:Arial;
-            display:flex;
-            flex-direction:column;
-            min-height:100vh;
-        }
+        body { background:#0a0e1a; color:#fff; font-family:Arial; min-height:100vh; display:flex; flex-direction:column; }
    .wrapper { flex:1; }
-
-   .header { background:#1a1f2e; padding:15px 20px; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:100; gap:15px; }
-   .logo { font-size:24px; font-weight:bold; white-space:nowrap; cursor:pointer; user-select:none; }
+   .header { background:#1a1f2e; padding:15px 20px; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:100; }
+   .logo { font-size:24px; font-weight:bold; }
    .logo span { color:#e50914; }
-   .search-box { flex:1; max-width:400px; position:relative; }
-   .search-box input { width:100%; padding:10px 40px 10px 15px; background:#0f1420; border:1px solid #333; border-radius:25px; color:#fff; font-size:14px; }
+   .search-box { flex:1; max-width:400px; margin:0 20px; position:relative; }
+   .search-box input { width:100%; padding:10px 40px 10px 15px; background:#0f1420; border:1px solid #333; border-radius:25px; color:#fff; }
    .search-icon { position:absolute; right:15px; top:50%; transform:translateY(-50%); color:#666; }
-   .admin { background:#e50914; color:#fff; padding:8px 15px; border-radius:6px; text-decoration:none; font-size:14px; white-space:nowrap; display:none; }
 
-   .player {
-        width:100%;
-        height:40vh;
-        background:#000;
-        position:sticky;
-        top:60px;
-        z-index:90;
-        object-fit:contain;
-     }
-
+   .player { width:100%; height:40vh; background:#000; position:sticky; top:60px; z-index:90; object-fit:contain; }
    .content { padding:20px; }
    .section { margin-bottom:30px; }
-   .section-title { color:#e50914; font-size:18px; margin:0 0 15px; font-weight:bold; display:flex; align-items:center; gap:10px; }
+   .section-title { color:#e50914; font-size:18px; margin:0 0 15px; font-weight:bold; }
    .chaines { display:grid; grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:15px; }
-   .chaine { background:#1a1f2e; border-radius:8px; padding:10px; cursor:pointer; transition:0.3s; position:relative; }
+   .chaine { background:#1a1f2e; border-radius:8px; padding:10px; cursor:pointer; transition:0.3s; }
    .chaine:hover { transform:scale(1.05); background:#252b3d; }
    .chaine.active { border:2px solid #e50914; }
    .chaine img { width:100%; height:80px; object-fit:contain; background:#fff; border-radius:6px; margin-bottom:8px; }
-   .chaine-nom { font-size:13px; font-weight:bold; margin-bottom:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+   .chaine-nom { font-size:13px; font-weight:bold; margin-bottom:4px; }
    .chaine-ch { font-size:11px; color:#888; }
-   .btn-fav { position:absolute; top:5px; left:5px; background:rgba(0,0,0,0.7); color:#fff; border:none; border-radius:50%; width:28px; height:28px; cursor:pointer; font-size:14px; z-index:5; }
-   .btn-fav.active { color:#ffcc00; }
-   .btn-del-site { position:absolute; top:5px; right:5px; background:rgba(255,0,0,0.8); color:#fff; border:none; border-radius:50%; width:28px; height:28px; cursor:pointer; font-size:12px; opacity:0; transition:0.3s; z-index:5; }
-   .btn-phone { position:absolute; bottom:5px; right:5px; background:rgba(0,200,0,0.9); color:#fff; border:none; border-radius:50%; width:28px; height:28px; cursor:pointer; font-size:12px; opacity:0; transition:0.3s; z-index:5; }
-   .chaine:hover.btn-del-site,.chaine:hover.btn-phone { opacity:1; }
-   .now { text-align:center; padding:10px; background:#1a1f2e; color:#888; position:sticky; top:calc(40vh + 60px); z-index:80; font-size:14px; }
-   .vide { text-align:center; color:#888; padding:40px; grid-column:1/-1; }
-   .tabs { display:flex; gap:10px; margin-bottom:20px; overflow-x:auto; }
-   .tab { background:#1a1f2e; padding:10px 20px; border-radius:25px; cursor:pointer; white-space:nowrap; border:2px solid transparent; }
-   .tab.active { background:#e50914; border-color:#e50914; }
+   .now { text-align:center; padding:10px; background:#1a1f2e; color:#888; position:sticky; top:calc(40vh + 60px); z-index:80; }
+   .vide { text-align:center; color:#888; padding:40px; }
+
+   .footer { background:#0f1420; padding:30px 20px; margin-top:auto; border-top:2px solid #e50914; }
+   .footer-grid { max-width:1200px; margin:0 auto; display:grid; grid-template-columns:2fr 1fr 1fr; gap:40px; }
+   .footer-col h3 { color:#e50914; font-size:16px; margin-bottom:15px; }
+   .footer-contact { display:flex; align-items:center; gap:8px; margin:10px 0; color:#aaa; font-size:14px; }
+   .footer-contact a { color:#e50914; text-decoration:none; font-weight:bold; }
+   .footer-bottom { text-align:center; padding-top:20px; border-top:1px solid #222; color:#666; font-size:12px; margin-top:20px; }
 
         @media (max-width: 768px) {
-      .header { flex-wrap:wrap; }
-      .search-box { order:3; flex:1 0 100%; max-width:100%; }
+      .header { flex-wrap:wrap; gap:10px; }
+      .search-box { order:3; flex:1 0 100%; max-width:100%; margin:0; }
       .chaines { grid-template-columns:repeat(auto-fill, minmax(110px, 1fr)); gap:10px; }
       .chaine img { height:65px; }
       .player { height:35vh; }
       .now { top:calc(35vh + 100px); }
-        }
-
-        @media (min-width: 1920px) {
-          .player { height:50vh; }
-          .chaine { cursor:pointer; }
+      .footer-grid { grid-template-columns:1fr; gap:25px; }
         }
     </style>
 </head>
 <body>
     <div class="wrapper">
         <div class="header">
-            <div class="logo" id="logo"><span>TV PRO</span> MEDIA</div>
+            <div class="logo"><span>TV PRO</span> MEDIA</div>
             <div class="search-box">
                 <input type="text" id="search" placeholder="Recher une chaîne..." oninput="filtrer()">
                 <span class="search-icon">🔍</span>
             </div>
-            <a href="#" id="btnAdmin" class="admin">⚙️ ADMIN</a>
         </div>
 
         <video id="player" class="player" controls playsinline webkit-playsinline></video>
         <div class="now" id="now">Clique sur une chaîne pour commencer</div>
 
         <div class="content">
-            <div class="tabs">
-                <div class="tab active" onclick="changerOnglet('tout', event)">📺 Toutes</div>
-                <div class="tab" onclick="changerOnglet('favoris', event)">⭐ Favoris</div>
-            </div>
             <div id="content"></div>
         </div>
     </div>
 
+    <!-- FOOTER AVEC CONTACTS CLIQUABLES -->
+    <div class="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3 style="color:#e50914;font-size:20px">TV PRO <span style="color:#fff">MEDIA</span></h3>
+                <p style="color:#aaa;font-size:13px;line-height:1.6">Your premier destination for live streaming entertainment across all categories.</p>
+                <h3>Contact Us</h3>
+                <div class="footer-contact">📧 <a href="mailto:madiaott@gmail.com">madiaott@gmail.com</a></div>
+                <div class="footer-contact">📞 <a href="tel:+243854587025">+243 854 587 025</a></div>
+            </div>
+            <div class="footer-col">
+                <h3>Categories</h3>
+                <a style="color:#aaa;text-decoration:none;display:block;margin:8px 0">SPORTS</a>
+                <a style="color:#aaa;text-decoration:none;display:block;margin:8px 0">GOSPEL</a>
+                <a style="color:#aaa;text-decoration:none;display:block;margin:8px 0">NEWS</a>
+                <a style="color:#aaa;text-decoration:none;display:block;margin:8px 0">MOVIES</a>
+            </div>
+            <div class="footer-col">
+                <h3>Legal</h3>
+                <a style="color:#aaa;text-decoration:none;display:block;margin:8px 0">Privacy Policy</a>
+                <a style="color:#aaa;text-decoration:none;display:block;margin:8px 0">Terms of Service</a>
+            </div>
+        </div>
+        <div class="footer-bottom">©️ 2026 TV PRO MEDIA. All rights reserved.</div>
+    </div>
+
 <script>
-const MDP_ADMIN = "Microsoft";
 const player = document.getElementById('player');
 let hls;
-let chaines = JSON.parse(localStorage.getItem('chaines_tvpro') || '[]');
-let favoris = JSON.parse(localStorage.getItem('tvpro_favoris') || '[]');
-let ongletActif = 'tout';
-let chaineActive = null;
 
-let clicks = 0;
-document.getElementById('logo').onclick = function(){
-  clicks++;
-  setTimeout(()=>clicks=0, 1000);
-  if(clicks === 3){
-    let mdp = prompt("🔒 Mot de passe admin :");
-    if(mdp === MDP_ADMIN){
-      document.getElementById('btnAdmin').style.display = 'block';
-      document.getElementById('btnAdmin').href = 'admin.html?key='+MDP_ADMIN;
-      alert("✅ Accès admin débloqué boss");
-    } else if(mdp!== null){
-      alert("⛔ Mauvais mot de passe");
-    }
-  }
-};
+// TES CHAÎNES EN DUR - ÇA PART JAMAIS BOSS
+const chaines = [
+{nom:"ESPOIR TV HD",lien:"COLLE_LIEN_M3U8_1_ICI",logo:"COLLE_URL_LOGO_1_ICI",cat:"GOSPEL",ch:1,qualite:"HD"},
+{nom:"AFRI TV",lien:"COLLE_LIEN_M3U8_2_ICI",logo:"COLLE_URL_LOGO_2_ICI",cat:"GENERALISTE",ch:2,qualite:"HD"},
+{nom:"MS MEDIA TV",lien:"COLLE_LIEN_M3U8_3_ICI",logo:"COLLE_URL_LOGO_3_ICI",cat:"NEWS",ch:3,qualite:"HD"},
+{nom:"DE SKOLUS TV",lien:"COLLE_LIEN_M3U8_4_ICI",logo:"COLLE_URL_LOGO_4_ICI",cat:"GENERALISTE",ch:4,qualite:"HD"},
+{nom:"CHAINE 5",lien:"COLLE_LIEN_M3U8_5_ICI",logo:"COLLE_URL_LOGO_5_ICI",cat:"FILMS",ch:5,qualite:"HD"},
+{nom:"CHAINE 6",lien:"COLLE_LIEN_M3U8_6_ICI",logo:"COLLE_URL_LOGO_6_ICI",cat:"SPORTS",ch:6,qualite:"HD"}
+];
+
+let chaineActive = null;
 
 function jouer(lien, nom, index) {
     document.getElementById('now').textContent = '▶️ En cours: ' + nom;
@@ -130,62 +117,14 @@ function jouer(lien, nom, index) {
 
     if(Hls.isSupported()) {
         if(hls) hls.destroy();
-        hls = new Hls({lowLatencyMode: true, backBufferLength: 90});
+        hls = new Hls({lowLatencyMode: true});
         hls.loadSource(lien);
         hls.attachMedia(player);
-        hls.on(Hls.Events.MANIFEST_PARSED, () => {
-            player.play().catch(e => {
-                document.getElementById('now').textContent = '▶️ Clique PLAY pour lancer: ' + nom;
-            });
-        });
-        hls.on(Hls.Events.ERROR, (event, data) => {
-            if(data.fatal) document.getElementById('now').textContent = '❌ Lien mort: ' + nom;
-        });
+        hls.on(Hls.Events.MANIFEST_PARSED, () => player.play());
     } else if(player.canPlayType('application/vnd.apple.mpegurl')) {
         player.src = lien;
-        player.addEventListener('loadedmetadata', () => {
-            player.play().catch(e => {
-                document.getElementById('now').textContent = '▶️ Clique PLAY pour lancer: ' + nom;
-            });
-        }, {once: true});
-    } else {
-        alert('Ton navigateur ne supporte pas HLS boss');
+        player.play();
     }
-}
-
-function ouvrirTelephone(lien, nom) {
-    if(/Android|iPhone|iPad/i.test(navigator.userAgent)) {
-        window.location.href = lien;
-    } else {
-        navigator.clipboard.writeText(lien);
-        let msg = Regarde ${nom} sur TV PRO MEDIA 📺\n${lien};
-        window.open(https://wa.me/?text=${encodeURIComponent(msg)}, '_blank');
-    }
-}
-
-function toggleFavori(index) {
-    const i = favoris.indexOf(index);
-    if(i > -1) favoris.splice(i, 1);
-    else favoris.push(index);
-    localStorage.setItem('tvpro_favoris', JSON.stringify(favoris));
-    afficherChaines();
-}
-
-function supprimerDepuisSite(index) {
-    if(confirm('Supprimer ' + chaines[index].nom + ' boss?')) {
-        chaines.splice(index, 1);
-        localStorage.setItem('chaines_tvpro', JSON.stringify(chaines));
-        favoris = favoris.filter(f => f!== index).map(f => f > index? f - 1 : f);
-        localStorage.setItem('tvpro_favoris', JSON.stringify(favoris));
-        afficherChaines();
-    }
-}
-
-function changerOnglet(onglet, e) {
-    ongletActif = onglet;
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    e.target.classList.add('active');
-    afficherChaines();
 }
 
 function filtrer() {
@@ -195,23 +134,14 @@ function filtrer() {
 function afficherChaines() {
     const content = document.getElementById('content');
     const recherche = document.getElementById('search').value.toLowerCase();
-    chaines = JSON.parse(localStorage.getItem('chaines_tvpro') || '[]');
 
-    let chainesFiltrees = chaines.map((c, i) => ({...c, index: i}));
-
-    if(recherche) {
-        chainesFiltrees = chainesFiltrees.filter(c =>
-            c.nom.toLowerCase().includes(recherche) ||
-            c.cat.toLowerCase().includes(recherche)
-        );
-    }
-
-    if(ongletActif === 'favoris') {
-        chainesFiltrees = chainesFiltrees.filter(c => favoris.includes(c.index));
-    }
+    let chainesFiltrees = chaines.filter(c =>
+        c.nom.toLowerCase().includes(recherche) ||
+        c.cat.toLowerCase().includes(recherche)
+    );
 
     if(chainesFiltrees.length === 0) {
-        content.innerHTML = '<div class="vide">Aucune chaîne trouvée boss</div>';
+        content.innerHTML = '<div class="vide">Aucune chaîne trouvée</div>';
         return;
     }
 
@@ -222,7 +152,7 @@ function afficherChaines() {
     });
 
     let html = '';
-    const ordreCat = ['FAVORIS', 'GOSPEL', 'SPORTS', 'NEWS', 'FILMS', 'MUSIQUE', 'GENERALISTE', 'DOCUMENTAIRE', 'ENFANTS'];
+    const ordreCat = ['GOSPEL', 'GENERALISTE', 'NEWS', 'FILMS', 'SPORTS'];
 
     ordreCat.forEach(cat => {
         if(categories[cat]) {
@@ -231,17 +161,10 @@ function afficherChaines() {
                     <div class="section-title">${cat}</div>
                     <div class="chaines">
                         ${categories[cat].map(c => `
-                            <div class="chaine ${chaineActive === c.index? 'active' : ''}">
-                                <button class="btn-fav ${favoris.includes(c.index)? 'active' : ''}" onclick="event.stopPropagation(); toggleFavori(${c.index})">
-                                    ${favoris.includes(c.index)? '★' : '☆'}
-                                </button>
-                                <button class="btn-del-site" onclick="event.stopPropagation(); supprimerDepuisSite(${c.index})">🗑️</button>
-                                <button class="btn-phone" onclick="event.stopPropagation(); ouvrirTelephone('${c.lien.replace(/'/g,"\\'")}', '${c.nom.replace(/'/g,"\\'")}')">📱</button>
-                                <div onclick="jouer('${c.lien.replace(/'/g,"\\'")}', '${c.nom.replace(/'/g,"\\'")}', ${c.index})">
-                                    <img src="${c.logo}" loading="lazy" onerror="this.src='https://via.placeholder.com/150x80/1a1f2e/e50914?text=${encodeURIComponent(c.nom)}'">
-                                    <div class="chaine-nom">${c.nom}</div>
-                                    <div class="chaine-ch">${c.ch} | ${c.qualite || 'HD'}</div>
-                                </div>
+                            <div class="chaine ${chaineActive === c.ch? 'active' : ''}" onclick="jouer('${c.lien}', '${c.nom}', ${c.ch})">
+                                <img src="${c.logo}" onerror="this.src='https://via.placeholder.com/150x80/1a1f2e/e50914?text=${encodeURIComponent(c.nom)}'">
+                                <div class="chaine-nom">${c.nom}</div>
+                                <div class="chaine-ch">CH ${c.ch} | ${c.qualite}</div>
                             </div>
                         `).join('')}
                     </div>
