@@ -2,58 +2,60 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#0a1428">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>TV PRO MEDIA</title>
+<meta name="apple-mobile-web-app-title" content="TV PROMEDIA">
+<title>TV PROMEDIA</title>
 <link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="https://via.placeholder.com/192x192/e50914/fff?text=TV">
+<link rel="apple-touch-icon" href="https://via.placeholder.com/192x192/e50914/fff?text=TVPRO">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{background:#0a1428;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh}
-header{background:#000;padding:15px;position:sticky;top:0;z-index:100;border-bottom:2px solid #e50914}
-.header-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+html,body{height:100%;overflow-x:hidden}
+body{background:#0a1428;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;display:flex;flex-direction:column;min-height:100vh}
+header{background:#000;padding:12px 15px;position:sticky;top:0;z-index:100;border-bottom:3px solid #e50914;flex-shrink:0}
+.header-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
 .logo{font-size:20px;font-weight:bold;color:#e50914;white-space:nowrap}
-.search-box{flex:1;background:#1a2340;border:2px solid #333;border-radius:25px;padding:10px 18px;color:#fff;font-size:15px;outline:none}
+.search-box{flex:1;background:#1a2340;border:2px solid #333;border-radius:25px;padding:8px 15px;color:#fff;font-size:14px;outline:none}
 .search-box:focus{border-color:#e50914}
-.btn-reset{padding:10px 14px;background:#ff4444;border:none;border-radius:20px;color:#fff;font-weight:bold;cursor:pointer;font-size:12px}
-.filtres{display:flex;gap:8px;overflow-x:auto;padding-bottom:5px;scrollbar-width:none}
+.btn-reset{padding:8px 12px;background:#ff4444;border:none;border-radius:18px;color:#fff;font-weight:bold;cursor:pointer;font-size:12px;white-space:nowrap}
+.filtres{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
 .filtres::-webkit-scrollbar{display:none}
-.filtre-btn{padding:8px 16px;background:#1a2340;border:2px solid #333;border-radius:20px;color:#fff;cursor:pointer;white-space:nowrap;font-size:14px;font-weight:500}
+.filtre-btn{padding:7px 14px;background:#1a2340;border:2px solid #333;border-radius:18px;color:#fff;cursor:pointer;white-space:nowrap;font-size:13px;font-weight:500;flex-shrink:0}
 .filtre-btn.active{background:#e50914;border-color:#e50914}
-.container{padding:15px;max-width:1200px;margin:0 auto;padding-bottom:80px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
-@media(min-width:768px){.grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px}}
-.carte{background:#1a2340;border-radius:12px;overflow:hidden;cursor:pointer;transition:transform 0.2s;border:2px solid transparent;position:relative}
-.carte:active{transform:scale(0.96)}
+.container{padding:12px;max-width:1200px;margin:0 auto;width:100%;flex:1;padding-bottom:80px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+@media(min-width:600px){.grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px}}
+@media(min-width:900px){.grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px}}
+.carte{background:#1a2340;border-radius:10px;overflow:hidden;cursor:pointer;transition:transform 0.15s;border:2px solid transparent;position:relative}
+.carte:active{transform:scale(0.97)}
 .carte:hover{border-color:#e50914}
-.logo-chaine{width:100%;height:90px;background:#fff;display:flex;align-items:center;justify-content:center;padding:12px}
+.logo-chaine{width:100%;height:80px;background:#fff;display:flex;align-items:center;justify-content:center;padding:10px}
+@media(min-width:600px){.logo-chaine{height:110px}}
 .logo-chaine img{max-width:100%;max-height:100%;object-fit:contain}
-@media(min-width:768px){.logo-chaine{height:130px}}
-.info{padding:12px}
-.nom{font-weight:bold;font-size:14px;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.meta{font-size:11px;color:#00b0ff;margin-bottom:3px}
-.desc{font-size:11px;color:#999;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.num{position:absolute;top:8px;left:8px;background:#e50914;color:#fff;padding:3px 8px;border-radius:12px;font-size:11px;font-weight:bold}
-.player-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:1000;flex-direction:column}
-.player-header{background:#000;padding:12px;display:flex;align-items:center;gap:15px;border-bottom:2px solid #e50914}
-.btn-back{font-size:28px;color:#fff;background:none;border:none;cursor:pointer;padding:0 5px}
-.player-title{flex:1;font-size:15px;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-video{flex:1;width:100%;background:#000;outline:none}
-.videotitle{padding:15px;background:#0a1428}
-.videotitle h2{color:#e50914;margin-bottom:8px;font-size:18px}
-.videotitle p{color:#bbb;font-size:14px;line-height:1.5}
-.empty{text-align:center;padding:100px 20px;color:#666}
-.install-btn{position:fixed;bottom:20px;right:20px;background:#e50914;color:#fff;padding:12px 18px;border-radius:25px;border:none;font-weight:bold;cursor:pointer;display:none;z-index:999;box-shadow:0 4px 15px rgba(229,9,20,0.4);font-size:14px}
-/* PAS DE FOOTER ICI */
+.info{padding:10px}
+.nom{font-weight:bold;font-size:13px;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meta{font-size:10px;color:#00b0ff;margin-bottom:3px}
+.desc{font-size:10px;color:#999;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.num{position:absolute;top:6px;left:6px;background:#e50914;color:#fff;padding:2px 6px;border-radius:10px;font-size:10px;font-weight:bold}
+.player-modal{display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;height:100dvh;background:#000;z-index:1000;flex-direction:column}
+.player-header{background:#000;padding:10px 12px;display:flex;align-items:center;gap:12px;border-bottom:3px solid #e50914;flex-shrink:0}
+.btn-back{font-size:26px;color:#fff;background:none;border:none;cursor:pointer;padding:0 5px}
+.player-title{flex:1;font-size:14px;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+video{flex:1;width:100%;background:#000;outline:none;object-fit:contain}
+.videotitle{padding:12px;background:#0a1428;flex-shrink:0}
+.videotitle h2{color:#e50914;margin-bottom:6px;font-size:16px}
+.videotitle p{color:#bbb;font-size:13px;line-height:1.4}
+.empty{text-align:center;padding:80px 20px;color:#666;font-size:14px}
+.install-btn{position:fixed;bottom:15px;right:15px;background:#e50914;color:#fff;padding:10px 16px;border-radius:25px;border:none;font-weight:bold;cursor:pointer;display:none;z-index:999;box-shadow:0 4px 15px rgba(229,9,20,0.4);font-size:13px}
 </style>
 </head>
 <body>
 
 <header>
 <div class="header-top">
-<div class="logo">📺 TV PRO</div>
+<div class="logo">📺 TV PROMEDIA</div>
 <input type="text" class="search-box" id="search" placeholder="Recher...">
 <button class="btn-reset" onclick="reset()">Reset</button>
 </div>
@@ -68,7 +70,10 @@ video{flex:1;width:100%;background:#000;outline:none}
 <div class="player-modal" id="player">
 <div class="player-header">
 <button class="btn-back" onclick="fermerPlayer()">←</button>
+<div style="flex:1">
 <div class="player-title" id="playerTitle">Chargement...</div>
+<div style="font-size:10px;color:#888;margin-top:1px">TV PROMEDIA</div>
+</div>
 </div>
 <video id="video" controls autoplay playsinline></video>
 <div class="videotitle">
@@ -81,9 +86,10 @@ video{flex:1;width:100%;background:#000;outline:none}
 
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <script>
-// COLLE TON CODE ICI - GÉNÉRÉ PAR ADMIN.HTML → 📋 CODE POUR INDEX
+// COLLE TON CODE GÉNÉRÉ PAR ADMIN.HTML ICI
 const CHAINES_BASE = [
- {"nom":"ESPOI TV HD","lien":"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8","logo":"https://via.placeholder.com/100x70/fff/000?text=ESPOI","cat":"GENERALISTE","ch":1,"qualite":"HD","pays":"RDC","desc":"Chaîne généraliste congolaise"}
+ {"nom":"ESPOI TV HD","lien":"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8","logo":"https://via.placeholder.com/100x70/fff/000?text=ESPOI","cat":"GENERALISTE","ch":1,"qualite":"HD","pays":"RDC","desc":"Chaîne généraliste congolaise"},
+ {"nom":"RTNC 1","lien":"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8","logo":"https://via.placeholder.com/100x70/0066cc/fff?text=RTNC","cat":"GENERALISTE","ch":2,"qualite":"HD","pays":"RDC","desc":"Radio Télévision Nationale Congolaise"}
 ];
 
 let chaines = [...CHAINES_BASE];
@@ -116,7 +122,7 @@ function afficherChaines(){
 let search = document.getElementById('search').value.toLowerCase();
 let list = chaines.filter(c=>{
 let matchCat = filtreActif=='TOUS' || c.cat==filtreActif;
-let matchSearch = c.nom.toLowerCase().includes(search) || (c.desc||'').toLowerCase().includes(search);
+let matchSearch = c.nom.toLowerCase().includes(search) || (c.desc||'').toLowerCase().includes(search) || (c.pays||'').toLowerCase().includes(search);
 return matchCat && matchSearch;
 });
 list.sort((a,b)=>parseInt(a.ch)-parseInt(b.ch));
@@ -145,7 +151,7 @@ function lire(lien,nom,desc){
 document.getElementById('player').style.display='flex';
 document.getElementById('playerTitle').textContent = nom;
 document.getElementById('videoNom').textContent = nom;
-document.getElementById('videoDesc').textContent = desc || 'Regardez '+nom+' en direct';
+document.getElementById('videoDesc').textContent = desc || 'Regardez '+nom+' en direct sur TV PROMEDIA';
 
 let video = document.getElementById('video');
 if(Hls.isSupported()){
@@ -153,16 +159,19 @@ let hls = new Hls();
 hls.loadSource(lien);
 hls.attachMedia(video);
 hls.on(Hls.Events.MANIFEST_PARSED,()=>video.play());
+hls.on(Hls.Events.ERROR,(e,data)=>{if(data.fatal)alert('Erreur de lecture: '+data.type)});
 }else if(video.canPlayType('application/vnd.apple.mpegurl')){
 video.src = lien;
 video.addEventListener('loadedmetadata',()=>video.play());
 }
+window.scrollTo(0,0);
 }
 
 function fermerPlayer(){
 document.getElementById('player').style.display='none';
-document.getElementById('video').pause();
-document.getElementById('video').src='';
+let video = document.getElementById('video');
+video.pause();
+video.src='';
 }
 
 function reset(){
@@ -174,7 +183,7 @@ afficherChaines();
 
 document.getElementById('search').addEventListener('input',afficherChaines);
 
-// PWA
+// PWA Installation
 function setupPWA(){
 window.addEventListener('beforeinstallprompt',(e)=>{
 e.preventDefault();
