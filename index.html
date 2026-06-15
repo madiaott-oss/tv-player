@@ -3,57 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#0a0e1a">
 <title>TV PRO MEDIA</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;overflow-x:hidden}
-body{background:#0a0e1a;color:#fff;font-family:-apple-system,Arial,sans-serif}
-
-.header{position:sticky;top:0;z-index:100;background:#1a1f2e;padding:12px 15px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 10px #000}
-.logo{font-size:20px;font-weight:bold;white-space:nowrap}
+body{background:#0a0e1a;color:#fff;font-family:Arial}
+.header{position:sticky;top:0;z-index:100;background:#1a1f2e;padding:12px 15px;display:flex;align-items:center;gap:10px}
+.logo{font-size:20px;font-weight:bold}
 .logo span{color:#e50914}
 .search-box{flex:1;position:relative}
-.search-box input{width:100%;padding:10px 35px 10px 12px;background:#0f1420;border:1px solid #333;border-radius:20px;color:#fff;font-size:14px;outline:none}
-.search-box input:focus{border-color:#e50914}
-.search-icon{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:16px;color:#666}
-
-.player-wrapper{position:sticky;top:56px;z-index:90;background:#000}
-video{width:100%;height:35vh;max-height:280px;background:#000;object-fit:contain;display:block}
-.now{padding:10px;text-align:center;background:#151a28;color:#e50914;font-weight:bold;font-size:14px;border-bottom:2px solid #e50914;position:sticky;top:calc(56px + 35vh);z-index:80}
-
+.search-box input{width:100%;padding:10px 35px 10px 12px;background:#0f1420;border:1px solid #333;border-radius:20px;color:#fff;font-size:14px}
+.search-icon{position:absolute;right:12px;top:50%;transform:translateY(-50%)}
+.tabs{display:flex;background:#151a28;position:sticky;top:56px;z-index:95}
+.tab{flex:1;padding:12px;text-align:center;font-weight:bold;cursor:pointer;border-bottom:3px solid transparent}
+.tab.active{background:#1a1f2e;border-bottom:3px solid #e50914;color:#e50914}
+.player-wrapper{position:sticky;top:calc(56px + 45px);z-index:90;background:#000}
+video{width:100%;height:35vh;max-height:280px;background:#000;display:block}
+.audio-player{width:100%;height:120px;background:#1a1f2e;display:none;align-items:center;justify-content:center;flex-direction:column}
+.audio-player.active{display:flex}
+.audio-player img{width:80px;height:80px;border-radius:50%;margin-bottom:8px;border:3px solid #e50914}
+audio{width:90%;max-width:400px}
+.now{padding:10px;text-align:center;background:#151a28;color:#e50914;font-weight:bold;font-size:14px;border-bottom:2px solid #e50914;position:sticky;top:calc(56px + 45px + 35vh);z-index:80}
 .content{padding:15px}
 .section{margin-bottom:25px}
-.section-title{color:#e50914;font-size:16px;margin:0 0 12px;font-weight:bold;padding-left:5px}
-.chaines{display:grid;grid-template-columns:repeat(auto-fill, minmax(110px, 1fr));gap:12px}
-.chaine{background:#1a1f2e;border-radius:10px;padding:8px;cursor:pointer;transition:0.2s;border:2px solid transparent;touch-action:manipulation}
-.chaine:active{transform:scale(0.95)}
-.chaine.active{border:2px solid #e50914;background:#252b3d}
-.chaine img{width:100%;height:70px;object-fit:contain;background:#fff;border-radius:6px;margin-bottom:6px}
-.chaine-nom{font-size:12px;font-weight:bold;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.chaine-ch{font-size:10px;color:#888}
-
-.vide{text-align:center;color:#666;padding:50px 20px;font-size:14px}
+.section-title{color:#e50914;font-size:16px;margin:0 0 12px;font-weight:bold;padding:8px;background:#1a1f2e;border-radius:6px}
+.items{display:grid;grid-template-columns:repeat(auto-fill, minmax(110px, 1fr));gap:12px}
+.item{background:#1a1f2e;border-radius:10px;padding:8px;cursor:pointer;transition:0.2s;border:2px solid transparent}
+.item:active{transform:scale(0.95)}
+.item.active{border:2px solid #e50914;background:#252b3d}
+.item img{width:100%;height:70px;object-fit:contain;background:#fff;border-radius:6px;margin-bottom:6px}
+.item-nom{font-size:12px;font-weight:bold;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item-freq{font-size:10px;color:#888}
+.vide{text-align:center;color:#666;padding:50px 20px}
 .footer{background:#0f1420;padding:25px 15px;margin-top:30px;border-top:2px solid #e50914}
 .footer-col h3{color:#e50914;font-size:15px;margin-bottom:12px}
 .footer-contact{display:flex;align-items:center;gap:8px;margin:8px 0;color:#aaa;font-size:13px}
 .footer-contact a{color:#e50914;text-decoration:none;font-weight:bold}
 .footer-bottom{text-align:center;padding-top:15px;border-top:1px solid #222;color:#666;font-size:11px;margin-top:15px}
-
-.admin-btn{color:#e50914;font-weight:bold;text-decoration:none;padding:6px 12px;border:1px solid #e50914;border-radius:15px;font-size:12px;white-space:nowrap}
-
-/* TABLETTE + PC */
+.admin-btn{color:#e50914;font-weight:bold;text-decoration:none;padding:6px 12px;border:1px solid #e50914;border-radius:15px;font-size:12px}
+.hidden{display:none}
 @media (min-width:768px){
-.logo{font-size:26px}
-.header{padding:15px 30px}
 video{height:50vh;max-height:450px}
-.now{top:calc(56px + 50vh)}
-.chaines{grid-template-columns:repeat(auto-fill, minmax(160px, 1fr));gap:15px}
-.chaine img{height:95px}
-.chaine-nom{font-size:14px}
+.now{top:calc(56px + 45px + 50vh)}
+.items{grid-template-columns:repeat(auto-fill, minmax(160px, 1fr));gap:15px}
+.item img{height:95px}
+.item-nom{font-size:14px}
 .content{padding:25px 30px}
-.footer{padding:30px}
 </style>
 </head>
 <body>
@@ -61,16 +56,25 @@ video{height:50vh;max-height:450px}
 <div class="header">
 <div class="logo"><span>TV PRO</span> MEDIA</div>
 <div class="search-box">
-<input type="text" id="search" placeholder="Recher..." oninput="afficherChaines()">
+<input type="text" id="search" placeholder="Recher TV/Radio..." oninput="afficher()">
 <span class="search-icon">🔍</span>
 </div>
 <a href="admin.html" class="admin-btn">⚙️</a>
 </div>
 
+<div class="tabs">
+<div class="tab active" onclick="switchTab('tv')">📺 TV</div>
+<div class="tab" onclick="switchTab('radio')">📻 RADIO</div>
+</div>
+
 <div class="player-wrapper">
 <video id="player" controls playsinline webkit-playsinline preload="none"></video>
+<div class="audio-player" id="audioPlayer">
+<img id="radioLogo" src="" alt="Radio">
+<audio id="audio" controls></audio>
 </div>
-<div class="now" id="now">👆 Choisis une chaîne ci-dessous</div>
+</div>
+<div class="now" id="now">👆 Choisis TV ou Radio</div>
 
 <div class="content">
 <div id="content"></div>
@@ -79,96 +83,134 @@ video{height:50vh;max-height:450px}
 <div class="footer">
 <div class="footer-col">
 <h3 style="color:#e50914;font-size:18px">TV PRO <span style="color:#fff">MEDIA</span></h3>
-<p style="color:#aaa;font-size:12px;margin:10px 0;line-height:1.5">TV en direct sur mobile et PC. 100% gratuit.</p>
+<p style="color:#aaa;font-size:12px;margin:10px 0">TV + Radio en direct</p>
 <h3>Contact</h3>
 <div class="footer-contact">📧 <a href="mailto:madiaott@gmail.com">madiaott@gmail.com</a></div>
 <div class="footer-contact">📞 <a href="tel:+243854587025">+243 854 587 025</a></div>
 </div>
-<div class="footer-bottom">©️ 2026 TV PRO MEDIA. Kinshasa, RDC</div>
+<div class="footer-bottom">©️ 2026 TV PRO MEDIA. Kinshasa</div>
 </div>
 
 <script>
 const player = document.getElementById('player');
+const audio = document.getElementById('audio');
+const audioPlayer = document.getElementById('audioPlayer');
 let hls;
-let chaineActive = null;
+let typeActif = 'tv';
+let itemActif = null;
 
-// ======= COLLE TES 18 CHAÎNES ICI BOSS =======
+// ======= TES 18 TV =======
 const chaines = [
-{nom:"ESPOIR TV HD",lien:"TON_LIEN_1.m3u8",logo:"TON_LOGO_1.jpg",cat:"GOSPEL",ch:1},
-{nom:"CHAINE 2",lien:"TON_LIEN_2.m3u8",logo:"TON_LOGO_2.jpg",cat:"GENERALISTE",ch:2},
-{nom:"CHAINE 3",lien:"TON_LIEN_3.m3u8",logo:"TON_LOGO_3.jpg",cat:"NEWS",ch:3},
-{nom:"CHAINE 4",lien:"TON_LIEN_4.m3u8",logo:"TON_LOGO_4.jpg",cat:"GENERALISTE",ch:4},
-{nom:"CHAINE 5",lien:"TON_LIEN_5.m3u8",logo:"TON_LOGO_5.jpg",cat:"FILMS",ch:5},
-{nom:"CHAINE 6",lien:"TON_LIEN_6.m3u8",logo:"TON_LOGO_6.jpg",cat:"SPORTS",ch:7},
-{nom:"CHAINE 7",lien:"TON_LIEN_7.m3u8",logo:"TON_LOGO_7.jpg",cat:"GOSPEL",ch:7},
-{nom:"CHAINE 8",lien:"TON_LIEN_8.m3u8",logo:"TON_LOGO_8.jpg",cat:"GENERALISTE",ch:8},
-{nom:"CHAINE 9",lien:"TON_LIEN_9.m3u8",logo:"TON_LOGO_9.jpg",cat:"NEWS",ch:9},
-{nom:"CHAINE 10",lien:"TON_LIEN_10.m3u8",logo:"TON_LOGO_10.jpg",cat:"FILMS",ch:10},
-{nom:"CHAINE 11",lien:"TON_LIEN_11.m3u8",logo:"TON_LOGO_11.jpg",cat:"SPORTS",ch:11},
-{nom:"CHAINE 12",lien:"TON_LIEN_12.m3u8",logo:"TON_LOGO_12.jpg",cat:"GOSPEL",ch:12},
-{nom:"CHAINE 13",lien:"TON_LIEN_13.m3u8",logo:"TON_LOGO_13.jpg",cat:"GENERALISTE",ch:13},
-{nom:"CHAINE 14",lien:"TON_LIEN_14.m3u8",logo:"TON_LOGO_14.jpg",cat:"NEWS",ch:14},
-{nom:"CHAINE 15",lien:"TON_LIEN_15.m3u8",logo:"TON_LOGO_15.jpg",cat:"FILMS",ch:15},
-{nom:"CHAINE 16",lien:"TON_LIEN_16.m3u8",logo:"TON_LOGO_16.jpg",cat:"SPORTS",ch:16},
-{nom:"CHAINE 17",lien:"TON_LIEN_17.m3u8",logo:"TON_LOGO_17.jpg",cat:"GOSPEL",ch:17},
-{nom:"CHAINE 18",lien:"TON_LIEN_18.m3u8",logo:"TON_LOGO_18.jpg",cat:"GENERALISTE",ch:18}
+{nom:"ESPOIR TV HD",lien:"TON_LIEN_TV_1.m3u8",logo:"TON_LOGO_1.png",cat:"GOSPEL",ch:1},
+{nom:"CHAINE 2",lien:"TON_LIEN_TV_2.m3u8",logo:"TON_LOGO_2.png",cat:"GENERALISTE",ch:2},
+{nom:"CHAINE 3",lien:"TON_LIEN_TV_3.m3u8",logo:"TON_LOGO_3.png",cat:"NEWS",ch:3},
+//... COLLE TES 18 ICI...
+{nom:"CHAINE 18",lien:"TON_LIEN_TV_18.m3u8",logo:"TON_LOGO_18.png",cat:"MUSIQUE",ch:18}
+];
+
+// ======= TES RADIOS ICI BOSS =======
+const radios = [
+{nom:"RADIO OKAPI",lien:"http://stream.rfi.fr/rfi_monde_3.mp3",logo:"https://via.placeholder.com/150x150/1a1f2e/e50914?text=OKAPI",cat:"NEWS",freq:"FM 96.1"},
+{nom:"RTNC RADIO",lien:"TON_LIEN_RADIO_2.mp3",logo:"TON_LOGO_RADIO_2.png",cat:"GENERALISTE",freq:"FM 88.9"},
+{nom:"RADIO 7",lien:"TON_LIEN_RADIO_3.mp3",logo:"TON_LOGO_RADIO_3.png",cat:"MUSIQUE",freq:"FM 97.5"},
+{nom:"RADIO MARIA",lien:"TON_LIEN_RADIO_4.mp3",logo:"TON_LOGO_RADIO_4.png",cat:"GOSPEL",freq:"FM 91.3"}
+// Ajoute autant de radios que tu veux
 ];
 // ======= FIN =======
 
-function jouer(lien, nom, index) {
-document.getElementById('now').textContent = '▶️ ' + nom;
-chaineActive = index;
-player.muted = false;
-window.scrollTo({top: 0, behavior: 'smooth'});
-afficherChaines();
+function switchTab(type){
+typeActif = type;
+document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+event.target.classList.add('active');
 
-if(Hls.isSupported()) {
+if(type === 'tv'){
+player.classList.remove('hidden');
+audioPlayer.classList.remove('active');
+audio.pause();
+document.getElementById('now').textContent = '📺 Mode TV';
+} else {
+player.classList.add('hidden');
+audioPlayer.classList.add('active');
 if(hls) hls.destroy();
-hls = new Hls({lowLatencyMode: true, maxBufferLength: 30});
+document.getElementById('now').textContent = '📻 Mode Radio';
+}
+itemActif = null;
+afficher();
+}
+
+function jouerTV(lien, nom, ch){
+document.getElementById('now').textContent = '▶️ TV: ' + nom;
+itemActif = ch;
+player.muted = false;
+audio.pause();
+window.scrollTo({top: 0, behavior: 'smooth'});
+afficher();
+
+if(Hls.isSupported()){
+if(hls) hls.destroy();
+hls = new Hls({lowLatencyMode: true});
 hls.loadSource(lien);
 hls.attachMedia(player);
 hls.on(Hls.Events.MANIFEST_PARSED, () => player.play().catch(()=>{}));
-hls.on(Hls.Events.ERROR, (e, data) => {
-if(data.fatal) document.getElementById('now').textContent = '❌ Lien mort: ' + nom;
-});
-} else if(player.canPlayType('application/vnd.apple.mpegurl')) {
+hls.on(Hls.Events.ERROR, () => document.getElementById('now').textContent = '❌ Lien mort: ' + nom);
+} else {
 player.src = lien;
 player.play();
 }
 }
 
-function afficherChaines() {
+function jouerRadio(lien, nom, logo){
+document.getElementById('now').textContent = '🎵 Radio: ' + nom;
+document.getElementById('radioLogo').src = logo;
+itemActif = nom;
+player.pause();
+window.scrollTo({top: 0, behavior: 'smooth'});
+afficher();
+audio.src = lien;
+audio.play().catch(()=>{});
+}
+
+function afficher(){
 const content = document.getElementById('content');
 const recherche = document.getElementById('search').value.toLowerCase();
+let data = typeActif === 'tv'? chaines : radios;
 
-let chainesFiltrees = chaines.filter(c =>
-c.nom.toLowerCase().includes(recherche) ||
-c.cat.toLowerCase().includes(recherche)
+let filtres = data.filter(i =>
+i.nom.toLowerCase().includes(recherche) ||
+i.cat.toLowerCase().includes(recherche)
 );
 
-if(chainesFiltrees.length === 0) {
-content.innerHTML = '<div class="vide">Aucune chaîne trouvée 🔍</div>';
+if(filtres.length === 0){
+content.innerHTML = '<div class="vide">Aucun résultat 🔍</div>';
 return;
 }
 
 const categories = {};
-chainesFiltrees.forEach(c => {
-if(!categories[c.cat]) categories[c.cat] = [];
-categories[c.cat].push(c);
+filtres.forEach(i => {
+if(!categories[i.cat]) categories[i.cat] = [];
+categories[i.cat].push(i);
 });
 
+const ordreCat = ['GOSPEL','GENERALISTE','NEWS','SPORTS','FILMS','MUSIQUE','ENFANTS','DOCUMENTAIRE','SERIES','CUISINE','EDUCATION','LOCALE'];
+
 let html = '';
-['GOSPEL','GENERALISTE','NEWS','FILMS','SPORTS'].forEach(cat => {
-if(categories[cat]) {
+ordreCat.forEach(cat => {
+if(categories[cat]){
 html += `
 <div class="section">
 <div class="section-title">${cat} - ${categories[cat].length}</div>
-<div class="chaines">
-${categories[cat].map(c => `
-<div class="chaine ${chaineActive === c.ch? 'active' : ''}" onclick="jouer('${c.lien}', '${c.nom}', ${c.ch})">
-<img src="${c.logo}" onerror="this.src='https://via.placeholder.com/150x80/1a1f2e/e50914?text=TV'">
-<div class="chaine-nom">${c.nom}</div>
-<div class="chaine-ch">CH ${c.ch} • HD</div>
+<div class="items">
+${categories[cat].map(i => typeActif === 'tv'? `
+<div class="item ${itemActif === i.ch? 'active' : ''}" onclick="jouerTV('${i.lien}', '${i.nom}', ${i.ch})">
+<img src="${i.logo}" onerror="this.src='https://via.placeholder.com/150x80/1a1f2e/e50914?text=TV'">
+<div class="item-nom">${i.nom}</div>
+<div class="item-freq">CH ${i.ch} • HD</div>
+</div>
+` : `
+<div class="item ${itemActif === i.nom? 'active' : ''}" onclick="jouerRadio('${i.lien}', '${i.nom}', '${i.logo}')">
+<img src="${i.logo}" onerror="this.src='https://via.placeholder.com/150x150/1a1f2e/e50914?text=RADIO'">
+<div class="item-nom">${i.nom}</div>
+<div class="item-freq">${i.freq}</div>
 </div>
 `).join('')}
 </div>
@@ -176,10 +218,10 @@ ${categories[cat].map(c => `
 `;
 }
 });
-
 content.innerHTML = html;
 }
 
-afficherChaines();
+afficher();
 </script>
 </body>
+</html>
