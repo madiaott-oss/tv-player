@@ -1,0 +1,705 @@
+[
+  {
+    "nom": "ESPOIR  TV HD",
+    "lien": "https://stream.berosat.live:19360/espoir-tv-stream/espoir-tv-stream.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 1,
+    "qualite": "4K",
+    "pays": "RDC",
+    "desc": ""
+  },
+  {
+    "nom": "AFRI TV",
+    "lien": "https://stream.berosat.live:19360/afri-tv/afri-tv.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 2,
+    "qualite": "4K",
+    "pays": "BRAZZAVILLE",
+    "desc": ""
+  },
+  {
+    "nom": "ESPEC TV",
+    "lien": "https://stream.berosat.live:19360/espec-tv/espec-tv.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 3,
+    "qualite": "4K",
+    "pays": "RDC",
+    "desc": ""
+  },
+  {
+    "nom": "DIESKOLUS TV",
+    "lien": "https://tv.dieskolustv.com/live/play.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 4,
+    "qualite": "4K",
+    "pays": "RDC",
+    "desc": ""
+  },
+  {
+    "nom": "S CHANNEL",
+    "lien": "http://84.234.17.48:8080/zchannel/video.m3u8",
+    "logo": "data:image/png;
+    "ch": 5,
+    "qualite": "4K",
+    "pays": "CAMEROUN",
+    "desc": ""
+  },
+  {
+    "nom": "HB TV",
+    "lien": "https://video1.getstreamhosting.com:1936/8432/8432/playlist.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 6,
+    "qualite": "4K",
+    "pays": "COTE IVOIRE",
+    "desc": ""
+  },
+  {
+    "nom": "albkanalemusic",
+    "lien": "https://albportal.net/albkanalemusic.m3u8",
+    "logo": "data:image/png;
+    "cat": "MUSIQUE",
+    "ch": 7,
+    "qualite": "4K",
+    "pays": "albkanie",
+    "desc": ""
+  },
+  {
+    "nom": "CNA TV",
+    "lien": "https://live1.mediadesk.al/cnatvlive.m3u8",
+    "logo": "data:image/png;
+    "cat": "NEWS",
+    "ch": 8,
+    "qualite": "4K",
+    "pays": "albanie",
+    "desc": ""
+  },
+  {
+    "nom": "NEWS 24",
+    "lien": "https://tv.balkanweb.com/news24/livestream/playlist.m3u8",
+    "logo": "data:image/png;
+    "cat": "NEWS",
+    "ch": 9,
+    "qualite": "4K",
+    "pays": "ALBANIE",
+    "desc": ""
+  },
+  {
+    "nom": "ORA NEWS 24",
+    "lien": "https://live1.mediadesk.al/oranews.m3u8",
+    "logo": "data:image/png;
+    "cat": "NEWS",
+    "ch": 10,
+    "qualite": "4K",
+    "pays": "ASIE",
+    "desc": ""
+  },
+  {
+    "nom": "TROPOJA TV",
+    "lien": "https://live.prostream.al/al/smil:tropojatv.smil/playlist.m3u8",
+    "logo": "data:image/png;
+    "cat": "FILMS",
+    "ch": 11,
+    "qualite": "4K",
+    "pays": "RDC",
+    "desc": ""
+  },
+  {
+    "nom": "BAKU TV",
+    "lien": "https://rtmp.baku.tv/live/bakutv_720p.m3u8",
+    "logo":"data:image/png;
+    "cat": "NEWS",
+    "ch": 12,
+    "qualite": "4K",
+    "pays": "AZERBAJA",
+    "desc": ""
+  },
+  {
+    "nom": "BALARUSIE 5",
+    "lien": "https://ngtrk.dc.beltelecom.by/ngtrk/smil:belarus5.smil/playlist.m3u8",
+    "logo": "data:image/png;
+    "cat": "SPORTS",
+    "ch": 13,
+    "qualite": "4K",
+    "pays": "BELARUSIE",
+    "desc": ""
+  },
+  {
+    "nom": "C TV",
+    "lien": "https://ctv.dc.beltelecom.by/ctv/ctv.stream/playlist.m3u8",
+    "logo": "data:image/png;
+    "cat": "DOCUMENTAIRE",
+    "ch": 14,
+    "qualite": "4K",
+    "pays": "BELARUSIE",
+    "desc": ""
+  },
+  {
+    "nom": "24 BELARUSIE",
+    "lien": "https://ngtrk.dc.beltelecom.by/ngtrk/smil:belarus24.smil/playlist.m3u8",
+    "logo": "data:image/png;
+    "cat": "NEWS",
+    "ch": 15,
+    "qualite": "4K",
+    "pays": "BELERUSIE",
+    "desc": ""
+  },
+  {
+    "nom": "IMUS TV",
+    "lien": "http://hz1.teleport.cc/HLS/HD.m3u8",
+    "logo": "data:image/png;
+    "cat": "MUSIQUE",
+    "ch": 16,
+    "qualite": "4K",
+    "pays": "RUSSIE",
+    "desc": ""
+  },
+  {
+    "nom": "BX 1",
+    "lien": "https://i.mjh.nz/PlutoTV/62cbfcd8c2db990007861e43-alt.m3u8",
+    "logo":  "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 17,
+    "qualite": "4K",
+    "pays": "CANADA",
+    "desc": ""
+  },
+  {
+    "nom": "ICI IRD",
+    "lien": "https://mdstrm.com/live-stream-playlist/57d1a22064f5d85712b20dab.m3u8",
+    "logo": "data:image/png;
+    "cat": "NEWS",
+    "ch": 18,
+    "qualite": "4K",
+    "pays": "CANADA",
+    "desc": ""
+  },
+  {
+    "nom": "CITY NEWS 24/7",
+    "lien": "https://amdici.akamaized.net/hls/live/873426/ICI-Live-Stream/master.m3u8",
+    "logo": "data:image/png;
+    "cat": "NEWS",
+    "ch": 19,
+    "qualite": "4K",
+    "pays": "CANADA",
+    "desc": ""
+  },
+  {
+    "nom": "TOROTO 360 TV",
+    "lien": "http://cdn3.toronto360.tv:8081/toronto360/hd/playlist.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 20,
+    "qualite": "4K",
+    "pays": "CANADA",
+    "desc": ""
+  },
+  {
+    "nom": "VIVO TV",
+    "lien": "https://redirector.rudo.video/hls-video/10b92cafdf3646cbc1e727f3dc76863621a327fd/t13/t13.smil/playlist.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 21,
+    "qualite": "4K",
+    "pays": "CANADA",
+    "desc": ""
+  },
+  {
+    "nom": "LA BORNE MPASA",
+    "lien": "https://stream.berosat.live:19360/laborne-tv/laborne-tv.m3u8",
+    "logo": "data:image/png;
+   "cat": "GENERALISTE",
+    "ch": 22,
+    "qualite": "4K",
+    "pays": "RDC",
+    "desc": ""
+  },
+  {
+    "nom": "CEPV TV",
+    "lien": "https://stream.berosat.live:19360/cepv/cepv.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 23,
+    "qualite": "4K",
+    "pays": "RDC",
+    "desc": ""
+  },
+  {
+    "nom": "13 CULTURA",
+    "lien": "https://origin.dpsgo.com/ssai/event/GI-9cp_bT8KcerLpZwkuhw/master.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 24,
+    "qualite": "4K",
+    "pays": "CHILIE",
+    "desc": ""
+  },
+  {
+    "nom": "13 TELE SERIE",
+    "lien": "https://origin.dpsgo.com/ssai/event/f4TrySe8SoiGF8Lu3EIq1g/master.m3u8",
+    "logo": "data:image/png;
+    "cat": "FILMS",
+    "ch": 25,
+    "qualite": "HD",
+    "pays": "CHILIE",
+    "desc": ""
+  },
+  {
+    "nom": "EP TV",
+    "lien": "https://redirector.rudo.video/hls-video/339f69c6122f6d8f4574732c235f09b7683e31a5/pinguinotv/pinguinotv.smil/playlist.m3u8",
+    "logo": "data:image/png;
+    "cat": "MUSIQUE",
+    "ch": 26,
+    "qualite": "4K",
+    "pays": "CHILIE",
+    "desc": ""
+  },
+  {
+    "nom": "METEO TV",
+    "lien": "https://stream.media.live:19360/meteotv.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 27,
+    "qualite": "4K",
+    "pays": "RDC",
+    "desc": ""
+  },
+  {
+    "nom": "BALADE MONDE TV ",
+    "lien": "https://stream.kierosol.live:19360/badede/stream.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 28,
+    "qualite": "4K",
+    "pays": "RDC",
+    "desc": ""
+  },
+  {
+    "nom": "CEPV TV MONTREAL",
+    "lien": "http://37.187.138.41:80/CCpvTV/index.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 29,
+    "qualite": "4K",
+    "pays": "CANADA",
+    "desc": ""
+  },
+  {
+    "nom": "PAROLE D'ESPEANCE TV",
+    "lien": "https://stream.berosat.live/hls/parole-esperance/parole-esperance.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 30,
+    "qualite": "4K",
+    "pays": "RDC",
+    "desc": ""
+  },
+  {
+    "nom": "MSTV",
+    "lien": "https://stream.berosat.live:19360/mstv/mstv.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 31,
+    "qualite": "HD",
+    "pays": "BRAZZAVILLE",
+    "desc": ""
+  },
+  {
+    "nom": "UCL TV",
+    "lien": "https://redirector.rudo.video/hls-video/c54ac2799874375c81c1672abb700870537c5223/ucl/ucl.smil/playlist.m3u8",
+    "logo": "data:image/png;,
+    "cat": "DOCUMENTAIRE",
+    "ch": 32,
+    "qualite": "4K",
+    "pays": "CHILIE",
+    "desc": ""
+  },
+  {
+    "nom": "DEPORTER SPORTS",
+    "lien": "https://redirector.rudo.video/hls-video/ey6283je82983je9823je8jowowiekldk9838274/13d/13d.smil/playlist.m3u8",
+    "logo": "data:image/png;
+    "cat": "SPORTS",
+    "ch": 33,
+    "qualite": "4K",
+    "pays": "CHILIE",
+    "desc": ""
+  },
+  {
+    "nom": "TVN3",
+    "lien": "https://mdstrm.com/live-stream-playlist/5653641561b4eba30a7e4929.m3u8",
+    "logo": "data:image/png;
+    "cat": "DOCUMENTAIRE",
+    "ch": 34,
+    "qualite": "HD",
+    "pays": "CHILIE",
+    "desc": ""
+  },
+  {
+    "nom": "CAMARA DOS",
+    "lien": "https://stream3.camara.gov.br/tv1/manifest.m3u8",
+    "logo": "data:image/png;
+    "cat": "NEWS",
+    "ch": 35,
+    "qualite": "4K",
+    "pays": "CANADA",
+    "desc": ""
+  },
+  {
+    "nom": "ISTV",
+    "lien": "https://video08.logicahost.com.br/istvnacional/srt.stream/istvnacional.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 36,
+    "qualite": "HD",
+    "pays": "BRAZIL",
+    "desc": ""
+  },
+  {
+    "nom": "CCTV 4",
+    "lien": "https://global.cgtn.cicc.media.caton.cloud/master/cgtn-america.m3u8",
+    "logo": "data:image/png;
+    "cat": "NEWS",
+    "ch": 37,
+    "qualite": "4K",
+    "pays": "CHINE",
+    "desc": ""
+  },
+  {
+    "nom": "88 STEREO",
+    "lien": "http://k3.usastreams.com/CableLatino/88stereo/playlist.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 38,
+    "qualite": "4K",
+    "pays": "USA",
+    "desc": ""
+  },
+  {
+    "nom": "CMC TV",
+    "lien": "https://stream.cmctv.hr:49998/cmc/live.m3u8",
+    "logo": "data:image/png;
+    "cat": "GOSPEL",
+    "ch": 39,
+    "qualite": "4K",
+    "pays": "CROATIE",
+    "desc": ""
+  },
+  {
+    "nom": "STV",
+    "lien": "http://89.201.163.244:8080/hls/hdmi.m3u8",
+    "logo": "data:image/png;
+    "cat": "SPORTS",
+    "ch": 40,
+    "qualite": "HD",
+    "pays": "CROITIE",
+    "desc": ""
+  },
+  {
+    "nom": "24 SATA TV",
+    "lien": "https://sc-kuzeykibrissmarttv.ercdn.net/tv2020/bantp1/playlist.m3u8",
+    "logo": "data:image/png;
+    "pays": "CHYPRE",
+    "desc": ""
+  },
+  {
+    "nom": "OCKO TV",
+    "lien": "https://ocko-live.ssl.cdn.cra.cz/channels/ocko/playlist.m3u8",
+    "logo": "data:image/png;
+    "cat": "MUSIQUE",
+    "ch": 42,
+    "qualite": "4K",
+    "pays": "RUSIE",
+    "desc": ""
+  },
+  {
+    "nom": "O LIVE TV",
+    "lien": "https://ocko-live.ssl.cdn.cra.cz/channels/ocko_gold/playlist.m3u8",
+    "logo": "data:image/png;
+    "cat": "MUSIQUE",
+    "ch": 43,
+    "qualite": "HD",
+    "pays": "RUSSIE",
+    "desc": ""
+  },
+  {
+    "nom": "OCKO SLOW",
+    "lien": "https://ocko-live.ssl.cdn.cra.cz/channels/ocko_expres/playlist.m3u8",
+    "logo": "data:image/png;
+    "cat": "MUSIQUE",
+    "ch": 44,
+    "qualite": "4K",
+    "pays": "RUSSIE",
+    "desc": ""
+  },
+  {
+    "nom": "VI RADIO",
+    "lien": "https://stream.polar.cz/vctv/vctvlive-1/playlist.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 45,
+    "qualite": "4K",
+    "pays": "RUSSIE",
+    "desc": ""
+  },
+  {
+    "nom": "UTV ",
+    "lien": "https://vysilani.zaktv.cz/broadcast/hls/utv/index.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 46,
+    "qualite": "HD",
+    "pays": "RUSSIE",
+    "desc": ""
+  },
+  {
+    "nom": "Kanal Hovedstaden TV",
+    "lien": "http://khkbh.dk:8080/hls/livestream/index.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 47,
+    "qualite": "HD",
+    "pays": "DANMARK",
+    "desc": ""
+  },
+  {
+    "nom": "RTVD CANAL TV",
+    "lien": "https://protvradiostream.com:1936/canal4rd-1/ngrp:canal4rd-1_all/playlist.m3u8",
+    "logo": "data:image/png;
+    "pays": "DOMINICA REP",
+    "desc": ""
+  },
+  {
+    "nom": "UTV NEWS",
+    "lien": "https://5b622f07944df.streamlock.net/aghapy.tv/aghapy.smil/playlist.m3u8",
+    "logo": "data:image/png;
+    "cat": "NEWS",
+    "ch": 49,
+    "qualite": "4K",
+    "pays": "EGYPTE",
+    "desc": ""
+  },
+  {
+    "nom": "Koogi TV",
+    "lien": "https://5d658d7e9f562.streamlock.net/koogi.tv/koogi.smil/playlist.m3u8",
+    "logo":"data:image/png;
+   "cat": "SPORTS",
+    "ch": 50,
+    "qualite": "HD",
+    "pays": "EGYPTE",
+    "desc": ""
+  },
+  {
+    "nom": "MBC Masr 1",
+    "lien": "https://mbc1-enc.edgenextcdn.net/out/v1/d5036cabf11e45bf9d0db410ca135c18/index.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 51,
+    "qualite": "HD",
+    "pays": "EGYPTE",
+    "desc": ""
+  },
+  {
+    "nom": "Watan TV",
+    "lien": "https://rp.tactivemedia.com/watantv_source/live/playlist.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 52,
+    "qualite": "HD",
+    "pays": "EGYPTE",
+    "desc": ""
+  },
+  {
+    "nom": "2 ETV ",
+    "lien": "http://sb.err.ee/live/etv2.m3u8",
+    "logo": "data:image/png;
+   "cat": "GENERALISTE",
+    "ch": 53,
+    "qualite": "HD",
+    "pays": "ESTO?IE",
+    "desc": ""
+  },
+  {
+    "nom": "ETV+",
+    "lien": "http://sb.err.ee/live/etvpluss.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 54,
+    "qualite": "HD",
+    "pays": "ESTONIE",
+    "desc": ""
+  },
+  {
+    "nom": "Taevas TV7",
+    "lien": "https://vod.tv7.fi/tv7-ee/_definst_/smil:tv7-ee.smil/playlist.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 55,
+    "qualite": "4K",
+    "pays": "ESTONIE",
+    "desc": ""
+  },
+  {
+    "nom": "LIFE TV",
+    "lien": "https://lifetv.bitflip.ee/live/stream2.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 56,
+    "qualite": "4K",
+    "pays": "ESTONIE",
+    "desc": ""
+  },
+  {
+    "nom": "TBN BALTIA",
+    "lien": "http://dc.tbnbaltia.eu:8088/dvr/rewind-21600.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 57,
+    "qualite": "4K",
+    "pays": "ESTONIE",
+    "desc": ""
+  },
+  {
+    "nom": "Alfa",
+    "lien": "https://irrtv2.digitacdn.net/live/ott/irrtv/playlist.m3u8?organizationId=229401409&suiteItemId=230439940",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 58,
+    "qualite": "HD",
+    "pays": "Finland",
+    "desc": ""
+  },
+  {
+    "nom": "CENTRAL OF VOICE TV",
+    "lien": "https://stream.berosat.live:19360/central-voice/central-voice.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 59,
+    "qualite": "4K",
+    "pays": "RDC",
+    "desc": ""
+  },
+  {
+    "nom": "NURU TV",
+    "lien": "https://stream.berosat.live:19360/nuru-tv/nuru-tv.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 60,
+    "qualite": "HD",
+    "pays": "RDC",
+    "desc": ""
+  },
+  {
+    "nom": "LIBERTY TV",
+    "lien": "https://stream.berosat.live:19360/liberty-tv/liberty-tv.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 61,
+    "qualite": "HD",
+    "pays": "RDC",
+    "desc": ""
+  },
+  {
+    "nom": "TV Cultura",
+    "lien": "https://player-tvcultura.stream.uol.com.br/live/tvcultura.m3u8",
+    "logo": "data:image/png;
+    "cat": "SPORTS",
+    "ch": 62,
+    "qualite": "4K",
+    "pays": "BRAZZIL",
+    "desc": ""
+  },
+  {
+    "nom": "Brazil\",TVE RS",
+    "lien": "http://selpro1348.procergs.com.br:1935/tve/stve/playlist.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 63,
+    "qualite": "HD",
+    "pays": "BRAZZIL",
+    "desc": ""
+  },
+  {
+    "nom": "CTV Toronto",
+    "lien": "https://bozztv.com/teleyupp1/teleup-zxsJFt6VvY/playlist.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 64,
+    "qualite": "HD",
+    "pays": "CANADA",
+    "desc": ""
+  },
+  {
+    "nom": "SM VIDIO TV",
+    "lien": "https://stream.berosat.live:19360/sm-video/sm-video.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 65,
+    "qualite": "4K",
+    "pays": "RDC",
+    "desc": ""
+  },
+  {
+    "nom": "HORIZON 2000 TV",
+    "lien": "https://stream.berosat.live:19360/tv-horizon-2000hd-index/tv-horizon-2000hd-index.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 66,
+    "qualite": "4K",
+    "pays": "RDC",
+    "desc": ""
+  },
+  {
+    "nom": "Canada\",TVO",
+    "lien": "https://bozztv.com/teleyupp1/teleup-OMZsmYVUMp/playlist.m3u8",
+    "logo": "data:image/png;
+    "cat": "ENFANTS",
+    "ch": 67,
+    "qualite": "4K",
+    "pays": "BRAZIL",
+    "desc": ""
+  },
+  {
+    "nom": "A LA UNE TELEVISION",
+    "lien": "http://live.canadastartv.com:1935/canadastartv/canadastartv/playlist.m3u",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 68,
+    "qualite": "4K",
+    "pays": "RDC",
+    "desc": ""
+  },
+  {
+    "nom": "INFO CANADA",
+    "lien": "https://rcavlive.akamaized.net/hls/live/704025/xcanrdi/master.m3u8",
+    "logo": "data:image/png;
+    "cat": "NEWS",
+    "ch": 69,
+    "qualite": "4K",
+    "pays": "CANADA",
+    "desc": ""
+  },
+  {
+    "nom": "ALA UNE TELEVISION",
+    "lien": "https://eggproiptv.duckdns.org:3036/hybrid/play.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 70,
+    "qualite": "4K",
+    "pays": "RDC",
+    "desc": ""
+  },
+  {
+    "nom": "SAVOIR MEDIA TV",
+    "lien": "https://mdstrm.com/live-stream-playlist/533adcc949386ce765657d7c.m3u8",
+    "logo": "data:image/png;
+    "cat": "GENERALISTE",
+    "ch": 71,
+    "qualite": "HD",
+    "pays": "CANADA",
+    "desc": ""
+  }
+]
