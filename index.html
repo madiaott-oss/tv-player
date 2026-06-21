@@ -1,69 +1,20 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TV PRO MEDIA - Lecteur + APK</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#0f0f0f;color:#fff}
-header{background:#1a1a1a;padding:15px;border-bottom:3px solid red}
-.logo{font-size:28px;font-weight:bold}
-.logo span{color:red}
-.search{margin:15px 0;padding:12px;width:100%;background:#222;border:1px solid #333;border-radius:25px;color:#fff}
-.player{background:#000;height:220px;display:flex;align-items:center;justify-content:center;font-size:60px;color:#555}
-.text-center{text-align:center;padding:10px;color:#aaa}
-.btn-red{background:red;color:#fff;padding:10px 20px;border:none;border-radius:20px;font-weight:bold;margin:5px}
-.btn-gray{background:#333;color:#fff;padding:10px 20px;border:none;border-radius:20px;margin:5px}
-.section{padding:20px;max-width:1000px;margin:auto}
-.btn-download{display:block;background:#1e90ff;color:#fff;text-align:center;padding:15px;border-radius:8px;text-decoration:none;font-weight:bold;margin:20px 0;font-size:18px}
-.categories h3{color:red;margin:20px 0 10px}
-.categories p{color:#aaa;margin:8px 0;padding:8px;background:#1a1a1a;border-radius:6px}
-footer{padding:20px;text-align:center;color:#555;font-size:13px;border-top:1px solid #222}
-</style>
-</head>
-<body>
+<video id="video" controls autoplay></video>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script>
+const channels = {
+  "AFRI TV": "https://exemple.com/afri.m3u8",
+  "TF1": "https://exemple.com/tf1.m3u8"
+};
 
-<header>
-<div class="logo"><span>TV PRO</span> MEDIA</div>
-<input class="search" type="text" placeholder="Recher une chaîne boss...">
-</header>
-
-<div class="player">▶️</div>
-<div class="text-center">Clique sur une chaîne pour commencer Chef</div>
-
-<div class="section" style="text-align:center">
-<button class="btn-red">📺 Toutes</button>
-<button class="btn-gray">⭐ Favoris</button>
-<p style="margin-top:20px;color:#777">Aucune chaîne trouvée Boss</p>
-</div>
-
-<div class="section">
-<a class="btn-download" href="tvpro-v1.2.apk" download>⬇️ Télécharger l’APK Officiel</a>
-<p style="text-align:center;color:#aaa;font-size:13px">+243854587025</p>
-
-<div class="categories">
-<h3>Categories Boss</h3>
-<p>SPORTS</p>
-<p>GOSPEL</p>
-<p>NEWS</p>
-<p>KIDS</p>
-<p>MOVIES</p>
-<p>DOCUMENTARY</p>
-<p>MUSIC</p>
-<p>SERIES</p>
-<p>INTERNATIONAL</p>
-<p>RADIOS</p>
-</div>
-
-<h3 style="color:red;margin-top:25px">Legal & More Chef</h3>
-<p style="color:#aaa;margin:8px 0">Privacy Policy</p>
-<p style="color:#aaa;margin:8px 0">Terms of Service</p>
-</div>
-
-<footer>
-© 2026 TV PRO MEDIA. All rights reserved Boss
-</footer>
-
-</body>
-</html>
+function play(nom){
+  var v = document.getElementById('video');
+  var url = channels[nom];
+  if(Hls.isSupported()){
+    var hls = new Hls();
+    hls.loadSource(url);
+    hls.attachMedia(v);
+  } else {
+    v.src = url;
+  }
+}
+</script>
