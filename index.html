@@ -1,20 +1,74 @@
-<video id="video" controls autoplay></video>
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-<script>
-const channels = {
-  "AFRI TV": "https://exemple.com/afri.m3u8",
-  "TF1": "https://exemple.com/tf1.m3u8"
-};
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TV PRO MEDIA Boss</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0a;color:#fff;font-family:Arial}
+header{background:#121212;padding:20px;border-bottom:3px solid red}
+.logo{font-size:32px;font-weight:bold}
+.logo span{color:red}
+.search{margin:15px 0;padding:12px;width:100%;background:#1e1e1e;border:1px solid #333;border-radius:25px;color:#fff;font-size:16px}
+.player{background:#000;height:250px;display:flex;align-items:center;justify-content:center;font-size:70px;color:#444;border-radius:8px;margin:20px 0}
+.text-center{text-align:center;padding:12px;color:#999}
+.btn-red{background:red;color:#fff;padding:12px 22px;border:none;border-radius:20px;font-weight:bold;margin:5px;cursor:pointer}
+.btn-gray{background:#2a2a2a;color:#fff;padding:12px 22px;border:none;border-radius:20px;margin:5px;cursor:pointer}
+.section{padding:25px;max-width:900px;margin:auto}
+.download-box{background:#151515;border:2px solid red;border-radius:12px;padding:20px;margin:25px 0;text-align:center}
+.btn-download{background:#1e90ff;color:#fff;padding:16px 30px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:18px;display:inline-block}
+.btn-download:hover{background:#0d6efd}
+.categories h3{color:red;margin:25px 0 12px}
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.cat-item{background:#1a1a1a;padding:12px;border-radius:8px;text-align:center;color:#ccc;border:1px solid #222}
+footer{padding:25px;text-align:center;color:#555;border-top:1px solid #222;margin-top:30px}
+</style>
+</head>
+<body>
 
-function play(nom){
-  var v = document.getElementById('video');
-  var url = channels[nom];
-  if(Hls.isSupported()){
-    var hls = new Hls();
-    hls.loadSource(url);
-    hls.attachMedia(v);
-  } else {
-    v.src = url;
-  }
-}
-</script>
+<header>
+<div class="logo"><span>TV PRO</span> MEDIA</div>
+<input class="search" type="text" placeholder="Recher une chaîne boss...">
+</header>
+
+<div class="section">
+<div class="player">▶️</div>
+<div class="text-center">Clique sur une chaîne pour commencer Chef</div>
+
+<div style="text-align:center;margin:20px 0">
+<button class="btn-red">📺 Toutes</button>
+<button class="btn-gray">⭐ Favoris</button>
+</div>
+
+<p style="text-align:center;color:#777;margin:20px 0">Aucune chaîne trouvée Boss</p>
+
+<div class="download-box">
+<h3 style="margin-bottom:15px">Télécharge l’APK Officiel Chef</h3>
+<a class="btn-download" href="tvpro-v1.2.apk" download>⬇️ Direct Download APK</a>
+<p style="color:#aaa;margin-top:12px">+243854587025</p>
+</div>
+
+<div class="categories">
+<h3>Categories Boss</h3>
+<div class="cat-grid">
+<div class="cat-item">SPORTS</div>
+<div class="cat-item">GOSPEL</div>
+<div class="cat-item">NEWS</div>
+<div class="cat-item">KIDS</div>
+<div class="cat-item">MOVIES</div>
+<div class="cat-item">DOCUMENTARY</div>
+<div class="cat-item">MUSIC</div>
+<div class="cat-item">SERIES</div>
+<div class="cat-item">INTERNATIONAL</div>
+<div class="cat-item">RADIOS</div>
+</div>
+</div>
+</div>
+
+<footer>
+© 2026 TV PRO MEDIA. All rights reserved Boss
+</footer>
+
+</body>
+</html>
